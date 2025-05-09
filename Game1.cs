@@ -13,9 +13,11 @@ namespace Monogame___FINAL_PROJECT
         // Dungeon game - either top-down RPG (more math involved/ newer skills) or platformer (more assets needed/ gravity)
         // enemies, inventory, health, maybe magic, stamina, levels, CLEAR GOAL/Final boss?
         // Intro, tutorial, main, end screens
-        // TO LEARN: Enemy Field of view - Angular motion tutorial has resources; Inventory - learn on own/video tutorials; 
-        // TO DO: Decide whether top-down or platformer; collect appropriate spritesheets and assets
 
+        // TO LEARN: Enemy Field of view - Angular motion tutorial has resources; Inventory - learn on own/video tutorials; 
+        // Would screen have to move?
+        // TO DO: Decide whether top-down or platformer; collect appropriate spritesheets and assets
+         
 
         public Game1()
         {
