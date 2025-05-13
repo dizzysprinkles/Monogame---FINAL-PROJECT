@@ -10,13 +10,13 @@ namespace Monogame___FINAL_PROJECT
         private SpriteBatch _spriteBatch;
 
         // Vague idea:
-        // Dungeon game - either top-down RPG (more math involved/ newer skills) or platformer (more assets needed/ gravity)
-        // enemies, inventory, health, maybe magic, stamina, levels, CLEAR GOAL/Final boss?
+        // Dungeon game -  top-down RPG 
+        // enemies, inventory?, health, CLEAR GOAL - kill all monsters (have counter on screen)
         // Intro, tutorial, main, end screens
 
         // TO LEARN: Enemy Field of view - Angular motion tutorial has resources; Inventory - learn on own/video tutorials; 
         // Would screen have to move?
-        // TO DO: Decide whether top-down or platformer; collect appropriate spritesheets and assets
+
          
 
         public Game1()
