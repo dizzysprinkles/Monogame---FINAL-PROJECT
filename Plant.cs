@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    internal class Plant
+    public class Plant
     {
     }
 }
