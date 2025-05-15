@@ -19,6 +19,9 @@ namespace Monogame___FINAL_PROJECT
         private Vector2 _playerLocation, _playerDirection;
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _testTexture, _playerMainTexture;
         private Rectangle _playerCollisionRect, _playerDrawRect;
+        private int _health;
+
+
 
         public Player(Texture2D idleTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Texture2D rectangleTexture)
         {
@@ -53,12 +56,21 @@ namespace Monogame___FINAL_PROJECT
             _width = _playerWalkTexture.Width / _columns;
             _height = _playerWalkTexture.Height / _rows;
             UpdatePlayerRects();
+
+            //Other stuff
+            _health = 10;
         }
 
         public float Time
         {
             get { return _time; }
             set { _time = value; }
+        }
+
+        public int Health
+        {
+            get { return _health; }
+            set { _health = value; }
         }
 
         public void Update(KeyboardState keyboardState)

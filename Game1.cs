@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Monogame___FINAL_PROJECT
 {
@@ -8,19 +9,16 @@ namespace Monogame___FINAL_PROJECT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
-        // Vague idea:
-        // Dungeon game -  top-down RPG 
         // enemies, inventory?, health, CLEAR GOAL - kill all monsters (have counter on screen)
         // Intro, tutorial, main, end screens
 
-        // TO LEARN: Enemy Field of view - Angular motion tutorial has resources; Inventory - learn on own/video tutorials; 
-        // Would screen have to move?
 
         KeyboardState keyboardState;
 
         Player player;
-        //float time;
+        List<Rectangle> healthRects;
+        List<Texture2D> healthTextures;
+
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, testRectTexture;
         Rectangle playerDrawRect, playerCollisionRect;
         public Game1()
@@ -32,19 +30,29 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
+            healthRects = new List<Rectangle>();
+            healthTextures = new List<Texture2D>();
+
             playerCollisionRect = new Rectangle(32,28,25,45);
             playerDrawRect = new Rectangle(20,20,50,65);
            
+            for (int x = 0; x < 125; x += 25)
+            {
+                healthRects.Add(new Rectangle(x, 0, 20, 20));
+            }
 
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, testRectTexture);
-
-            
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            for (int i = 0; i < healthRects.Count; i++)
+            {
+                healthTextures.Add(Content.Load<Texture2D>("Images/heart"));
+            }
 
             playerIdleTexture = Content.Load<Texture2D>("Images/characterIdle");
             playerAttackTexture = Content.Load<Texture2D>("Images/characterAttack");
@@ -76,6 +84,10 @@ namespace Monogame___FINAL_PROJECT
             _spriteBatch.Begin();
 
             player.Draw(_spriteBatch);
+            for (int i = 0; i < healthRects.Count; i++)
+            {
+                _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);
+            }
 
             _spriteBatch.End();
 
