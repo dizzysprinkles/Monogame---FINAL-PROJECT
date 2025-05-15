@@ -17,8 +17,12 @@ namespace Monogame___FINAL_PROJECT
         // TO LEARN: Enemy Field of view - Angular motion tutorial has resources; Inventory - learn on own/video tutorials; 
         // Would screen have to move?
 
-         
+        KeyboardState keyboardState;
 
+        Player player;
+        //float time;
+        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, testRectTexture;
+        Rectangle playerDrawRect, playerCollisionRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -28,20 +32,35 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            playerCollisionRect = new Rectangle(32,28,25,45);
+            playerDrawRect = new Rectangle(20,20,50,65);
+           
 
             base.Initialize();
+            player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, testRectTexture);
+
+            
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            playerIdleTexture = Content.Load<Texture2D>("Images/characterIdle");
+            playerAttackTexture = Content.Load<Texture2D>("Images/characterAttack");
+            playerWalkTexture = Content.Load<Texture2D>("Images/characterWalk");
+            testRectTexture = Content.Load<Texture2D>("Images/rectangle");
         }
 
         protected override void Update(GameTime gameTime)
         {
+            keyboardState = Keyboard.GetState();
+
+            player.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+
+            player.Update(keyboardState);
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -54,7 +73,11 @@ namespace Monogame___FINAL_PROJECT
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            player.Draw(_spriteBatch);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
