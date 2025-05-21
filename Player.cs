@@ -25,8 +25,8 @@ namespace Monogame___FINAL_PROJECT
 
         public Player(Texture2D idleTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Texture2D rectangleTexture)
         {
-            // Spritesheet Variables
-            _columns = 4; 
+            //Spritesheet variable
+            _columns = 4;
             _rows = 4;
             _leftRow = 0;
             _rightRow = 1;
@@ -38,7 +38,6 @@ namespace Monogame___FINAL_PROJECT
             _frame = 0;
             _speed = 1.5f;
             _time = 0.0f;
-            
 
             // Textures
             _playerAttackTexture = attackTexture;
@@ -58,7 +57,7 @@ namespace Monogame___FINAL_PROJECT
             UpdatePlayerRects();
 
             //Other stuff
-            _health = 10;
+            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit (depends on strength)
         }
 
         public float Time

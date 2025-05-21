@@ -61,6 +61,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/chestSpritesheet.png
 
+#begin Images/halfHeart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/halfHeart.png
+
 #begin Images/heart.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -157,7 +169,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/rectangle.png
 
-#begin Images/slimeAttack.png
+#begin Images/slimeAttacking.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,9 +179,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/slimeAttack.png
+/build:Images/slimeAttacking.png
 
-#begin Images/slimeDeath.png
+#begin Images/slimeDying.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -179,9 +191,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/slimeDeath.png
+/build:Images/slimeDying.png
 
-#begin Images/slimeWalk.png
+#begin Images/slimeWalking.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,7 +203,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/slimeWalk.png
+/build:Images/slimeWalking.png
 
 #begin X:/My Drive/Downloads/Final Game Assets/orc/PNG/Orc2/Orc2_attack/orcAttack.png
 /importer:TextureImporter

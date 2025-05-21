@@ -9,7 +9,7 @@ namespace Monogame___FINAL_PROJECT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        // enemies, inventory?, health, CLEAR GOAL - kill all monsters (have counter on screen)
+        // enemies, inventory, health, CLEAR GOAL - kill all monsters (have counter on screen)
         // Intro, tutorial, main, end screens
 
 
