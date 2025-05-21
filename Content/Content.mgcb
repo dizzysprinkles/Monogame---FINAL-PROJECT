@@ -49,18 +49,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/characterWalk.png
 
-#begin Images/chestSpritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/chestSpritesheet.png
-
 #begin Images/halfHeart.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -133,7 +121,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/plantAttack.png
 
-#begin Images/plantDeath.png
+#begin Images/plantDying.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,9 +131,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/plantDeath.png
+/build:Images/plantDying.png
 
-#begin Images/plantWalk.png
+#begin Images/plantWalking.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -155,7 +143,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/plantWalk.png
+/build:Images/plantWalking.png
 
 #begin Images/rectangle.png
 /importer:TextureImporter

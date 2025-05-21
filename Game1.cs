@@ -9,7 +9,8 @@ namespace Monogame___FINAL_PROJECT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        // enemies, inventory, health, CLEAR GOAL - kill all monsters (have counter on screen)
+        // enemies,  health, CLEAR GOAL - kill all monsters (have counter on screen)
+        // NO INVENTORY or POWERUPS - no enough time...
         // Intro, tutorial, main, end screens
 
 
@@ -21,6 +22,7 @@ namespace Monogame___FINAL_PROJECT
         List<Texture2D> healthTextures;
 
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, testRectTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
+        Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect;
         public Game1()
         {
@@ -65,6 +67,9 @@ namespace Monogame___FINAL_PROJECT
             slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
             slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalking");
             slimeDeathTexture = Content.Load<Texture2D>("Images/slimeDying");
+            plantAttackTexture = Content.Load<Texture2D>("Images/plantAttack");
+            plantDeathTexture = Content.Load<Texture2D>("Images/plantDying");
+            plantWalkTexture = Content.Load<Texture2D>("Images/plantWalking");
         }
 
         protected override void Update(GameTime gameTime)
@@ -81,8 +86,6 @@ namespace Monogame___FINAL_PROJECT
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
