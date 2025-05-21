@@ -16,11 +16,12 @@ namespace Monogame___FINAL_PROJECT
         KeyboardState keyboardState;
 
         Player player;
+        Slime slime;
         List<Rectangle> healthRects;
         List<Texture2D> healthTextures;
 
-        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, testRectTexture;
-        Rectangle playerDrawRect, playerCollisionRect;
+        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, testRectTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
+        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -35,6 +36,8 @@ namespace Monogame___FINAL_PROJECT
 
             playerCollisionRect = new Rectangle(32,28,25,45);
             playerDrawRect = new Rectangle(20,20,50,65);
+            slimeCollisionRect = new Rectangle(75, 72, 25, 25); 
+            slimeDrawRect = new Rectangle(40, 40, 75, 75);
            
             for (int x = 0; x < 125; x += 25)
             {
@@ -43,6 +46,7 @@ namespace Monogame___FINAL_PROJECT
 
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, testRectTexture);
+            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, testRectTexture, slimeCollisionRect, slimeDrawRect);
         }
 
         protected override void LoadContent()
@@ -58,6 +62,9 @@ namespace Monogame___FINAL_PROJECT
             playerAttackTexture = Content.Load<Texture2D>("Images/characterAttack");
             playerWalkTexture = Content.Load<Texture2D>("Images/characterWalk");
             testRectTexture = Content.Load<Texture2D>("Images/rectangle");
+            slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
+            slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalking");
+            slimeDeathTexture = Content.Load<Texture2D>("Images/slimeDying");
         }
 
         protected override void Update(GameTime gameTime)
@@ -65,9 +72,12 @@ namespace Monogame___FINAL_PROJECT
             keyboardState = Keyboard.GetState();
 
             player.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             
 
             player.Update(keyboardState);
+            slime.Update();
+
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -84,6 +94,7 @@ namespace Monogame___FINAL_PROJECT
             _spriteBatch.Begin();
 
             player.Draw(_spriteBatch);
+            slime.Draw(_spriteBatch);
             for (int i = 0; i < healthRects.Count; i++)
             {
                 _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);

@@ -57,7 +57,7 @@ namespace Monogame___FINAL_PROJECT
             UpdatePlayerRects();
 
             //Other stuff
-            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit (depends on strength)
+            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit, most effect
         }
 
         public float Time
@@ -76,7 +76,7 @@ namespace Monogame___FINAL_PROJECT
         {
             if (_time > _frameSpeed && _playerDirection != Vector2.Zero)
             {
-                _time = 0f; // cannot assign time to 0 in the class... doesn't work lol
+                _time = 0f;
                 _frame += 1;
                 if (_frame >= _frames)
                     _frame = 0;
