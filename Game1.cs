@@ -12,10 +12,11 @@ namespace Monogame___FINAL_PROJECT
         // enemies,  health, CLEAR GOAL - kill all monsters (have counter on screen)
         // NO INVENTORY or POWERUPS - no enough time...
         // Intro, tutorial, main, end screens
+        // detection - turn centres of each to points, find magnitude between them, if => radius then attack/move; should be built into vector class
 
 
         KeyboardState keyboardState;
-
+        Vector2 test
         Player player;
         Slime slime;
         List<Rectangle> healthRects;
