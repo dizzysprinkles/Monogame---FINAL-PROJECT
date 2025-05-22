@@ -16,7 +16,7 @@ namespace Monogame___FINAL_PROJECT
 
 
         KeyboardState keyboardState;
-        Vector2 test
+        Vector2 test;
         Player player;
         Slime slime;
         List<Rectangle> healthRects;
@@ -37,7 +37,7 @@ namespace Monogame___FINAL_PROJECT
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
 
-            playerCollisionRect = new Rectangle(32,28,25,45);
+            playerCollisionRect = new Rectangle(32,30,25,45);
             playerDrawRect = new Rectangle(20,20,50,65);
             slimeCollisionRect = new Rectangle(75, 72, 25, 25); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);

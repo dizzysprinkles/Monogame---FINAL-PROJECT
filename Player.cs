@@ -57,7 +57,7 @@ namespace Monogame___FINAL_PROJECT
             UpdatePlayerRects();
 
             //Other stuff
-            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit, most effect
+            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit, 
         }
 
         public float Time
@@ -74,7 +74,7 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update(KeyboardState keyboardState)
         {
-            if (_time > _frameSpeed && _playerDirection != Vector2.Zero)
+            if (_time > _frameSpeed )
             {
                 _time = 0f;
                 _frame += 1;
@@ -94,7 +94,9 @@ namespace Monogame___FINAL_PROJECT
 
         public void SetPlayerDirection(KeyboardState keyboardState)
         {
+      
             _playerDirection = Vector2.Zero;
+
             if (keyboardState.IsKeyDown(Keys.A))
                 _playerDirection.X += -1;
             if (keyboardState.IsKeyDown(Keys.D))
@@ -104,27 +106,49 @@ namespace Monogame___FINAL_PROJECT
             if (keyboardState.IsKeyDown(Keys.S))
                 _playerDirection.Y += 1;
 
-            if (_playerDirection != Vector2.Zero)
+            if (_playerDirection == Vector2.Zero)
             {
-                _playerDirection.Normalize();
-                if (_playerDirection.X < 0) // Moving left
-                    _directionRow = _leftRow;
-                else if (_playerDirection.X > 0) // Moving right
-                    _directionRow = _rightRow;
-                else if (_playerDirection.Y < 0) // Moving up
-                    _directionRow = _upRow;
-                else
-                    _directionRow = _downRow; // Moving down
+               _playerMainTexture = _playerIdleTexture;
             }
             else
-                _frame = 0;
+            {
+                _playerMainTexture = _playerWalkTexture;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+                _playerMainTexture = _playerAttackTexture;
+            }
+
+
+
+            if (_playerMainTexture == _playerWalkTexture)
+            {
+                if (_playerDirection != Vector2.Zero)
+                {
+                    _playerDirection.Normalize();
+                    if (_playerDirection.X < 0) // Moving left
+                        _directionRow = _leftRow;
+                    else if (_playerDirection.X > 0) // Moving right
+                        _directionRow = _rightRow;
+                    else if (_playerDirection.Y < 0) // Moving up
+                        _directionRow = _upRow;
+                    else
+                        _directionRow = _downRow; // Moving down
+                }
+                else
+                {
+                    _frame = 0;
+                }
+
+            }
         }
 
         public void UpdatePlayerRects()
         {
             _playerCollisionRect.Location = _playerLocation.ToPoint();
             _playerDrawRect.X = _playerCollisionRect.X - 12;
-            _playerDrawRect.Y = _playerCollisionRect.Y - 8;
+            _playerDrawRect.Y = _playerCollisionRect.Y - 10;
 
         }
     }
