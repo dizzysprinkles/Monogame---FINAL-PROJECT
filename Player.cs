@@ -156,14 +156,7 @@ namespace Monogame___FINAL_PROJECT
             if (keyboardState.IsKeyDown(Keys.Space))
             {
                 _playerMainTexture = _playerAttackTexture;
-                //_swordRotation += 0.001f;
-                //if (_swordRotation >= 4.5f)
-                //{
-                //    _swordRotation = 1.5f;
-                //}
             }
-
-
 
             if (_playerMainTexture == _playerWalkTexture)
             {
@@ -193,7 +186,6 @@ namespace Monogame___FINAL_PROJECT
             _playerDrawRect.X = _playerCollisionRect.X - 12;
             _playerDrawRect.Y = _playerCollisionRect.Y - 10;
             _swordCollisionRect.Location = _swordLocation.ToPoint();
-
         }
     }
 }

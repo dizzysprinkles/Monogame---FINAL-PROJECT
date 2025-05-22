@@ -9,9 +9,6 @@ namespace Monogame___FINAL_PROJECT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        // enemies,  health, CLEAR GOAL - kill all monsters (have counter on screen)
-        // NO INVENTORY or POWERUPS - no enough time...
-        // Intro, tutorial, main, end screens
         // detection - turn centres of each to points, find magnitude between them, if => radius then attack/move; should be built into vector class
 
         //TODO: Screens, deal with health stuff, background, movement, levels?, etc
