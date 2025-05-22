@@ -181,7 +181,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/slimeDying.png
 
-#begin Images/slimeWalking.png
+#begin Images/slimeWalks.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,7 +191,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/slimeWalking.png
+/build:Images/slimeWalks.png
 
 #begin X:/My Drive/Downloads/Final Game Assets/orc/PNG/Orc2/Orc2_attack/orcAttack.png
 /importer:TextureImporter

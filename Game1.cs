@@ -67,7 +67,7 @@ namespace Monogame___FINAL_PROJECT
             playerWalkTexture = Content.Load<Texture2D>("Images/characterWalk");
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
-            slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalking");
+            slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalks"); // Still have to fix again.....
             slimeDeathTexture = Content.Load<Texture2D>("Images/slimeDying");
             plantAttackTexture = Content.Load<Texture2D>("Images/plantAttack");
             plantDeathTexture = Content.Load<Texture2D>("Images/plantDying");
