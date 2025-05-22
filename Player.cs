@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
+    //TODO: Finish sword hit box, maybe fix speed
     public class Player
     {
         private int _rows, _columns, _directionRow;

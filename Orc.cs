@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
+    //TODO: Basically whole class... see Slime when it's completed for reference
     public class Orc
     {
 
