@@ -15,15 +15,15 @@ namespace Monogame___FINAL_PROJECT
         private int _width, _height;
         private int _frame, _frames;
         private int _leftRow, _rightRow, _upRow, _downRow;
-        private float _speed, _frameSpeed, _time;
-        private Vector2 _playerLocation, _playerDirection;
-        private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _testTexture, _playerMainTexture;
-        private Rectangle _playerCollisionRect, _playerDrawRect;
+        private float _speed, _frameSpeed, _time, _swordRotation;
+        private Vector2 _playerLocation, _playerDirection, _swordLocation;
+        private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
+        private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
         private int _health;
 
 
 
-        public Player(Texture2D idleTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Texture2D rectangleTexture)
+        public Player(Texture2D idleTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Texture2D rectangleTexture, Rectangle swordRect)
         {
             //Spritesheet variable
             _columns = 4;
@@ -39,18 +39,23 @@ namespace Monogame___FINAL_PROJECT
             _speed = 1.5f;
             _time = 0.0f;
 
+            _swordRotation = -0.9f; // -0.9f for down, 1.5f for up
+
             // Textures
             _playerAttackTexture = attackTexture;
             _playerWalkTexture = walkTexture;
             _playerIdleTexture = idleTexture;
-            _testTexture = rectangleTexture;
+            _rectangleTexture = rectangleTexture;
             _playerMainTexture = _playerWalkTexture;
 
             // Rectangles && Vectors
             _playerCollisionRect = collisionRect;
             _playerDrawRect = drawRect;
+            _swordCollisionRect = swordRect;
             _playerLocation = new Vector2(20, 20);
             _playerDirection = Vector2.Zero;
+            _swordLocation = new Vector2(28,45);
+
 
             _width = _playerWalkTexture.Width / _columns;
             _height = _playerWalkTexture.Height / _rows;
@@ -74,22 +79,40 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update(KeyboardState keyboardState)
         {
+            
             if (_time > _frameSpeed )
             {
                 _time = 0f;
                 _frame += 1;
+                if (_playerMainTexture == _playerAttackTexture)
+                {
+                    _swordRotation += 0.45f; // 0.9f up
+                    if (_swordRotation >= 0.5f) // 0.5f for down, 4.5 for up
+                    {
+                        _swordRotation = -0.9f; // -0.9f for down, 1.5f for up
+                    }
+                }
+                else
+                    _swordRotation = 1.5f; // -0.9f for down facing
+
                 if (_frame >= _frames)
+                {
+
                     _frame = 0;
+                }
             }
+     
             SetPlayerDirection(keyboardState);
             _playerLocation += _playerDirection * _speed;
+            _swordLocation += _playerDirection * _speed;
             UpdatePlayerRects();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_testTexture, _playerCollisionRect, Color.Black * 0.3f);
+            spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
+            spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.3f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
 
         public void SetPlayerDirection(KeyboardState keyboardState)
@@ -98,13 +121,27 @@ namespace Monogame___FINAL_PROJECT
             _playerDirection = Vector2.Zero;
 
             if (keyboardState.IsKeyDown(Keys.A))
+            { 
                 _playerDirection.X += -1;
+            }
+
             if (keyboardState.IsKeyDown(Keys.D))
+            {
                 _playerDirection.X += 1;
+            }
+                
             if (keyboardState.IsKeyDown(Keys.W))
+            {
                 _playerDirection.Y += -1;
+                _swordRotation = 1.5f;
+            }
+                
             if (keyboardState.IsKeyDown(Keys.S))
+            {
                 _playerDirection.Y += 1;
+                _swordRotation = -0.9f;
+            }
+
 
             if (_playerDirection == Vector2.Zero)
             {
@@ -118,6 +155,11 @@ namespace Monogame___FINAL_PROJECT
             if (keyboardState.IsKeyDown(Keys.Space))
             {
                 _playerMainTexture = _playerAttackTexture;
+                //_swordRotation += 0.001f;
+                //if (_swordRotation >= 4.5f)
+                //{
+                //    _swordRotation = 1.5f;
+                //}
             }
 
 
@@ -149,6 +191,7 @@ namespace Monogame___FINAL_PROJECT
             _playerCollisionRect.Location = _playerLocation.ToPoint();
             _playerDrawRect.X = _playerCollisionRect.X - 12;
             _playerDrawRect.Y = _playerCollisionRect.Y - 10;
+            _swordCollisionRect.Location = _swordLocation.ToPoint();
 
         }
     }

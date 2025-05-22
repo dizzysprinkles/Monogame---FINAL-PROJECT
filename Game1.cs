@@ -22,9 +22,9 @@ namespace Monogame___FINAL_PROJECT
         List<Rectangle> healthRects;
         List<Texture2D> healthTextures;
 
-        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, testRectTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
+        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture;
-        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect;
+        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -41,6 +41,7 @@ namespace Monogame___FINAL_PROJECT
             playerDrawRect = new Rectangle(20,20,50,65);
             slimeCollisionRect = new Rectangle(75, 72, 25, 25); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
+            playerSwordRect = new Rectangle(28, 45, 10, 35 );
            
             for (int x = 0; x < 125; x += 25)
             {
@@ -48,8 +49,8 @@ namespace Monogame___FINAL_PROJECT
             }
 
             base.Initialize();
-            player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, testRectTexture);
-            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, testRectTexture, slimeCollisionRect, slimeDrawRect);
+            player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
+            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect);
         }
 
         protected override void LoadContent()
@@ -64,7 +65,7 @@ namespace Monogame___FINAL_PROJECT
             playerIdleTexture = Content.Load<Texture2D>("Images/characterIdle");
             playerAttackTexture = Content.Load<Texture2D>("Images/characterAttack");
             playerWalkTexture = Content.Load<Texture2D>("Images/characterWalk");
-            testRectTexture = Content.Load<Texture2D>("Images/rectangle");
+            rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
             slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
             slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalking");
             slimeDeathTexture = Content.Load<Texture2D>("Images/slimeDying");
