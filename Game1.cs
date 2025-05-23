@@ -18,14 +18,15 @@ namespace Monogame___FINAL_PROJECT
         Player player;
         Slime slime;
         Plant plant;
+        Orc orc;
         List<Rectangle> healthRects;
         List<Texture2D> healthTextures;
 
         MouseState mouseState;
 
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
-        Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture;
-        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect;
+        Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture;
+        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -46,6 +47,10 @@ namespace Monogame___FINAL_PROJECT
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
+
+            orcCollisionRect = new Rectangle(215,212,45,45);
+            orcDrawRect = new Rectangle(200,200,80,80);
+
            
             for (int x = 0; x < 125; x += 25)
             {
@@ -56,6 +61,7 @@ namespace Monogame___FINAL_PROJECT
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
             slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect);
             plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect);
+            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect);
         }
 
         protected override void LoadContent()
@@ -70,13 +76,20 @@ namespace Monogame___FINAL_PROJECT
             playerIdleTexture = Content.Load<Texture2D>("Images/characterIdle");
             playerAttackTexture = Content.Load<Texture2D>("Images/characterAttack");
             playerWalkTexture = Content.Load<Texture2D>("Images/characterWalk");
+
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
+
             slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
-            slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalks"); // Still have to fix again.....
+            slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalks"); 
             slimeDeathTexture = Content.Load<Texture2D>("Images/slimeDying");
+
             plantAttackTexture = Content.Load<Texture2D>("Images/plantAttack");
             plantDeathTexture = Content.Load<Texture2D>("Images/plantDying");
             plantWalkTexture = Content.Load<Texture2D>("Images/plantWalking");
+
+            orcAttackTexture = Content.Load<Texture2D>("Images/orcAttack");
+            orcDeathTexture = Content.Load<Texture2D>("Images/orcDeath");
+            orcWalkTexture = Content.Load<Texture2D>("Images/orcWalk");
         }
 
         protected override void Update(GameTime gameTime)
@@ -87,11 +100,13 @@ namespace Monogame___FINAL_PROJECT
             player.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            orc.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             
 
             player.Update(keyboardState, mouseState, healthTextures, healthRects);
             slime.Update();
             plant.Update();
+            orc.Update();
 
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -109,6 +124,8 @@ namespace Monogame___FINAL_PROJECT
             slime.Draw(_spriteBatch);
 
             plant.Draw(_spriteBatch);
+
+            orc.Draw(_spriteBatch);
 
             player.Draw(_spriteBatch);
             for (int i = 0; i < healthRects.Count; i++)

@@ -79,12 +79,12 @@ namespace Monogame___FINAL_PROJECT
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
         }
 
-        //public void UpdateRects()
-        //{
-        //    _collisionRect.Location = _location.ToPoint();
-        //    _drawRect.X = _collisionRect.X - 35;  // Change Numbers
-        //    _drawRect.Y = _collisionRect.Y - 32; // Change numbers
+        public void UpdateRects()
+        {
+            _collisionRect.Location = _location.ToPoint();
+            _drawRect.X = _collisionRect.X - 15;
+            _drawRect.Y = _collisionRect.Y - 10;
 
-        //}
+        }
     }
 }
