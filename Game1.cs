@@ -5,6 +5,14 @@ using System.Collections.Generic;
 
 namespace Monogame___FINAL_PROJECT
 {
+    enum Screen
+    {
+        Title,
+        Tutorial,
+        Main,
+        End
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -13,7 +21,7 @@ namespace Monogame___FINAL_PROJECT
 
         //TODO: Screens, deal with health stuff, background, movement, levels?, etc
 
-
+        Screen screen;
         KeyboardState keyboardState;
         Player player;
         Slime slime;
@@ -36,6 +44,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
+            screen = Screen.Title;
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
 
@@ -101,12 +110,29 @@ namespace Monogame___FINAL_PROJECT
             slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             orc.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
 
-            player.Update(keyboardState, mouseState, healthTextures, healthRects);
-            slime.Update();
-            plant.Update();
-            orc.Update();
+            if (screen == Screen.Title)
+            {
+
+            }
+            else if (screen == Screen.Tutorial)
+            {
+
+
+
+            }
+            else if (screen == Screen.Main)
+            {
+                player.Update(keyboardState, mouseState, healthTextures, healthRects);
+                slime.Update();
+                plant.Update();
+                orc.Update();
+            }
+            else
+            { 
+            
+            }
+
 
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -121,18 +147,38 @@ namespace Monogame___FINAL_PROJECT
 
             _spriteBatch.Begin();
 
-            slime.Draw(_spriteBatch);
-
-            plant.Draw(_spriteBatch);
-
-            orc.Draw(_spriteBatch);
-
-            player.Draw(_spriteBatch);
-            for (int i = 0; i < healthRects.Count; i++)
+            if (screen == Screen.Title)
             {
-                _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);
+
+            }
+            else if (screen == Screen.Tutorial)
+            {
+
             }
 
+            else if (screen == Screen.Main)
+            {
+                slime.Draw(_spriteBatch);
+
+                plant.Draw(_spriteBatch);
+
+                orc.Draw(_spriteBatch);
+
+                player.Draw(_spriteBatch);
+                for (int i = 0; i < healthRects.Count; i++)
+                {
+                    _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);
+                }
+
+            }
+            else
+            {
+
+
+
+
+
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);
