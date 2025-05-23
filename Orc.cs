@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: Basically whole class... see Slime when it's completed for reference
+    //TODO: add fighting and dying animations, had fighting hitbox, add player detection and then move towards player and then attack when intersects or something similar
     public class Orc
     {
         private int _rows, _columns, _directionRow;
@@ -29,7 +29,7 @@ namespace Monogame___FINAL_PROJECT
             _rightRow = 3;
             _upRow = 1;
             _downRow = 0;
-            _directionRow = _downRow;
+            _directionRow = _rightRow;
             _frameSpeed = 0.08f;
             _frames = 8;
             _frame = 0;
@@ -41,7 +41,7 @@ namespace Monogame___FINAL_PROJECT
             _walkTexture = walkTexture; // only 7 frames... would need to fix...
             _attackTexture = attackTexture; 
             _testTexture = rectangleTexture;
-            _currentTexture = _walkTexture;
+            _currentTexture = _attackTexture;
 
             // Rectangles
             _collisionRect = collisionRect;

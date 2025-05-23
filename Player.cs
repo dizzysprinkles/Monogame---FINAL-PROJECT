@@ -37,7 +37,7 @@ namespace Monogame___FINAL_PROJECT
             _frameSpeed = 0.08f;
             _frames = 4;
             _frame = 0;
-            _speed = 1.5f;
+            _speed = 2f;
             _time = 0.0f;
 
             _swordDown = -0.9f; // -0.9f for down, 1.5f for up

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: Basically whole class... see Slime when it's completed for reference
+    //TODO: add fighting and dying animations, had fighting hitbox, add player detection and then move towards player and then attack when intersects or something similar
     public class Plant
     {
 
@@ -30,7 +30,7 @@ namespace Monogame___FINAL_PROJECT
             _rightRow = 3;
             _upRow = 1;
             _downRow = 0;
-            _directionRow = _downRow;
+            _directionRow = _rightRow;
             _frameSpeed = 0.08f;
             _frames = 7;
             _frame = 0;
