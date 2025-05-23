@@ -30,7 +30,7 @@ namespace Monogame___FINAL_PROJECT
             _upRow = 1;
             _downRow = 0;
             _directionRow = _downRow;
-            _frameSpeed = 1f;
+            _frameSpeed = 0.08f;
             _frames = 11;
             _frame = 0;
             _speed = 1.5f;
@@ -38,20 +38,20 @@ namespace Monogame___FINAL_PROJECT
 
             // Textures
             _deathTexture = deathTexture; // offcentre from walk texture's hitbox... need to fix
-            _walkTexture = walkTexture; // last two frames are broken... need to fix
+            _walkTexture = walkTexture; // Fix as a whole
             _attackTexture = attackTexture; // same as death... should probably rework the walk texture
             _testTexture = rectangleTexture;
-            _currentTexture = _walkTexture;
+            _currentTexture = _attackTexture;
 
             // Rectangles
             _collisionRect = collisionRect;
             _drawRect = drawRect;
-            _location = new Vector2(100, 100);
+            _location = new Vector2(40,40);
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
 
-            UpdateRects();
+            //UpdateRects();
 
         }
         public float Time
@@ -78,12 +78,12 @@ namespace Monogame___FINAL_PROJECT
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
         }
 
-        public void UpdateRects()
-        {
-            _collisionRect.Location = _location.ToPoint();
-            _drawRect.X = _collisionRect.X - 35;
-            _drawRect.Y = _collisionRect.Y - 32;
+        //public void UpdateRects()
+        //{
+        //    _collisionRect.Location = _location.ToPoint();
+        //    _drawRect.X = _collisionRect.X - 35;
+        //    _drawRect.Y = _collisionRect.Y - 32;
 
-        }
+        //}
     }
 }

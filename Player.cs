@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: Finish sword hit box, maybe fix speed
+    //TODO: Finish sword hit box, maybe fix speed of movement
     public class Player
     {
         private int _rows, _columns, _directionRow;
         private int _width, _height;
         private int _frame, _frames;
         private int _leftRow, _rightRow, _upRow, _downRow;
-        private float _speed, _frameSpeed, _time, _swordRotation;
+        private float _speed, _frameSpeed, _time, _swordRotation, _swordUp, _swordDown, _swordLeft, _swordRight;
         private Vector2 _playerLocation, _playerDirection, _swordLocation;
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
         private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
@@ -40,7 +40,9 @@ namespace Monogame___FINAL_PROJECT
             _speed = 1.5f;
             _time = 0.0f;
 
-            _swordRotation = -0.9f; // -0.9f for down, 1.5f for up
+            _swordDown = -0.9f; // -0.9f for down, 1.5f for up
+            _swordUp = 1.5f;
+            _swordRotation = _swordDown;
 
             // Textures
             _playerAttackTexture = attackTexture;
@@ -78,7 +80,7 @@ namespace Monogame___FINAL_PROJECT
             set { _health = value; }
         }
 
-        public void Update(KeyboardState keyboardState)
+        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects)
         {
             
             if (_time > _frameSpeed )
@@ -107,13 +109,21 @@ namespace Monogame___FINAL_PROJECT
             _playerLocation += _playerDirection * _speed;
             _swordLocation += _playerDirection * _speed;
             UpdatePlayerRects();
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (_playerCollisionRect.Contains(mouseState.Position))
+                {
+                    _health--;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.3f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
+            //spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.3f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
 
         public void SetPlayerDirection(KeyboardState keyboardState)
@@ -134,13 +144,13 @@ namespace Monogame___FINAL_PROJECT
             if (keyboardState.IsKeyDown(Keys.W))
             {
                 _playerDirection.Y += -1;
-                _swordRotation = 1.5f;
+                _swordRotation = _swordUp;
             }
                 
             if (keyboardState.IsKeyDown(Keys.S))
             {
                 _playerDirection.Y += 1;
-                _swordRotation = -0.9f;
+                _swordRotation = _swordDown;
             }
 
 
