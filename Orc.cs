@@ -13,7 +13,7 @@ namespace Monogame___FINAL_PROJECT
     {
         private int _rows, _columns, _directionRow;
         private int _width, _height;
-        private int _frame, _frames;
+        private int _frame, _frames, _walkFrames;
         private int _leftRow, _rightRow, _upRow, _downRow;
         private float _speed, _frameSpeed, _time;
         private Vector2 _location, _direction;
@@ -35,13 +35,14 @@ namespace Monogame___FINAL_PROJECT
             _frame = 0;
             _speed = 1.5f;
             _time = 0.0f;
+            _walkFrames = 6;
 
             // Textures
             _deathTexture = deathTexture; 
-            _walkTexture = walkTexture; // only 7 frames... would need to fix...
+            _walkTexture = walkTexture; 
             _attackTexture = attackTexture; 
             _testTexture = rectangleTexture;
-            _currentTexture = _attackTexture;
+            _currentTexture = _walkTexture;
 
             // Rectangles
             _collisionRect = collisionRect;
@@ -62,6 +63,15 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update()
         {
+            if (_currentTexture == _walkTexture)
+            {
+                _frames = _walkFrames;
+            }
+            else
+                _frames = 8;
+
+
+
             if (_time > _frameSpeed)
             {
                 _time = 0f;

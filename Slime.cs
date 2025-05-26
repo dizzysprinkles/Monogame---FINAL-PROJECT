@@ -13,9 +13,9 @@ namespace Monogame___FINAL_PROJECT
     {
         private int _rows, _columns, _directionRow;
         private int _width, _height;
-        private int _frame, _frames;
+        private int _frame, _frames, _walkFrames;
         private int _leftRow, _rightRow, _upRow, _downRow;
-        private float _speed, _frameSpeed, _time;
+        private float _speed, _frameSpeed, _time, _walkSpeed;
         private Vector2 _location, _direction;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _testTexture, _currentTexture;
         private Rectangle _collisionRect, _drawRect;
@@ -35,13 +35,15 @@ namespace Monogame___FINAL_PROJECT
             _frame = 0;
             _speed = 1.5f;
             _time = 0.0f;
+            _walkFrames = 8;
+            _walkSpeed = 0.1f;
 
             // Textures
-            _deathTexture = deathTexture; // offcentre from walk texture's hitbox... need to fix
-            _walkTexture = walkTexture; // Fix as a whole
-            _attackTexture = attackTexture; // same as death... should probably rework the walk texture
+            _deathTexture = deathTexture; 
+            _walkTexture = walkTexture; 
+            _attackTexture = attackTexture; 
             _testTexture = rectangleTexture;
-            _currentTexture = _attackTexture;
+            _currentTexture = _deathTexture;
 
             // Rectangles
             _collisionRect = collisionRect;
@@ -62,6 +64,17 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update()
         {
+            if (_currentTexture == _walkTexture)
+            {
+                _frames = _walkFrames;
+                _frameSpeed = _walkSpeed;
+            }
+            else
+            {
+                _frames = 11;
+                _speed = 0.08f;
+            }
+                
             if (_time > _frameSpeed)
             {
                 _time = 0f;

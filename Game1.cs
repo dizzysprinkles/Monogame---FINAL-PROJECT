@@ -19,7 +19,10 @@ namespace Monogame___FINAL_PROJECT
         private SpriteBatch _spriteBatch;
         // detection - turn centres of each to points, find magnitude between them, if => radius then attack/move; should be built into vector class
 
-        //TODO: Screens, deal with health stuff, background, movement, levels?, etc
+        //TODO: Screens, deal with health stuff, background, collision detection, levels?, etc
+        //TODO: Enemy hitboxes, enemy detection, collision detection
+
+        //DONE: player hitboxes, movement
 
         Screen screen;
         KeyboardState keyboardState;
@@ -44,7 +47,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Title;
+            screen = Screen.Main;
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
 
@@ -52,7 +55,7 @@ namespace Monogame___FINAL_PROJECT
             playerDrawRect = new Rectangle(20,20,50,65);
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
-            playerSwordRect = new Rectangle(28, 45, 10, 35 );
+            playerSwordRect = new Rectangle(28, 45, 10, 30);
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
@@ -89,7 +92,7 @@ namespace Monogame___FINAL_PROJECT
             rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
 
             slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
-            slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalks"); 
+            slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalk"); 
             slimeDeathTexture = Content.Load<Texture2D>("Images/slimeDying");
 
             plantAttackTexture = Content.Load<Texture2D>("Images/plantAttack");

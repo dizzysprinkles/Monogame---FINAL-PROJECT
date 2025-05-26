@@ -9,14 +9,13 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: Finish sword hit box, maybe fix speed of movement
     public class Player
     {
         private int _rows, _columns, _directionRow;
         private int _width, _height;
         private int _frame, _frames;
         private int _leftRow, _rightRow, _upRow, _downRow;
-        private float _speed, _frameSpeed, _time, _swordRotation, _swordUp, _swordDown, _swordLeft, _swordRight;
+        private float _speed, _frameSpeed, _time, _swordRotation, _upSwordMax, _downSwordMax, _leftSwordMax, _rightSwordMax, _startingSwordRotation, _leftSwordAdd, _rightSwordAdd, _upSwordAdd, _downSwordAdd, _swordMaxRotation, _swordAddition;
         private Vector2 _playerLocation, _playerDirection, _swordLocation;
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
         private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
@@ -40,9 +39,22 @@ namespace Monogame___FINAL_PROJECT
             _speed = 2f;
             _time = 0.0f;
 
-            _swordDown = -0.9f; // -0.9f for down, 1.5f for up
-            _swordUp = 1.5f;
-            _swordRotation = _swordDown;
+            _downSwordMax = 0.5f;
+            _downSwordAdd = 0.45f;
+
+            _upSwordMax = 4.8f;
+            _upSwordAdd =0.75f;
+
+            _leftSwordAdd = 0.3f;
+            _leftSwordMax = 2.4f;
+
+            _rightSwordAdd = -0.3f;
+            _rightSwordMax = 4.5f;
+
+            _startingSwordRotation = -0.9f;
+            _swordRotation = _startingSwordRotation;
+            _swordAddition = _downSwordAdd;
+            _swordMaxRotation = _downSwordMax;
 
             // Textures
             _playerAttackTexture = attackTexture;
@@ -65,7 +77,7 @@ namespace Monogame___FINAL_PROJECT
             UpdatePlayerRects();
 
             //Other stuff
-            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit, 
+            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit, need to figure that out...
         }
 
         public float Time
@@ -89,14 +101,26 @@ namespace Monogame___FINAL_PROJECT
                 _frame += 1;
                 if (_playerMainTexture == _playerAttackTexture)
                 {
-                    _swordRotation += 0.45f; // 0.9f up
-                    if (_swordRotation >= 0.5f) // 0.5f for down, 4.5 for up
-                    {
-                        _swordRotation = -0.9f; // -0.9f for down, 1.5f for up
+                    _swordRotation += _swordAddition;
+                    if (_startingSwordRotation != 5.5f)
+                    { 
+                        if (_swordRotation >= _swordMaxRotation) 
+                        {
+                            _swordRotation = _startingSwordRotation;
+                        }
+
                     }
+                    else
+                    {
+                        if (_swordRotation <= _swordMaxRotation)
+                        {
+                            _swordRotation = _startingSwordRotation;
+                        }
+                    }
+                   
                 }
                 else
-                    _swordRotation = 1.5f; // -0.9f for down facing
+                    _swordRotation = _startingSwordRotation;
 
                 if (_frame >= _frames)
                 {
@@ -123,7 +147,7 @@ namespace Monogame___FINAL_PROJECT
         {
             spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            //spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.3f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
+            spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.0f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
 
         public void SetPlayerDirection(KeyboardState keyboardState)
@@ -134,23 +158,41 @@ namespace Monogame___FINAL_PROJECT
             if (keyboardState.IsKeyDown(Keys.A))
             { 
                 _playerDirection.X += -1;
+                _startingSwordRotation = 1.4f;
+                _swordRotation = _startingSwordRotation;
+                _swordMaxRotation = _leftSwordMax;
+                _swordAddition = _leftSwordAdd;
+                _swordCollisionRect.Height = 20;
             }
 
             if (keyboardState.IsKeyDown(Keys.D))
             {
                 _playerDirection.X += 1;
+                _startingSwordRotation = 5.5f;
+                _swordRotation = _startingSwordRotation;
+                _swordMaxRotation = _rightSwordMax;
+                _swordAddition = _rightSwordAdd;
+                _swordCollisionRect.Height = 30;
             }
                 
             if (keyboardState.IsKeyDown(Keys.W))
             {
                 _playerDirection.Y += -1;
-                _swordRotation = _swordUp;
+                _startingSwordRotation = 1.7f;
+                _swordRotation = _startingSwordRotation;
+                _swordMaxRotation = _upSwordMax;
+                _swordAddition = _upSwordAdd;
+                _swordCollisionRect.Height = 30;
             }
                 
             if (keyboardState.IsKeyDown(Keys.S))
             {
                 _playerDirection.Y += 1;
-                _swordRotation = _swordDown;
+                _startingSwordRotation = -0.9f;
+                _swordRotation = _startingSwordRotation;
+                _swordMaxRotation = _downSwordMax;
+                _swordAddition = _downSwordAdd;
+                _swordCollisionRect.Height = 30;
             }
 
 
