@@ -197,8 +197,6 @@ namespace Monogame___FINAL_PROJECT
 
 
 
-
-
             }
             _spriteBatch.End();
 
