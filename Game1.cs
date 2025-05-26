@@ -21,8 +21,9 @@ namespace Monogame___FINAL_PROJECT
 
         //TODO: Screens, deal with health stuff, background, collision detection, levels?, etc
         //TODO: Enemy hitboxes, enemy detection, collision detection
+        //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen
 
-        //DONE: player hitboxes, movement
+        //DONE: player hitboxes, enemy spritesheets
 
         Screen screen;
         KeyboardState keyboardState;
@@ -37,7 +38,7 @@ namespace Monogame___FINAL_PROJECT
 
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture;
-        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect;
+        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -53,8 +54,11 @@ namespace Monogame___FINAL_PROJECT
 
             playerCollisionRect = new Rectangle(32,30,25,45);
             playerDrawRect = new Rectangle(20,20,50,65);
+
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
+            slimeAttackRect = new Rectangle(64, 60, 30, 32);
+
             playerSwordRect = new Rectangle(28, 45, 10, 30);
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
@@ -71,7 +75,7 @@ namespace Monogame___FINAL_PROJECT
 
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
-            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect);
+            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, slimeAttackRect);
             plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect);
             orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect);
         }

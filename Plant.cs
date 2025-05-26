@@ -44,7 +44,7 @@ namespace Monogame___FINAL_PROJECT
             _walkTexture = walkTexture;  // all frames except 1 is off
             _attackTexture = attackTexture; // Good
             _testTexture = rectangleTexture;
-            _currentTexture = _walkTexture;
+            _currentTexture = _deathTexture;
 
             // Rectangles
             _collisionRect = collisionRect;
