@@ -97,7 +97,7 @@ namespace Monogame___FINAL_PROJECT
 
             plantAttackTexture = Content.Load<Texture2D>("Images/plantAttack");
             plantDeathTexture = Content.Load<Texture2D>("Images/plantDying");
-            plantWalkTexture = Content.Load<Texture2D>("Images/plantWalking");
+            plantWalkTexture = Content.Load<Texture2D>("Images/plantWalk");
 
             orcAttackTexture = Content.Load<Texture2D>("Images/orcAttack");
             orcDeathTexture = Content.Load<Texture2D>("Images/orcDeath");
