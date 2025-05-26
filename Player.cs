@@ -92,6 +92,11 @@ namespace Monogame___FINAL_PROJECT
             set { _health = value; }
         }
 
+        public Rectangle Sword
+        {
+            get { return _swordCollisionRect; }
+        }
+
         public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects)
         {
             

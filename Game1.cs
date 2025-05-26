@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace Monogame___FINAL_PROJECT
 {
@@ -34,10 +36,12 @@ namespace Monogame___FINAL_PROJECT
         List<Rectangle> healthRects;
         List<Texture2D> healthTextures;
 
+        Rectangle window;
+
         MouseState mouseState;
 
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
-        Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture;
+        Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
         public Game1()
         {
@@ -48,7 +52,8 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Main;
+            screen = Screen.Title;
+            Window.Title = "Game Title Here: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
 
@@ -67,7 +72,14 @@ namespace Monogame___FINAL_PROJECT
             orcCollisionRect = new Rectangle(215,212,45,45);
             orcDrawRect = new Rectangle(200,200,80,80);
 
-           
+            window = new Rectangle(0, 0, 800, 600);
+
+
+            _graphics.PreferredBackBufferHeight = window.Height;
+            _graphics.PreferredBackBufferWidth = window.Width;
+            _graphics.ApplyChanges();
+
+
             for (int x = 0; x < 125; x += 25)
             {
                 healthRects.Add(new Rectangle(x, 0, 20, 20));
@@ -106,6 +118,8 @@ namespace Monogame___FINAL_PROJECT
             orcAttackTexture = Content.Load<Texture2D>("Images/orcAttack");
             orcDeathTexture = Content.Load<Texture2D>("Images/orcDeath");
             orcWalkTexture = Content.Load<Texture2D>("Images/orcWalk");
+
+            titleBackgroundTexture = Content.Load<Texture2D>("Images/titleBackground");
         }
 
         protected override void Update(GameTime gameTime)
@@ -156,7 +170,7 @@ namespace Monogame___FINAL_PROJECT
 
             if (screen == Screen.Title)
             {
-
+                _spriteBatch.Draw(titleBackgroundTexture, window, Color.White);
             }
             else if (screen == Screen.Tutorial)
             {

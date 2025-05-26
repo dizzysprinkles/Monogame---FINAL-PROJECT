@@ -63,6 +63,11 @@ namespace Monogame___FINAL_PROJECT
             set { _time = value; }
         }
 
+        public Rectangle Attack
+        {
+            get { return _attackCollisionRect; }
+        }
+
         public void Update()
         {
             if (_currentTexture == _walkTexture)
