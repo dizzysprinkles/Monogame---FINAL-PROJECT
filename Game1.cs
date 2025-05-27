@@ -65,7 +65,7 @@ namespace Monogame___FINAL_PROJECT
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
 
-            slimeAttackRect = new Rectangle(70, 60, 23, 32); //60
+            slimeAttackRect = new Rectangle(70, 60, 23, 32); //60 for right, 70 for left
 
             playerSwordRect = new Rectangle(28, 45, 10, 30);
 
