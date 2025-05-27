@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Monogame___FINAL_PROJECT
 {
     //TODO: add fighting and dying animations, had fighting hitbox, add player detection and then move towards player and then attack when intersects or something similar
+    //ALMOST DONE: fight box; just need to add for all sides so it's easier
     public class Slime
     {
         private int _rows, _columns, _directionRow;
