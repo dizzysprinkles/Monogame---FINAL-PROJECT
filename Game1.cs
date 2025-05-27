@@ -36,6 +36,8 @@ namespace Monogame___FINAL_PROJECT
         List<Rectangle> healthRects;
         List<Texture2D> healthTextures;
 
+        SpriteFont titleFont, instructionFont;
+
         Rectangle window;
 
         MouseState mouseState;
@@ -52,7 +54,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Title;
+            screen = Screen.Main;
             Window.Title = "Game Title Here: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
@@ -62,7 +64,7 @@ namespace Monogame___FINAL_PROJECT
 
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
-            slimeAttackRect = new Rectangle(64, 60, 30, 32);
+            slimeAttackRect = new Rectangle(64, 60, 20, 32);
 
             playerSwordRect = new Rectangle(28, 45, 10, 30);
 
@@ -101,6 +103,8 @@ namespace Monogame___FINAL_PROJECT
                 healthTextures.Add(Content.Load<Texture2D>("Images/heart"));
             }
 
+            instructionFont = Content.Load<SpriteFont>("Fonts/InstructionFont");
+
             playerIdleTexture = Content.Load<Texture2D>("Images/characterIdle");
             playerAttackTexture = Content.Load<Texture2D>("Images/characterAttack");
             playerWalkTexture = Content.Load<Texture2D>("Images/characterWalk");
@@ -120,6 +124,7 @@ namespace Monogame___FINAL_PROJECT
             orcWalkTexture = Content.Load<Texture2D>("Images/orcWalk");
 
             titleBackgroundTexture = Content.Load<Texture2D>("Images/titleBackground");
+            titleFont = Content.Load<SpriteFont>("Fonts/TitleFont");
         }
 
         protected override void Update(GameTime gameTime)
@@ -171,6 +176,8 @@ namespace Monogame___FINAL_PROJECT
             if (screen == Screen.Title)
             {
                 _spriteBatch.Draw(titleBackgroundTexture, window, Color.White);
+                _spriteBatch.DrawString(titleFont, "TITLE HERE", new Vector2(10,0), Color.White);
+                _spriteBatch.DrawString(instructionFont, "Click", new Vector2(10, 572), Color.White);
             }
             else if (screen == Screen.Tutorial)
             {

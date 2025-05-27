@@ -13,6 +13,16 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/InstructionFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/InstructionFont.spritefont
+
+#begin Fonts/LongPixel.ttf
+/copy:Fonts/LongPixel.ttf
+
 #begin Fonts/PixelFont.otf
 /copy:Fonts/PixelFont.otf
 

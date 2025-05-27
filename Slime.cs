@@ -18,7 +18,7 @@ namespace Monogame___FINAL_PROJECT
         private float _speed, _frameSpeed, _time, _walkSpeed;
         private Vector2 _location, _direction;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _testTexture, _currentTexture;
-        private Rectangle _collisionRect, _drawRect, _attackCollisionRect;
+        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _startingAttackRect;
 
         public Slime(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect)
         {
@@ -38,6 +38,8 @@ namespace Monogame___FINAL_PROJECT
             _walkFrames = 8;
             _walkSpeed = 0.1f;
 
+
+
             // Textures
             _deathTexture = deathTexture; 
             _walkTexture = walkTexture; 
@@ -47,6 +49,8 @@ namespace Monogame___FINAL_PROJECT
 
             // Rectangles
             _attackCollisionRect = attackRect;
+            _startingAttackRect = _attackCollisionRect;
+            
             _collisionRect = collisionRect;
             _drawRect = drawRect;
             _location = new Vector2(40,40);
@@ -85,9 +89,17 @@ namespace Monogame___FINAL_PROJECT
             {
                 _time = 0f;
                 _frame += 1;
+                _attackCollisionRect.X += 2;
+                if (_attackCollisionRect.X >= _startingAttackRect.X + 24)  //takes 1 second to go through all the frames
+                {
+                    _attackCollisionRect.X = _startingAttackRect.X;
+                }
+
                 if (_frame >= _frames)
                     _frame = 0;
             }
+
+
         }
 
 
