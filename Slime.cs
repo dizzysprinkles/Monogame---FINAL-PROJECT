@@ -30,7 +30,7 @@ namespace Monogame___FINAL_PROJECT
             _upRow = 1;
             _downRow = 0;
             _directionRow = _rightRow;
-            _frameSpeed = 0.08f;
+            _frameSpeed = 1f;
             _frames = 11;
             _frame = 0;
             _speed = 1.5f;
@@ -58,7 +58,7 @@ namespace Monogame___FINAL_PROJECT
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
 
-            //UpdateRects();
+            //UpdateRects();  /// have to reconfigure this because I switched the rectangle and I forgot :((
 
         }
         public float Time
@@ -89,17 +89,21 @@ namespace Monogame___FINAL_PROJECT
             {
                 _time = 0f;
                 _frame += 1;
-                _attackCollisionRect.X += 2;
-                if (_attackCollisionRect.X >= _startingAttackRect.X + 24)  //takes 1 second to go through all the frames
+                if (_frame <= 8)
+                {
+                    _attackCollisionRect.X += 3;
+                }
+                else
                 {
                     _attackCollisionRect.X = _startingAttackRect.X;
                 }
 
+
                 if (_frame >= _frames)
+                {
                     _frame = 0;
+                }  
             }
-
-
         }
 
 
