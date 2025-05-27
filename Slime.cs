@@ -14,7 +14,7 @@ namespace Monogame___FINAL_PROJECT
         private int _rows, _columns, _directionRow;
         private int _width, _height;
         private int _frame, _frames, _walkFrames;
-        private int _leftRow, _rightRow, _upRow, _downRow;
+        private int _leftRow, _rightRow, _upRow, _downRow, _attackAddition;
         private float _speed, _frameSpeed, _time, _walkSpeed;
         private Vector2 _location, _direction;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _testTexture, _currentTexture;
@@ -29,8 +29,8 @@ namespace Monogame___FINAL_PROJECT
             _rightRow = 3;
             _upRow = 1;
             _downRow = 0;
-            _directionRow = _rightRow;
-            _frameSpeed = 1f;
+            _directionRow = _upRow;
+            _frameSpeed = 0.08f;
             _frames = 11;
             _frame = 0;
             _speed = 1.5f;
@@ -57,8 +57,9 @@ namespace Monogame___FINAL_PROJECT
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
+            _attackAddition = -3;
 
-            //UpdateRects();  /// have to reconfigure this because I switched the rectangle and I forgot :((
+            //UpdateRects();  //still have to configure
 
         }
         public float Time
@@ -74,6 +75,7 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update()
         {
+
             if (_currentTexture == _walkTexture)
             {
                 _frames = _walkFrames;
@@ -89,13 +91,13 @@ namespace Monogame___FINAL_PROJECT
             {
                 _time = 0f;
                 _frame += 1;
-                if (_frame <= 8)
+                if (_frame < 8) // first 7 animations; last 4 are slime blowing up
                 {
-                    _attackCollisionRect.X += 3;
+                    _attackCollisionRect.X += _attackAddition;  // +3 for right, -3 for left
                 }
                 else
                 {
-                    _attackCollisionRect.X = _startingAttackRect.X;
+                    _attackCollisionRect.X = _startingAttackRect.X; // starting is 60, 70 for left, for up and down, collision box just contains the whole box;
                 }
 
 
@@ -117,8 +119,8 @@ namespace Monogame___FINAL_PROJECT
         //public void UpdateRects()
         //{
         //    _collisionRect.Location = _location.ToPoint();
-        //    _drawRect.X = _collisionRect.X - 35;
-        //    _drawRect.Y = _collisionRect.Y - 32;
+        //    _drawRect.X = _collisionRect.X - 12;
+        //    _drawRect.Y = _collisionRect.Y - 20;
 
         //}
     }
