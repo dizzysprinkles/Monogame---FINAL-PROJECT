@@ -21,11 +21,11 @@ namespace Monogame___FINAL_PROJECT
         private SpriteBatch _spriteBatch;
         // detection - turn centres of each to points, find magnitude between them, if => radius then attack/move; should be built into vector class
 
-        //TODO: Screens, deal with health stuff, background, collision detection, levels?, etc
-        //TODO: Enemy hitboxes, enemy detection, collision detection
+        //TODO: Screens except title, deal with health stuff, background, collision detection, levels?, etc
+        //TODO: enemy detection, collision detection
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen
 
-        //DONE: player hitboxes, enemy spritesheets
+        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes
 
         Screen screen;
         KeyboardState keyboardState;
@@ -201,8 +201,6 @@ namespace Monogame___FINAL_PROJECT
                 _spriteBatch.DrawString(titleFont, "TITLE HERE", new Vector2(10,0), Color.White);
                 _spriteBatch.DrawString(instructionFont, "Tutorial", new Vector2(100, 330), Color.White);
                 _spriteBatch.DrawString(instructionFont, "Main Game", new Vector2(100, 285), Color.White);
-                //_spriteBatch.DrawString(instructionFont, "Press ENTER to start the Tutorial", new Vector2(10, 500), Color.White);
-                //_spriteBatch.DrawString(instructionFont, "Press SPACE to start the Game", new Vector2(10, 572), Color.White);
 
             }
             else if (screen == Screen.Tutorial)
