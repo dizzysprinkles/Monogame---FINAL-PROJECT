@@ -23,9 +23,9 @@ namespace Monogame___FINAL_PROJECT
 
         //TODO: Screens except title, deal with health stuff, background, collision detection, levels?, etc
         //TODO: enemy detection, collision detection
-        //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen
+        //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
 
-        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes
+        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen
 
         Screen screen;
         KeyboardState keyboardState;
