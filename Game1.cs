@@ -42,10 +42,10 @@ namespace Monogame___FINAL_PROJECT
 
         MouseState mouseState;
 
-        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
+        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
-        Rectangle plantAttackRect, orcAttackRect;
+        Rectangle plantAttackRect, orcAttackRect, signRect, gameRect, tutorialRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -55,7 +55,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Main;
+            screen = Screen.Title;
             Window.Title = "Game Title Here: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
@@ -79,6 +79,11 @@ namespace Monogame___FINAL_PROJECT
             orcAttackRect = new Rectangle(200, 200, 65, 55);
 
             window = new Rectangle(0, 0, 800, 600);
+
+            signRect = new Rectangle(70,205,200,175);
+
+            tutorialRect = new Rectangle(100, 320, 140, 35);
+            gameRect = new Rectangle(100, 270, 140, 35);
 
 
             _graphics.PreferredBackBufferHeight = window.Height;
@@ -129,6 +134,8 @@ namespace Monogame___FINAL_PROJECT
 
             titleBackgroundTexture = Content.Load<Texture2D>("Images/titleBackground");
             titleFont = Content.Load<SpriteFont>("Fonts/TitleFont");
+
+            signTexture = Content.Load<Texture2D>("Images/signTitle");
         }
 
         protected override void Update(GameTime gameTime)
@@ -143,11 +150,21 @@ namespace Monogame___FINAL_PROJECT
 
             if (screen == Screen.Title)
             {
-
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    if (tutorialRect.Contains(mouseState.Position))
+                    {
+                        screen = Screen.Tutorial;
+                    }
+                    else if (gameRect.Contains(mouseState.Position))
+                    {
+                        screen = Screen.Main;
+                    }
+                }
             }
             else if (screen == Screen.Tutorial)
             {
-
+               
 
 
             }
@@ -180,8 +197,13 @@ namespace Monogame___FINAL_PROJECT
             if (screen == Screen.Title)
             {
                 _spriteBatch.Draw(titleBackgroundTexture, window, Color.White);
+                _spriteBatch.Draw(signTexture, signRect, Color.White);
                 _spriteBatch.DrawString(titleFont, "TITLE HERE", new Vector2(10,0), Color.White);
-                _spriteBatch.DrawString(instructionFont, "Click", new Vector2(10, 572), Color.White);
+                _spriteBatch.DrawString(instructionFont, "Tutorial", new Vector2(100, 330), Color.White);
+                _spriteBatch.DrawString(instructionFont, "Main Game", new Vector2(100, 285), Color.White);
+                //_spriteBatch.DrawString(instructionFont, "Press ENTER to start the Tutorial", new Vector2(10, 500), Color.White);
+                //_spriteBatch.DrawString(instructionFont, "Press SPACE to start the Game", new Vector2(10, 572), Color.White);
+
             }
             else if (screen == Screen.Tutorial)
             {
@@ -201,6 +223,8 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);
                 }
+
+                _spriteBatch.DrawString(titleFont, $"{player.Health}", new Vector2(10, 500), Color.White);
 
             }
             else
