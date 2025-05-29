@@ -17,10 +17,10 @@ namespace Monogame___FINAL_PROJECT
         private int _leftRow, _rightRow, _upRow, _downRow;
         private float _speed, _frameSpeed, _time;
         private Vector2 _location, _direction;
-        private Texture2D _deathTexture, _walkTexture, _attackTexture, _testTexture, _currentTexture;
-        private Rectangle _collisionRect, _drawRect;
+        private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
+        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _startingAttackRect;
 
-        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect)
+        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect)
         {
             // Spritesheet Variables
             _columns = 8;
@@ -30,6 +30,7 @@ namespace Monogame___FINAL_PROJECT
             _upRow = 1;
             _downRow = 0;
             _directionRow = _rightRow;
+            // downRow collision - (200, 220, 55, 40); leftRow collision - (170, 195, 40, 55); upRow collision - (195, 195, 60, 40); rightRow collision - (200, 200, 65, 55);
             _frameSpeed = 0.08f;
             _frames = 8;
             _frame = 0;
@@ -41,12 +42,14 @@ namespace Monogame___FINAL_PROJECT
             _deathTexture = deathTexture; 
             _walkTexture = walkTexture; 
             _attackTexture = attackTexture; 
-            _testTexture = rectangleTexture;
-            _currentTexture = _walkTexture;
+            _rectangleTexture = rectangleTexture;
+            _currentTexture = _attackTexture;
 
             // Rectangles
             _collisionRect = collisionRect;
             _drawRect = drawRect;
+            _attackCollisionRect = attackRect;
+            _startingAttackRect = _attackCollisionRect;
             _location = new Vector2(200, 200);
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
@@ -84,8 +87,9 @@ namespace Monogame___FINAL_PROJECT
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_testTexture, _collisionRect, Color.Black * 0.3f);
+            spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
+            //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
         }
 
         public void UpdateRects()

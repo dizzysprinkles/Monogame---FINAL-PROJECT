@@ -45,7 +45,7 @@ namespace Monogame___FINAL_PROJECT
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
-        Rectangle plantAttackRect;
+        Rectangle plantAttackRect, orcAttackRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -76,6 +76,7 @@ namespace Monogame___FINAL_PROJECT
 
             orcCollisionRect = new Rectangle(215,212,45,45);
             orcDrawRect = new Rectangle(200,200,80,80);
+            orcAttackRect = new Rectangle(200, 200, 65, 55);
 
             window = new Rectangle(0, 0, 800, 600);
 
@@ -94,7 +95,7 @@ namespace Monogame___FINAL_PROJECT
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
             slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, slimeAttackRect);
             plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, plantAttackRect);
-            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect);
+            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, orcAttackRect);
         }
 
         protected override void LoadContent()

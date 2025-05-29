@@ -31,7 +31,7 @@ namespace Monogame___FINAL_PROJECT
             _upRow = 1;
             _downRow = 0;
             _directionRow = _downRow;
-            _frameSpeed = 1f;
+            _frameSpeed = 0.09f;
             _frames = 7;
             _frame = 0;
             _speed = 1.5f;
