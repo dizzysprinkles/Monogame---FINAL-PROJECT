@@ -45,6 +45,7 @@ namespace Monogame___FINAL_PROJECT
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
+        Rectangle plantAttackRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -71,6 +72,7 @@ namespace Monogame___FINAL_PROJECT
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
+            plantAttackRect = new Rectangle(125, 120, 30, 40);
 
             orcCollisionRect = new Rectangle(215,212,45,45);
             orcDrawRect = new Rectangle(200,200,80,80);
@@ -91,7 +93,7 @@ namespace Monogame___FINAL_PROJECT
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
             slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, slimeAttackRect);
-            plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect);
+            plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, plantAttackRect);
             orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect);
         }
 
@@ -120,7 +122,7 @@ namespace Monogame___FINAL_PROJECT
             plantDeathTexture = Content.Load<Texture2D>("Images/plantDying");
             plantWalkTexture = Content.Load<Texture2D>("Images/plantWalk");
 
-            orcAttackTexture = Content.Load<Texture2D>("Images/orcAttack");
+            orcAttackTexture = Content.Load<Texture2D>("Images/orcAttacking");
             orcDeathTexture = Content.Load<Texture2D>("Images/orcDeath");
             orcWalkTexture = Content.Load<Texture2D>("Images/orcWalk");
 

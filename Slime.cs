@@ -18,7 +18,7 @@ namespace Monogame___FINAL_PROJECT
         private int _leftRow, _rightRow, _upRow, _downRow, _attackAddition;
         private float _speed, _frameSpeed, _time, _walkSpeed;
         private Vector2 _location, _direction;
-        private Texture2D _deathTexture, _walkTexture, _attackTexture, _testTexture, _currentTexture;
+        private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _startingAttackRect;
 
         public Slime(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect)
@@ -45,7 +45,7 @@ namespace Monogame___FINAL_PROJECT
             _deathTexture = deathTexture; 
             _walkTexture = walkTexture; 
             _attackTexture = attackTexture; 
-            _testTexture = rectangleTexture;
+            _rectangleTexture = rectangleTexture;
             _currentTexture = _attackTexture;
 
             // Rectangles
@@ -76,6 +76,7 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update()
         {
+ 
 
             if (_currentTexture == _walkTexture)
             {
@@ -112,9 +113,9 @@ namespace Monogame___FINAL_PROJECT
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_testTexture, _collisionRect, Color.Black * 0.3f);
+            spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            spriteBatch.Draw(_testTexture, _attackCollisionRect, Color.Red * 0.3f);
+            //spriteBatch.Draw(_testTexture, _attackCollisionRect, Color.Red * 0.3f);
         }
 
         //public void UpdateRects()

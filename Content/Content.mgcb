@@ -93,7 +93,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/heart.png
 
-#begin Images/orcAttack.png
+#begin Images/orcAttacking.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -103,7 +103,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/orcAttack.png
+/build:Images/orcAttacking.png
 
 #begin Images/orcDeath.png
 /importer:TextureImporter
@@ -224,16 +224,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/titleBackground.jpg
-
-#begin X:/My Drive/Downloads/Final Game Assets/orc/PNG/Orc2/Orc2_attack/orcAttack.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:X:/My Drive/Downloads/Final Game Assets/orc/PNG/Orc2/Orc2_attack/orcAttack.png;Images/orcAttack.png
 
