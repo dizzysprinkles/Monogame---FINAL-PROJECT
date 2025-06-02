@@ -18,7 +18,7 @@ namespace Monogame___FINAL_PROJECT
         private float _speed, _frameSpeed, _time;
         private Vector2 _location, _direction;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
-        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _startingAttackRect;
+        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect;
 
         public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect)
         {
@@ -49,11 +49,16 @@ namespace Monogame___FINAL_PROJECT
             _collisionRect = collisionRect;
             _drawRect = drawRect;
             _attackCollisionRect = attackRect;
-            _startingAttackRect = _attackCollisionRect;
+
             _location = new Vector2(200, 200);
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
+            _downAttackRect = new Rectangle(200, 220, 55, 40);
+            _leftAttackRect = new Rectangle(170, 195, 40, 55);
+            _upAttackRect = new Rectangle(195,195,60,40);
+            _rightAttackRect = new Rectangle(200,200,65,65);
+            _attackCollisionRect = _downAttackRect;
 
             UpdateRects();
 
@@ -66,6 +71,26 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update()
         {
+            if (_directionRow == _downRow)
+            {
+                _attackCollisionRect = _downAttackRect;
+            }
+            else if (_directionRow == _upRow)
+            {
+                _attackCollisionRect = _upAttackRect;
+            }
+            else if (_directionRow == _leftRow)
+            {
+                _attackCollisionRect = _leftAttackRect;
+            }
+            else
+            { 
+                _attackCollisionRect= _rightAttackRect;
+            }
+
+
+
+
             if (_currentTexture == _walkTexture)
             {
                 _frames = _walkFrames;

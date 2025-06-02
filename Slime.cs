@@ -76,6 +76,26 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update()
         {
+            if (_frame == 0)
+            {
+                if (_directionRow == _leftRow)
+                {
+                    _attackAddition = -3;
+                    _startingAttackRect.X = 70;
+
+                }
+                else if (_directionRow == _rightRow)
+                {
+                    _attackAddition = 3;
+                    _startingAttackRect.X = 60;
+                }
+                else if (_directionRow == _upRow || _directionRow == _downRow)
+                {
+                    _attackAddition = 0;
+                    _startingAttackRect.X = 70; 
+                }
+                
+            }
  
 
             if (_currentTexture == _walkTexture)
@@ -95,11 +115,11 @@ namespace Monogame___FINAL_PROJECT
                 _frame += 1;
                 if (_frame < 8) // first 7 animations; last 4 are slime blowing up
                 {
-                    _attackCollisionRect.X += _attackAddition;  // +3 for right, -3 for left
+                    _attackCollisionRect.X += _attackAddition;  
                 }
                 else
                 {
-                    _attackCollisionRect.X = _startingAttackRect.X; // starting is 60, 70 for left, for up and down, collision box just contains the whole box;
+                    _attackCollisionRect.X = _startingAttackRect.X; 
                 }
 
 

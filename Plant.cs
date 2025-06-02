@@ -16,7 +16,7 @@ namespace Monogame___FINAL_PROJECT
         private int _width, _height;
         private int _frame, _frames, _attackAddition;
         private int _leftRow, _rightRow, _upRow, _downRow, _walkFrames;
-        private float _speed, _frameSpeed, _time, _walkSpeed;
+        private float _speed, _frameSpeed, _time, _walkSpeed, _attackFrame;
         private Vector2 _location, _direction;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _startingAttackRect;
@@ -30,14 +30,15 @@ namespace Monogame___FINAL_PROJECT
             _rightRow = 3;
             _upRow = 1;
             _downRow = 0;
-            _directionRow = _downRow;
-            _frameSpeed = 0.09f;
+            _directionRow = _leftRow;
+            _frameSpeed = 1f;
             _frames = 7;
             _frame = 0;
             _speed = 1.5f;
             _time = 0.0f;
             _walkFrames = 6;
             _walkSpeed = 0.1f;
+            _attackFrame = 1;
 
             // Textures
             _deathTexture = deathTexture; 
@@ -69,6 +70,27 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update()
         {
+
+            if (_frame == 0)
+            {
+                if (_directionRow == _leftRow)
+                {
+                    _attackAddition = -5;
+                    _attackFrame = 1;
+                }
+                else if (_directionRow == _rightRow)
+                {
+                    _attackAddition = 5;
+                    _attackFrame = 2;
+
+                }
+                else if (_directionRow == _upRow || _directionRow == _downRow)
+                {
+                    _attackAddition = 0;
+                }
+
+            }
+
             if (_currentTexture == _walkTexture)
             {
                 _frames = _walkFrames;
@@ -86,9 +108,9 @@ namespace Monogame___FINAL_PROJECT
             {
                 _time = 0f;
                 _frame += 1;
-                if (_frame > 1) // 2 for right, 1 for left
+                if (_frame > _attackFrame) 
                 {
-                    _attackCollisionRect.X += _attackAddition;  // up and down are just the normal collision rect
+                    _attackCollisionRect.X += _attackAddition; 
                 }
                
        
@@ -105,7 +127,7 @@ namespace Monogame___FINAL_PROJECT
         {
             spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+            spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
         }
 
         public void UpdateRects()

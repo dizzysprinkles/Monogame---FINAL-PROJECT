@@ -24,6 +24,7 @@ namespace Monogame___FINAL_PROJECT
         //TODO: Screens except title, deal with health stuff, background, collision detection, levels?, etc
         //TODO: enemy detection, collision detection
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
+        //TODO
 
         //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen
 
@@ -55,7 +56,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Title;
+            screen = Screen.Main;
             Window.Title = "Game Title Here: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
@@ -66,7 +67,7 @@ namespace Monogame___FINAL_PROJECT
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
 
-            slimeAttackRect = new Rectangle(70, 60, 23, 32); //60 for right, 70 for left
+            slimeAttackRect = new Rectangle(70, 60, 23, 32); 
 
             playerSwordRect = new Rectangle(28, 45, 10, 30);
 
