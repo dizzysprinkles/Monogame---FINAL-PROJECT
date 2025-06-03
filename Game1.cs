@@ -211,7 +211,7 @@ namespace Monogame___FINAL_PROJECT
 
             else if (screen == Screen.Main)
             {
-                slime.Draw(_spriteBatch, instructionFont);
+                slime.Draw(_spriteBatch);
 
                 plant.Draw(_spriteBatch);
 
