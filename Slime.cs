@@ -55,7 +55,7 @@ namespace Monogame___FINAL_PROJECT
             
             _collisionRect = collisionRect;
             _drawRect = drawRect;
-            _location = new Vector2(40,40);
+            _location = new Vector2(62,60);
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
@@ -66,7 +66,7 @@ namespace Monogame___FINAL_PROJECT
             _playerDistance = _center - player.Center;
             _detectionRadius = 115;
 
-            //UpdateRects();  //still have to configure
+            UpdateRects();
 
         }
         public float Time
@@ -92,7 +92,10 @@ namespace Monogame___FINAL_PROJECT
                 _direction = _playerDistance;
             }
             else
+            {
                 _currentTexture = _walkTexture;
+                _direction = Vector2.Zero;
+            }
 
             if (_direction != Vector2.Zero)
             {
@@ -170,12 +173,12 @@ namespace Monogame___FINAL_PROJECT
             //spriteBatch.Draw(_testTexture, _attackCollisionRect, Color.Red * 0.3f);
         }
 
-        //public void UpdateRects()
-        //{
-        //    _collisionRect.Location = _location.ToPoint();
-        //    _drawRect.X = _collisionRect.X - 12;
-        //    _drawRect.Y = _collisionRect.Y - 20;
+        public void UpdateRects()
+        {
+            _collisionRect.Location = _location.ToPoint();
+            _drawRect.X = _collisionRect.X - 22;
+            _drawRect.Y = _collisionRect.Y - 20;
 
-        //}
+        }
     }
 }

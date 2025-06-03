@@ -30,7 +30,6 @@ namespace Monogame___FINAL_PROJECT
             _upRow = 1;
             _downRow = 0;
             _directionRow = _rightRow;
-            // downRow collision - (200, 220, 55, 40); leftRow collision - (170, 195, 40, 55); upRow collision - (195, 195, 60, 40); rightRow collision - (200, 200, 65, 55);
             _frameSpeed = 0.08f;
             _frames = 8;
             _frame = 0;

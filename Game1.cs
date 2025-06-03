@@ -19,12 +19,10 @@ namespace Monogame___FINAL_PROJECT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        // detection - turn centres of each to points, find magnitude between them, if => radius then attack/move; should be built into vector class
-
-        //TODO: Screens except title, deal with health stuff, background, collision detection, levels?, etc
-        //TODO: enemy detection, collision detection
+        //TODO: Screens except title, deal with health stuff, background, levels, etc
+        //TODO: collision detection - player attacks, enemy attacks
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
-        //TODO
+        //ALMOST DONE: Player detection. Now just have to make the enemies move and add a slight delay between attacks so the player doesn't die straight away.
 
         //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen
 
@@ -64,13 +62,11 @@ namespace Monogame___FINAL_PROJECT
 
             playerCollisionRect = new Rectangle(32,30,25,45);
             playerDrawRect = new Rectangle(20,20,50,65);
+            playerSwordRect = new Rectangle(28, 45, 10, 30);
 
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
-
             slimeAttackRect = new Rectangle(70, 60, 23, 32); 
-
-            playerSwordRect = new Rectangle(28, 45, 10, 30);
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
@@ -87,11 +83,9 @@ namespace Monogame___FINAL_PROJECT
             tutorialRect = new Rectangle(100, 320, 140, 35);
             gameRect = new Rectangle(100, 270, 140, 35);
 
-
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.ApplyChanges();
-
 
             for (int x = 0; x < 125; x += 25)
             {
@@ -172,8 +166,6 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.Tutorial)
             {
-               
-
 
             }
             else if (screen == Screen.Main)
@@ -187,8 +179,6 @@ namespace Monogame___FINAL_PROJECT
             { 
             
             }
-
-
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -215,7 +205,6 @@ namespace Monogame___FINAL_PROJECT
             {
 
             }
-
             else if (screen == Screen.Main)
             {
                 slime.Draw(_spriteBatch);
@@ -235,8 +224,6 @@ namespace Monogame___FINAL_PROJECT
             }
             else
             {
-
-
 
             }
             _spriteBatch.End();
