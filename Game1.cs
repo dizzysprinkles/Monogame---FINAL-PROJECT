@@ -43,6 +43,7 @@ namespace Monogame___FINAL_PROJECT
 
         MouseState mouseState;
 
+        Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture, thirdMapTexture, fourthMapTexture;
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
@@ -135,6 +136,12 @@ namespace Monogame___FINAL_PROJECT
 
             titleBackgroundTexture = Content.Load<Texture2D>("Images/titleBackground");
             titleFont = Content.Load<SpriteFont>("Fonts/TitleFont");
+
+            tutorialMapTexture = Content.Load<Texture2D>("Images/Map Tutorial");
+            firstMapTexture = Content.Load<Texture2D>("Images/Map 1");
+            secondMapTexture = Content.Load<Texture2D>("Images/Map 2");
+            thirdMapTexture = Content.Load<Texture2D>("Images/Map 3");
+            fourthMapTexture = Content.Load<Texture2D>("Images/Map 4");
 
             signTexture = Content.Load<Texture2D>("Images/signTitle");
         }
