@@ -20,7 +20,7 @@ namespace Monogame___FINAL_PROJECT
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect;
 
-        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect)
+        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect, Player player)
         {
             // Spritesheet Variables
             _columns = 8;
@@ -69,7 +69,7 @@ namespace Monogame___FINAL_PROJECT
             set { _time = value; }
         }
 
-        public void Update()
+        public void Update(Player player)
         {
             if (_directionRow == _downRow)
             {

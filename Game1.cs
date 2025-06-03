@@ -100,8 +100,8 @@ namespace Monogame___FINAL_PROJECT
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
             slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, slimeAttackRect, player);
-            plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, plantAttackRect);
-            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, orcAttackRect);
+            plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, plantAttackRect, player);
+            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, orcAttackRect, player);
         }
 
         protected override void LoadContent()
@@ -173,8 +173,8 @@ namespace Monogame___FINAL_PROJECT
             {
                 player.Update(keyboardState, mouseState, healthTextures, healthRects);
                 slime.Update(player);
-                plant.Update();
-                orc.Update();
+                plant.Update(player);
+                orc.Update(player);
             }
             else
             { 
@@ -213,7 +213,7 @@ namespace Monogame___FINAL_PROJECT
             {
                 slime.Draw(_spriteBatch);
 
-                plant.Draw(_spriteBatch);
+                plant.Draw(_spriteBatch, instructionFont);
 
                 orc.Draw(_spriteBatch);
 
