@@ -13,10 +13,10 @@ namespace Monogame___FINAL_PROJECT
     {
         private int _rows, _columns, _directionRow;
         private int _width, _height;
-        private int _frame, _frames, _walkFrames;
+        private int _frame, _frames, _walkFrames, _detectionRadius;
         private int _leftRow, _rightRow, _upRow, _downRow;
         private float _speed, _frameSpeed, _time;
-        private Vector2 _location, _direction;
+        private Vector2 _location, _direction, _center, _playerDistance;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect;
 
@@ -60,6 +60,10 @@ namespace Monogame___FINAL_PROJECT
             _rightAttackRect = new Rectangle(200,200,65,65);
             _attackCollisionRect = _downAttackRect;
 
+            _detectionRadius = 115;
+            _center = _collisionRect.Center.ToVector2();
+            _playerDistance = _center - player.Center;
+
             UpdateRects();
 
         }
@@ -71,6 +75,30 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update(Player player)
         {
+            _playerDistance = _center - player.Center;
+            if (_playerDistance.Length() <= _detectionRadius)
+            {
+                _currentTexture = _attackTexture;
+                _direction = _playerDistance;
+            }
+            else
+                _currentTexture = _walkTexture;
+
+            if (_direction != Vector2.Zero)
+            {
+                _direction.Normalize();
+                if (_direction.X > 0) // Moving left
+                    _directionRow = _leftRow;
+                else if (_direction.X < 0) // Moving right
+                    _directionRow = _rightRow;
+                else if (_direction.Y > 0) // Moving up
+                    _directionRow = _upRow;
+                else
+                    _directionRow = _downRow; // Moving down
+            }
+
+
+
             if (_directionRow == _downRow)
             {
                 _attackCollisionRect = _downAttackRect;
