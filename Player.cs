@@ -20,6 +20,7 @@ namespace Monogame___FINAL_PROJECT
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
         private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
         private int _health;
+        private Vector2 _playerCenter;
 
 
 
@@ -71,6 +72,8 @@ namespace Monogame___FINAL_PROJECT
             _playerDirection = Vector2.Zero;
             _swordLocation = new Vector2(28,45);
 
+            _playerCenter = _playerCollisionRect.Center.ToVector2();
+
 
             _width = _playerWalkTexture.Width / _columns;
             _height = _playerWalkTexture.Height / _rows;
@@ -90,6 +93,11 @@ namespace Monogame___FINAL_PROJECT
         {
             get { return _health; }
             set { _health = value; }
+        }
+
+        public Vector2 Center
+        {
+            get { return _playerCenter; }
         }
 
         public Rectangle Sword
@@ -138,6 +146,7 @@ namespace Monogame___FINAL_PROJECT
             _playerLocation += _playerDirection * _speed;
             _swordLocation += _playerDirection * _speed;
             UpdatePlayerRects();
+            _playerCenter = _playerCollisionRect.Center.ToVector2();
 
             if (mouseState.LeftButton == ButtonState.Pressed)
             {

@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 namespace Monogame___FINAL_PROJECT
 {
     //TODO: add fighting and dying animations,  add player detection and then move towards player and then attack when intersects or something similar
-    //ALMOST DONE: fight box; just need to add for all sides so it's easier
+    //DONE: fight box
     public class Slime
     {
         private int _rows, _columns, _directionRow;
-        private int _width, _height;
+        private int _width, _height, _detectionRadius;
         private int _frame, _frames, _walkFrames;
         private int _leftRow, _rightRow, _upRow, _downRow, _attackAddition;
         private float _speed, _frameSpeed, _time, _walkSpeed;
-        private Vector2 _location, _direction;
+        private Vector2 _location, _direction, _playerDistance;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _startingAttackRect;
+        private Vector2 _center;
 
-        public Slime(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect)
+        public Slime(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect, Player player)
         {
             // Spritesheet Variables
             _columns = 11; 
@@ -46,7 +47,7 @@ namespace Monogame___FINAL_PROJECT
             _walkTexture = walkTexture; 
             _attackTexture = attackTexture; 
             _rectangleTexture = rectangleTexture;
-            _currentTexture = _attackTexture;
+            _currentTexture = _deathTexture;
 
             // Rectangles
             _attackCollisionRect = attackRect;
@@ -59,6 +60,11 @@ namespace Monogame___FINAL_PROJECT
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
             _attackAddition = -3;
+
+            _center = _collisionRect.Center.ToVector2();
+
+            _playerDistance = _center - player.Center;
+            _detectionRadius = 115;
 
             //UpdateRects();  //still have to configure
 
@@ -74,9 +80,36 @@ namespace Monogame___FINAL_PROJECT
             get { return _attackCollisionRect; }
         }
 
-        public void Update()
+        
+
+        public void Update(Player player)
         {
-            if (_frame == 0)
+            // So far, the slime will switch textures and track the player when it is in the radius
+            _playerDistance = _center - player.Center;
+            if (_playerDistance.Length() <= _detectionRadius)
+            {
+                _currentTexture = _attackTexture;
+                _direction = _playerDistance;
+            }
+            else
+                _currentTexture = _walkTexture;
+
+            if (_direction != Vector2.Zero)
+            {
+                _direction.Normalize();
+                if (_direction.X > 0) // Moving left
+                    _directionRow = _leftRow;
+                else if (_direction.X < 0) // Moving right
+                    _directionRow = _rightRow;
+                else if (_direction.Y > 0) // Moving up
+                    _directionRow = _upRow;
+                else
+                    _directionRow = _downRow; // Moving down
+            }
+
+            //_location += _direction * _speed;
+
+            if (_frame == 0) // will have to slightly fix when moving startingAttackRect can't be stable, has to move with it
             {
                 if (_directionRow == _leftRow)
                 {
@@ -94,7 +127,7 @@ namespace Monogame___FINAL_PROJECT
                     _attackAddition = 0;
                     _startingAttackRect.X = 70; 
                 }
-                
+
             }
  
 
@@ -122,7 +155,6 @@ namespace Monogame___FINAL_PROJECT
                     _attackCollisionRect.X = _startingAttackRect.X; 
                 }
 
-
                 if (_frame >= _frames)
                 {
                     _frame = 0;
@@ -131,11 +163,12 @@ namespace Monogame___FINAL_PROJECT
         }
 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
             //spriteBatch.Draw(_testTexture, _attackCollisionRect, Color.Red * 0.3f);
+            spriteBatch.DrawString(font, $"{_playerDistance.Length()}", new Vector2(300,300), Color.Black); //for testing purposes only
         }
 
         //public void UpdateRects()

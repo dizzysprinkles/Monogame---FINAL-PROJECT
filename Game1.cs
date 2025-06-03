@@ -99,7 +99,7 @@ namespace Monogame___FINAL_PROJECT
 
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
-            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, slimeAttackRect);
+            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, slimeAttackRect, player);
             plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, plantAttackRect);
             orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, orcAttackRect);
         }
@@ -172,7 +172,7 @@ namespace Monogame___FINAL_PROJECT
             else if (screen == Screen.Main)
             {
                 player.Update(keyboardState, mouseState, healthTextures, healthRects);
-                slime.Update();
+                slime.Update(player);
                 plant.Update();
                 orc.Update();
             }
@@ -211,7 +211,7 @@ namespace Monogame___FINAL_PROJECT
 
             else if (screen == Screen.Main)
             {
-                slime.Draw(_spriteBatch);
+                slime.Draw(_spriteBatch, instructionFont);
 
                 plant.Draw(_spriteBatch);
 
