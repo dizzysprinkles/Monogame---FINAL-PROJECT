@@ -12,7 +12,7 @@ namespace Monogame___FINAL_PROJECT
     public class Orc
     {
         private int _rows, _columns, _directionRow;
-        private int _width, _height;
+        private int _width, _height, _health;
         private int _frame, _frames, _walkFrames, _detectionRadius;
         private int _leftRow, _rightRow, _upRow, _downRow;
         private float _speed, _frameSpeed, _time;
@@ -62,6 +62,7 @@ namespace Monogame___FINAL_PROJECT
             _detectionRadius = 115;
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = _center - player.Center;
+            _health = 10; // leave for now... Might need to increase 
 
             UpdateRects();
 

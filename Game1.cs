@@ -11,7 +11,7 @@ namespace Monogame___FINAL_PROJECT
     {
         Title,
         Tutorial,
-        Main,
+        First,
         End
     }
 
@@ -19,6 +19,8 @@ namespace Monogame___FINAL_PROJECT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        //TODO: Edit Second Map
         //TODO: Screens except title, deal with health stuff, background, levels, etc
         //TODO: collision detection - player attacks, enemy attacks
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
@@ -32,7 +34,7 @@ namespace Monogame___FINAL_PROJECT
         Slime slime;
         Plant plant;
         Orc orc;
-        List<Rectangle> healthRects;
+        List<Rectangle> healthRects, tutorialBarriers;
         List<Texture2D> healthTextures;
 
         SpriteFont titleFont, instructionFont;
@@ -45,7 +47,7 @@ namespace Monogame___FINAL_PROJECT
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
-        Rectangle plantAttackRect, orcAttackRect, signRect, gameRect, tutorialRect;
+        Rectangle plantAttackRect, orcAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -55,10 +57,15 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Main;
+            screen = Screen.First;
             Window.Title = "Game Title Here: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
+            tutorialBarriers = new List<Rectangle>();
+            tutorialBarriers.Add(new Rectangle(35, 35, 45, 500));
+            tutorialBarriers.Add(new Rectangle(35, 35, 725, 30));
+            tutorialBarriers.Add(new Rectangle(712, 35, 47, 500));
+            tutorialBarriers.Add(new Rectangle(35, 495, 725, 30));
 
             playerCollisionRect = new Rectangle(32,30,25,45);
             playerDrawRect = new Rectangle(20,20,50,65);
@@ -80,8 +87,9 @@ namespace Monogame___FINAL_PROJECT
 
             signRect = new Rectangle(70,205,200,175);
 
-            tutorialRect = new Rectangle(100, 320, 140, 35);
-            gameRect = new Rectangle(100, 270, 140, 35);
+            tutorialButtonRect = new Rectangle(100, 320, 140, 35);
+            tutorialBackgroundRect = new Rectangle(30,30, 750, 550);
+            gameButtonRect = new Rectangle(100, 270, 140, 35);
 
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.PreferredBackBufferWidth = window.Width;
@@ -132,10 +140,10 @@ namespace Monogame___FINAL_PROJECT
             titleFont = Content.Load<SpriteFont>("Fonts/TitleFont");
 
             tutorialMapTexture = Content.Load<Texture2D>("Images/Map Tutorial");
-            firstMapTexture = Content.Load<Texture2D>("Images/Map 1");
-            secondMapTexture = Content.Load<Texture2D>("Images/Map 2");
-            thirdMapTexture = Content.Load<Texture2D>("Images/Map 3");
-            fourthMapTexture = Content.Load<Texture2D>("Images/Map 4");
+            firstMapTexture = Content.Load<Texture2D>("Images/firstMap");
+            //secondMapTexture = Content.Load<Texture2D>("Images/Map 2");
+            //thirdMapTexture = Content.Load<Texture2D>("Images/Map 3");
+            //fourthMapTexture = Content.Load<Texture2D>("Images/Map 4");
 
             signTexture = Content.Load<Texture2D>("Images/signTitle");
         }
@@ -154,21 +162,22 @@ namespace Monogame___FINAL_PROJECT
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    if (tutorialRect.Contains(mouseState.Position))
+                    if (tutorialButtonRect.Contains(mouseState.Position))
                     {
                         screen = Screen.Tutorial;
                     }
-                    else if (gameRect.Contains(mouseState.Position))
+                    else if (gameButtonRect.Contains(mouseState.Position))
                     {
-                        screen = Screen.Main;
+                        screen = Screen.First;
                     }
                 }
             }
             else if (screen == Screen.Tutorial)
             {
-
+                
+                player.Update(keyboardState, mouseState, healthTextures, healthRects);
             }
-            else if (screen == Screen.Main)
+            else if (screen == Screen.First)
             {
                 player.Update(keyboardState, mouseState, healthTextures, healthRects);
                 slime.Update(player);
@@ -188,7 +197,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
 
@@ -203,10 +212,16 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.Tutorial)
             {
-
+                _spriteBatch.Draw(tutorialMapTexture, tutorialBackgroundRect, Color.White);
+                for (int i = 0; i < tutorialBarriers.Count; i++)
+                {
+                    _spriteBatch.Draw(rectangleTexture, tutorialBarriers[i], Color.White);
+                }
+                //player.Draw(_spriteBatch);
             }
-            else if (screen == Screen.Main)
+            else if (screen == Screen.First)
             {
+                _spriteBatch.Draw(firstMapTexture, window, Color.White);
                 slime.Draw(_spriteBatch);
 
                 plant.Draw(_spriteBatch, instructionFont);
