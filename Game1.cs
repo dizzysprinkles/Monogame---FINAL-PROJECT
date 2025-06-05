@@ -12,6 +12,7 @@ namespace Monogame___FINAL_PROJECT
         Title,
         Tutorial,
         First,
+        Second,
         End
     }
 
@@ -34,7 +35,7 @@ namespace Monogame___FINAL_PROJECT
         Slime slime;
         Plant plant;
         Orc orc;
-        List<Rectangle> healthRects, tutorialBarriers;
+        List<Rectangle> healthRects, tutorialBarriers, firstLevelBarriers;
         List<Texture2D> healthTextures;
 
         SpriteFont titleFont, instructionFont;
@@ -62,14 +63,35 @@ namespace Monogame___FINAL_PROJECT
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
             tutorialBarriers = new List<Rectangle>();
+            firstLevelBarriers = new List<Rectangle>();
+
             tutorialBarriers.Add(new Rectangle(35, 35, 45, 500));
             tutorialBarriers.Add(new Rectangle(35, 35, 725, 30));
             tutorialBarriers.Add(new Rectangle(712, 35, 47, 500));
             tutorialBarriers.Add(new Rectangle(35, 495, 725, 30));
 
-            playerCollisionRect = new Rectangle(32,30,25,45);
+            firstLevelBarriers.Add(new Rectangle(0, 195, 28, 400));
+            firstLevelBarriers.Add(new Rectangle(772, 195, 28, 400));
+            firstLevelBarriers.Add(new Rectangle(65, 568, 725, 28));
+            firstLevelBarriers.Add(new Rectangle(28, 538, 60, 50));
+            firstLevelBarriers.Add(new Rectangle(210, 5, 325, 15));
+            firstLevelBarriers.Add(new Rectangle(28, 195, 525, 10));
+            firstLevelBarriers.Add(new Rectangle(63, 442, 375, 10));
+            firstLevelBarriers.Add(new Rectangle(210, 380, 215, 68));
+            firstLevelBarriers.Add(new Rectangle(205, 10, 28, 185));
+            firstLevelBarriers.Add(new Rectangle(500, 10, 28, 93));
+            firstLevelBarriers.Add(new Rectangle(500, 162, 28, 40));
+            firstLevelBarriers.Add(new Rectangle(415, 302, 28, 280));
+            firstLevelBarriers.Add(new Rectangle(413, 200, 28, 40));
+            firstLevelBarriers.Add(new Rectangle(28, 378, 148, 10));
+            firstLevelBarriers.Add(new Rectangle(63, 442, 27, 30));
+            firstLevelBarriers.Add(new Rectangle(625, 195, 200, 10));
+            firstLevelBarriers.Add(new Rectangle(530, 70, 200, 10));
+            firstLevelBarriers.Add(new Rectangle(680, 70, 28, 130));
+
+            playerCollisionRect = new Rectangle(200,260,25,45);
             playerDrawRect = new Rectangle(20,20,50,65);
-            playerSwordRect = new Rectangle(28, 45, 10, 30);
+            playerSwordRect = new Rectangle(196, 245, 10, 30);
 
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
@@ -79,8 +101,8 @@ namespace Monogame___FINAL_PROJECT
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
             plantAttackRect = new Rectangle(125, 120, 30, 40);
 
-            orcCollisionRect = new Rectangle(215,212,45,45);
-            orcDrawRect = new Rectangle(200,200,80,80);
+            orcCollisionRect = new Rectangle(208,212,45,45);
+            orcDrawRect = new Rectangle(200,200,65,80);
             orcAttackRect = new Rectangle(200, 200, 65, 55);
 
             window = new Rectangle(0, 0, 800, 600);
@@ -141,7 +163,7 @@ namespace Monogame___FINAL_PROJECT
 
             tutorialMapTexture = Content.Load<Texture2D>("Images/Map Tutorial");
             firstMapTexture = Content.Load<Texture2D>("Images/firstMap");
-            //secondMapTexture = Content.Load<Texture2D>("Images/Map 2");
+            secondMapTexture = Content.Load<Texture2D>("Images/secondMap");
             //thirdMapTexture = Content.Load<Texture2D>("Images/Map 3");
             //fourthMapTexture = Content.Load<Texture2D>("Images/Map 4");
 
@@ -175,11 +197,12 @@ namespace Monogame___FINAL_PROJECT
             else if (screen == Screen.Tutorial)
             {
                 
-                player.Update(keyboardState, mouseState, healthTextures, healthRects);
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
             }
             else if (screen == Screen.First)
             {
-                player.Update(keyboardState, mouseState, healthTextures, healthRects);
+                
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
                 slime.Update(player);
                 plant.Update(player);
                 orc.Update(player);
@@ -217,7 +240,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _spriteBatch.Draw(rectangleTexture, tutorialBarriers[i], Color.White);
                 }
-                //player.Draw(_spriteBatch);
+                player.Draw(_spriteBatch);
             }
             else if (screen == Screen.First)
             {
@@ -229,12 +252,18 @@ namespace Monogame___FINAL_PROJECT
                 orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
+
+                //for (int i = 0; i < firstLevelBarriers.Count; i++)
+                //{
+                //    _spriteBatch.Draw(rectangleTexture, firstLevelBarriers[i], Color.White*0.4f);
+                //}
+
                 for (int i = 0; i < healthRects.Count; i++)
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);
                 }
 
-                _spriteBatch.DrawString(titleFont, $"{player.Health}", new Vector2(10, 500), Color.White);
+                //_spriteBatch.DrawString(titleFont, $"{player.Health}", new Vector2(10, 500), Color.White);
 
             }
             else

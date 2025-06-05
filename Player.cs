@@ -68,9 +68,9 @@ namespace Monogame___FINAL_PROJECT
             _playerCollisionRect = collisionRect;
             _playerDrawRect = drawRect;
             _swordCollisionRect = swordRect;
-            _playerLocation = new Vector2(20, 20);
+            _playerLocation = new Vector2(168, 230);
             _playerDirection = Vector2.Zero;
-            _swordLocation = new Vector2(28,45);
+            _swordLocation = new Vector2(196,275);
 
             _playerCenter = _playerCollisionRect.Center.ToVector2();
 
@@ -105,7 +105,7 @@ namespace Monogame___FINAL_PROJECT
             get { return _swordCollisionRect; }
         }
 
-        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects)
+        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> firstLevelBarriers)
         {
             
             if (_time > _frameSpeed )
@@ -147,6 +147,12 @@ namespace Monogame___FINAL_PROJECT
             _swordLocation += _playerDirection * _speed;
             UpdatePlayerRects();
             _playerCenter = _playerCollisionRect.Center.ToVector2();
+            foreach (Rectangle barrier in firstLevelBarriers)
+                if (_playerCollisionRect.Intersects(barrier))
+                {
+                    _playerLocation -= _playerDirection * _speed;
+                    UpdatePlayerRects();
+                }
 
             if (mouseState.LeftButton == ButtonState.Pressed)
             {

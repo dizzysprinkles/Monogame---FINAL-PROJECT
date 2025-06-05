@@ -148,7 +148,7 @@ namespace Monogame___FINAL_PROJECT
         public void UpdateRects()
         {
             _collisionRect.Location = _location.ToPoint();
-            _drawRect.X = _collisionRect.X - 15;
+            _drawRect.X = _collisionRect.X - 8;
             _drawRect.Y = _collisionRect.Y - 12;
 
         }
