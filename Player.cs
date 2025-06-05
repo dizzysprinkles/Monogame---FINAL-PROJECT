@@ -22,6 +22,7 @@ namespace Monogame___FINAL_PROJECT
         private int _health;
         private Vector2 _playerCenter;
         // half the opacity of the heart per hit taken instead of drawing like 10 hearts
+        // cooldown for enemy damage
 
 
 
