@@ -21,6 +21,7 @@ namespace Monogame___FINAL_PROJECT
         private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
         private int _health;
         private Vector2 _playerCenter;
+        // half the opacity of the heart per hit taken instead of drawing like 10 hearts
 
 
 
