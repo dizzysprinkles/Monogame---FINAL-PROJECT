@@ -21,13 +21,15 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO: deal with health stuff, background, levels, etc
+        //TODO: deal with health stuff; enemy movement
         //TODO: Have attack rects stick with the eenemy when the move/change locations
-        //TODO: collision detection - player attacks, enemy attacks
+        //TODO: collision detection - player attacks, enemy attacks; lists of enemies per level; Text for tutorial to guide the player 
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
         //ALMOST DONE: Player detection. Now just have to make the enemies move and add a slight delay between attacks so the player doesn't die straight away.
 
         //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls
+
+        //REQUIREMENT FOR PROCEEDING: Tutorial = 1 monster; Level 1 = 3 monsters; Level 2 = 6 monsters; Now will have to create multiple lists of enemiesssss
 
         Screen screen;
         KeyboardState keyboardState;
@@ -90,9 +92,7 @@ namespace Monogame___FINAL_PROJECT
             firstLevelBarriers.Add(new Rectangle(530, 70, 200, 10));
             firstLevelBarriers.Add(new Rectangle(680, 70, 28, 130));
 
-
-
-            playerCollisionRect = new Rectangle(200,260,25,45); //213, 283
+            playerCollisionRect = new Rectangle(200,260,25,45); 
             playerDrawRect = new Rectangle(20,20,50,65);
             playerSwordRect = new Rectangle(196, 275, 10, 30);
 
@@ -104,7 +104,7 @@ namespace Monogame___FINAL_PROJECT
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
             plantAttackRect = new Rectangle(125, 120, 30, 40);
 
-            orcCollisionRect = new Rectangle(220,300,45,45); //208, 212
+            orcCollisionRect = new Rectangle(220,300,45,45); 
             orcDrawRect = new Rectangle(212,288,65,80);
             orcAttackRect = new Rectangle(212, 288, 65, 55);
 
