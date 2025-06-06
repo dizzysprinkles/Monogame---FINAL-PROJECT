@@ -49,14 +49,14 @@ namespace Monogame___FINAL_PROJECT
             _drawRect = drawRect;
             _attackCollisionRect = attackRect;
 
-            _location = new Vector2(200, 200);
+            _location = new Vector2(212, 288);
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
-            _downAttackRect = new Rectangle(200, 220, 55, 40);
-            _leftAttackRect = new Rectangle(170, 195, 40, 55);
-            _upAttackRect = new Rectangle(195,195,60,40);
-            _rightAttackRect = new Rectangle(200,200,65,65);
+            _downAttackRect = new Rectangle(212, 220, 55, 40); 
+            _leftAttackRect = new Rectangle(193, 283, 40, 55); // have to code so it stays the same when the orc moves
+            _upAttackRect = new Rectangle(207,283,60,40);
+            _rightAttackRect = new Rectangle(212,288,65,65);
             _attackCollisionRect = _downAttackRect;
 
             _detectionRadius = 115;
@@ -142,7 +142,7 @@ namespace Monogame___FINAL_PROJECT
         {
             spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+            spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
         }
 
         public void UpdateRects()

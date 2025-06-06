@@ -21,13 +21,12 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO: Edit Second Map
         //TODO: Screens except title, deal with health stuff, background, levels, etc
         //TODO: collision detection - player attacks, enemy attacks
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
         //ALMOST DONE: Player detection. Now just have to make the enemies move and add a slight delay between attacks so the player doesn't die straight away.
 
-        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen
+        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls
 
         Screen screen;
         KeyboardState keyboardState;
@@ -35,7 +34,7 @@ namespace Monogame___FINAL_PROJECT
         Slime slime;
         Plant plant;
         Orc orc;
-        List<Rectangle> healthRects, tutorialBarriers, firstLevelBarriers;
+        List<Rectangle> healthRects, tutorialBarriers, firstLevelBarriers, secondLevelBarriers;
         List<Texture2D> healthTextures;
 
         SpriteFont titleFont, instructionFont;
@@ -48,7 +47,7 @@ namespace Monogame___FINAL_PROJECT
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
-        Rectangle plantAttackRect, orcAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, levelOneDescentRect, tutorialDescentRect;
+        Rectangle plantAttackRect, orcAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -64,6 +63,7 @@ namespace Monogame___FINAL_PROJECT
             healthTextures = new List<Texture2D>();
             tutorialBarriers = new List<Rectangle>();
             firstLevelBarriers = new List<Rectangle>();
+            secondLevelBarriers= new List<Rectangle>(); // Still need to add a bunch of rectangles
 
             tutorialBarriers.Add(new Rectangle(35, 35, 45, 500));
             tutorialBarriers.Add(new Rectangle(35, 35, 725, 30));
@@ -89,6 +89,8 @@ namespace Monogame___FINAL_PROJECT
             firstLevelBarriers.Add(new Rectangle(530, 70, 200, 10));
             firstLevelBarriers.Add(new Rectangle(680, 70, 28, 130));
 
+
+
             playerCollisionRect = new Rectangle(200,260,25,45); //213, 283
             playerDrawRect = new Rectangle(20,20,50,65);
             playerSwordRect = new Rectangle(196, 275, 10, 30);
@@ -101,11 +103,11 @@ namespace Monogame___FINAL_PROJECT
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
             plantAttackRect = new Rectangle(125, 120, 30, 40);
 
-            orcCollisionRect = new Rectangle(208,212,45,45);
-            orcDrawRect = new Rectangle(200,200,65,80);
-            orcAttackRect = new Rectangle(200, 200, 65, 55);
+            orcCollisionRect = new Rectangle(220,300,45,45); //208, 212
+            orcDrawRect = new Rectangle(212,288,65,80);
+            orcAttackRect = new Rectangle(212, 288, 65, 55);
 
-            levelOneDescentRect = new Rectangle(440, 160, 35,35);
+            descentRect = new Rectangle(440, 160, 35,35);
 
             window = new Rectangle(0, 0, 800, 600);
 
@@ -208,7 +210,7 @@ namespace Monogame___FINAL_PROJECT
                 orc.Update(player);
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    if (player.Intersects(levelOneDescentRect))
+                    if (player.Intersects(descentRect))
                     {
                         screen = Screen.Second;
                     }
@@ -259,7 +261,7 @@ namespace Monogame___FINAL_PROJECT
                 orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
-                _spriteBatch.Draw(rectangleTexture, levelOneDescentRect, Color.White * 0.4f);
+                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.4f);
 
 
                 for (int i = 0; i < healthRects.Count; i++)
