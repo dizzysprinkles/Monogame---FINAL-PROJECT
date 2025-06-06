@@ -70,9 +70,10 @@ namespace Monogame___FINAL_PROJECT
             _playerCollisionRect = collisionRect;
             _playerDrawRect = drawRect;
             _swordCollisionRect = swordRect;
-            _playerLocation = new Vector2(168, 230);
+            _playerLocation = new Vector2(188, 250);
             _playerDirection = Vector2.Zero;
             _swordLocation = new Vector2(196,275);
+
 
             _playerCenter = _playerCollisionRect.Center.ToVector2();
 
@@ -84,6 +85,18 @@ namespace Monogame___FINAL_PROJECT
             //Other stuff
             _health = 10; // 5 hearts drawn to screen, lose half a heart per hit, need to figure that out...
         }
+
+        public Rectangle Rectangle
+        {
+            get { return _playerCollisionRect; }
+        }
+
+        public bool Intersects(Rectangle player) //intersects a rectangle
+        {
+            return _playerCollisionRect.Intersects(player);
+        }
+
+
 
         public float Time
         {
@@ -150,11 +163,19 @@ namespace Monogame___FINAL_PROJECT
             UpdatePlayerRects();
             _playerCenter = _playerCollisionRect.Center.ToVector2();
             foreach (Rectangle barrier in firstLevelBarriers)
+            {
                 if (_playerCollisionRect.Intersects(barrier))
                 {
                     _playerLocation -= _playerDirection * _speed;
+                    _swordLocation.X = _playerLocation.X + 8;
+                    _swordLocation.Y = _playerLocation.Y + 25;
                     UpdatePlayerRects();
                 }
+                //if (_swordCollisionRect.Intersects(barrier))
+                //{
+                //    _swordLocation -=_playerDirection * _speed;
+                //}
+            }
 
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
@@ -169,7 +190,7 @@ namespace Monogame___FINAL_PROJECT
         {
             spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.0f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
+            //spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.3f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
 
         public void SetPlayerDirection(KeyboardState keyboardState)

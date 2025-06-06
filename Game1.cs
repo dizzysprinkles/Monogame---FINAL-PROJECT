@@ -44,11 +44,11 @@ namespace Monogame___FINAL_PROJECT
 
         MouseState mouseState;
 
-        Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture, thirdMapTexture, fourthMapTexture;
+        Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture;
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
-        Rectangle plantAttackRect, orcAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect;
+        Rectangle plantAttackRect, orcAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, levelOneDescentRect, tutorialDescentRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -89,9 +89,9 @@ namespace Monogame___FINAL_PROJECT
             firstLevelBarriers.Add(new Rectangle(530, 70, 200, 10));
             firstLevelBarriers.Add(new Rectangle(680, 70, 28, 130));
 
-            playerCollisionRect = new Rectangle(200,260,25,45);
+            playerCollisionRect = new Rectangle(200,260,25,45); //213, 283
             playerDrawRect = new Rectangle(20,20,50,65);
-            playerSwordRect = new Rectangle(196, 245, 10, 30);
+            playerSwordRect = new Rectangle(196, 275, 10, 30);
 
             slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
@@ -104,6 +104,8 @@ namespace Monogame___FINAL_PROJECT
             orcCollisionRect = new Rectangle(208,212,45,45);
             orcDrawRect = new Rectangle(200,200,65,80);
             orcAttackRect = new Rectangle(200, 200, 65, 55);
+
+            levelOneDescentRect = new Rectangle(440, 160, 35,35);
 
             window = new Rectangle(0, 0, 800, 600);
 
@@ -164,8 +166,6 @@ namespace Monogame___FINAL_PROJECT
             tutorialMapTexture = Content.Load<Texture2D>("Images/Map Tutorial");
             firstMapTexture = Content.Load<Texture2D>("Images/firstMap");
             secondMapTexture = Content.Load<Texture2D>("Images/secondMap");
-            //thirdMapTexture = Content.Load<Texture2D>("Images/Map 3");
-            //fourthMapTexture = Content.Load<Texture2D>("Images/Map 4");
 
             signTexture = Content.Load<Texture2D>("Images/signTitle");
         }
@@ -206,6 +206,13 @@ namespace Monogame___FINAL_PROJECT
                 slime.Update(player);
                 plant.Update(player);
                 orc.Update(player);
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    if (player.Intersects(levelOneDescentRect))
+                    {
+                        screen = Screen.Second;
+                    }
+                }
             }
             else
             { 
@@ -252,22 +259,27 @@ namespace Monogame___FINAL_PROJECT
                 orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
+                _spriteBatch.Draw(rectangleTexture, levelOneDescentRect, Color.White * 0.4f);
 
-                //for (int i = 0; i < firstLevelBarriers.Count; i++)
-                //{
-                //    _spriteBatch.Draw(rectangleTexture, firstLevelBarriers[i], Color.White*0.4f);
-                //}
 
                 for (int i = 0; i < healthRects.Count; i++)
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);
                 }
 
-                //_spriteBatch.DrawString(titleFont, $"{player.Health}", new Vector2(10, 500), Color.White);
+               
 
             }
-            else
+            else if(screen == Screen.Second) // have to adjust all player/enemy positions and the descent rect... should just make it one rect and change per level
             {
+                _spriteBatch.Draw(secondMapTexture, window, Color.White);
+                slime.Draw(_spriteBatch);
+
+                plant.Draw(_spriteBatch, instructionFont);
+
+                orc.Draw(_spriteBatch);
+
+                player.Draw(_spriteBatch);
 
             }
             _spriteBatch.End();
