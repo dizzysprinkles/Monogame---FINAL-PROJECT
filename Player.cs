@@ -120,9 +120,10 @@ namespace Monogame___FINAL_PROJECT
             get { return _swordCollisionRect; }
         }
 
+        //Mouse state is called for update but isn't used.... 
         public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> firstLevelBarriers)
         {
-            
+            //Animation && Sword Rotation
             if (_time > _frameSpeed )
             {
                 _time = 0f;
@@ -157,11 +158,15 @@ namespace Monogame___FINAL_PROJECT
                 }
             }
      
+            //Movement
             SetPlayerDirection(keyboardState);
             _playerLocation += _playerDirection * _speed;
             _swordLocation += _playerDirection * _speed;
             UpdatePlayerRects();
             _playerCenter = _playerCollisionRect.Center.ToVector2();
+
+
+            //Barrier Detection
             foreach (Rectangle barrier in firstLevelBarriers)
             {
                 if (_playerCollisionRect.Intersects(barrier))
@@ -170,18 +175,6 @@ namespace Monogame___FINAL_PROJECT
                     _swordLocation.X = _playerLocation.X + 8;
                     _swordLocation.Y = _playerLocation.Y + 25;
                     UpdatePlayerRects();
-                }
-                //if (_swordCollisionRect.Intersects(barrier))
-                //{
-                //    _swordLocation -=_playerDirection * _speed;
-                //}
-            }
-
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                if (_playerCollisionRect.Contains(mouseState.Position))
-                {
-                    _health--;
                 }
             }
         }

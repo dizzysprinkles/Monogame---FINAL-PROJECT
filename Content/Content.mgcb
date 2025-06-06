@@ -13,6 +13,16 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/alagard.ttf
+/copy:Fonts/alagard.ttf
+
+#begin Fonts/CounterFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/CounterFont.spritefont
+
 #begin Fonts/InstructionFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

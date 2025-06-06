@@ -29,7 +29,7 @@ namespace Monogame___FINAL_PROJECT
             _rightRow = 3;
             _upRow = 1;
             _downRow = 0;
-            _directionRow = _rightRow;
+            _directionRow = _downRow;
             _frameSpeed = 0.08f;
             _frames = 8;
             _frame = 0;
@@ -53,13 +53,13 @@ namespace Monogame___FINAL_PROJECT
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
-            _downAttackRect = new Rectangle(212, 220, 55, 40); 
+            _downAttackRect = new Rectangle(212, 305, 55, 40); 
             _leftAttackRect = new Rectangle(193, 283, 40, 55); // have to code so it stays the same when the orc moves
             _upAttackRect = new Rectangle(207,283,60,40);
             _rightAttackRect = new Rectangle(212,288,65,65);
             _attackCollisionRect = _downAttackRect;
 
-            _detectionRadius = 115;
+            _detectionRadius = 115; 
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = _center - player.Center;
             _health = 10; // leave for now... Might need to increase 
@@ -142,7 +142,7 @@ namespace Monogame___FINAL_PROJECT
         {
             spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+            //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
         }
 
         public void UpdateRects()

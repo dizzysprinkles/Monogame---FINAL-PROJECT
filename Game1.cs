@@ -21,7 +21,8 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO: Screens except title, deal with health stuff, background, levels, etc
+        //TODO: deal with health stuff, background, levels, etc
+        //TODO: Have attack rects stick with the eenemy when the move/change locations
         //TODO: collision detection - player attacks, enemy attacks
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
         //ALMOST DONE: Player detection. Now just have to make the enemies move and add a slight delay between attacks so the player doesn't die straight away.
@@ -57,7 +58,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.First;
+            screen = Screen.Second;
             Window.Title = "Game Title Here: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
@@ -107,7 +108,7 @@ namespace Monogame___FINAL_PROJECT
             orcDrawRect = new Rectangle(212,288,65,80);
             orcAttackRect = new Rectangle(212, 288, 65, 55);
 
-            descentRect = new Rectangle(440, 160, 35,35);
+            descentRect = new Rectangle(665, 35, 35,35); // 440, 160, 35,35 for level 1, 665, 35, 35, 35 for level 2; When collide in level 2 = end screen
 
             window = new Rectangle(0, 0, 800, 600);
 
@@ -256,13 +257,12 @@ namespace Monogame___FINAL_PROJECT
                 _spriteBatch.Draw(firstMapTexture, window, Color.White);
                 slime.Draw(_spriteBatch);
 
-                plant.Draw(_spriteBatch, instructionFont);
+                plant.Draw(_spriteBatch);
 
                 orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
-                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.4f);
-
+               
 
                 for (int i = 0; i < healthRects.Count; i++)
                 {
@@ -277,11 +277,12 @@ namespace Monogame___FINAL_PROJECT
                 _spriteBatch.Draw(secondMapTexture, window, Color.White);
                 slime.Draw(_spriteBatch);
 
-                plant.Draw(_spriteBatch, instructionFont);
+                plant.Draw(_spriteBatch);
 
                 orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
+                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White *0.3f);
 
             }
             _spriteBatch.End();

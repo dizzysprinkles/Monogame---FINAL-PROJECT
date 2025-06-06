@@ -152,12 +152,12 @@ namespace Monogame___FINAL_PROJECT
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
             //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
-            spriteBatch.DrawString(font, $"{_playerDistance.Length()}", new Vector2(300,300), Color.Black); // testing only
+
         }
 
         public void UpdateRects()
