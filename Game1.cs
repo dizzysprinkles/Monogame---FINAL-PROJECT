@@ -13,7 +13,8 @@ namespace Monogame___FINAL_PROJECT
         Tutorial,
         First,
         Second,
-        End
+        Win,
+        Lose
     }
 
     public class Game1 : Game
@@ -24,6 +25,7 @@ namespace Monogame___FINAL_PROJECT
         //TODO: deal with health stuff; enemy movement
         //TODO: Have attack rects stick with the eenemy when the move/change locations
         //TODO: collision detection - player attacks, enemy attacks; lists of enemies per level; Text for tutorial to guide the player 
+        //TODO: Reset health after each level; will need to reset opacity; rects and textures should stay the same
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
         //ALMOST DONE: Player detection. Now just have to make the enemies move and add a slight delay between attacks so the player doesn't die straight away.
 
@@ -37,8 +39,10 @@ namespace Monogame___FINAL_PROJECT
         Slime slime;
         Plant plant;
         Orc orc;
+        int monsterCountMax, monstersKilled;
         List<Rectangle> healthRects, tutorialBarriers, firstLevelBarriers, secondLevelBarriers;
         List<Texture2D> healthTextures;
+        List<float> healthOpacity;
 
         SpriteFont titleFont, instructionFont;
 
@@ -60,11 +64,12 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Second;
+            screen = Screen.Win;
             Window.Title = "Game Title Here: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
             tutorialBarriers = new List<Rectangle>();
+            healthOpacity = new List<float>();
             firstLevelBarriers = new List<Rectangle>();
             secondLevelBarriers= new List<Rectangle>(); // Still need to add a bunch of rectangles
 
@@ -108,11 +113,14 @@ namespace Monogame___FINAL_PROJECT
             orcDrawRect = new Rectangle(212,288,65,80);
             orcAttackRect = new Rectangle(212, 288, 65, 55);
 
-            descentRect = new Rectangle(665, 35, 35,35); // 440, 160, 35,35 for level 1, 665, 35, 35, 35 for level 2; When collide in level 2 = end screen
+            descentRect = new Rectangle(320, 207, 53, 60);
 
             window = new Rectangle(0, 0, 800, 600);
 
             signRect = new Rectangle(70,205,200,175);
+
+            monsterCountMax = 1;
+            monstersKilled = 0;
 
             tutorialButtonRect = new Rectangle(100, 320, 140, 35);
             tutorialBackgroundRect = new Rectangle(30,30, 750, 550);
@@ -125,6 +133,11 @@ namespace Monogame___FINAL_PROJECT
             for (int x = 0; x < 125; x += 25)
             {
                 healthRects.Add(new Rectangle(x, 0, 20, 20));
+            }
+
+            for (int i = 0; i < healthRects.Count; i++)
+            {
+                healthOpacity.Add(1f);
             }
 
             base.Initialize();
@@ -193,29 +206,68 @@ namespace Monogame___FINAL_PROJECT
                     }
                     else if (gameButtonRect.Contains(mouseState.Position))
                     {
+                        monstersKilled = 0;
+                        monsterCountMax = 3;
+                        descentRect = new Rectangle(440, 160, 35, 35);
                         screen = Screen.First;
                     }
                 }
             }
-            else if (screen == Screen.Tutorial)
+            else if (screen == Screen.Tutorial) // no way to lose in tutorial; would be in bad taste
             {
-                
+
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
+                //Need ending condition to move on to first official level
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
+                    {
+                        monsterCountMax = 3;
+                        descentRect = new Rectangle(440, 160, 35, 35);
+                        monstersKilled = 0;
+                        screen = Screen.First;
+                    }
+                }
             }
             else if (screen == Screen.First)
             {
-                
+
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
                 slime.Update(player);
                 plant.Update(player);
                 orc.Update(player);
+
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    if (player.Intersects(descentRect))
+                    if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
                     {
+                        monsterCountMax = 6;
+                        monstersKilled = 0;
+                        descentRect = new Rectangle(665, 35, 35, 35);
                         screen = Screen.Second;
                     }
                 }
+                if (player.Health <= 0)
+                {
+                    screen = Screen.Lose;
+                }
+
+            }
+            else if (screen == Screen.Second)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
+                    {
+                        screen = Screen.Win;
+                    }
+                }
+
+                if (player.Health <= 0)
+                {
+                    screen = Screen.Lose;
+                }
+
             }
             else
             { 
@@ -246,11 +298,9 @@ namespace Monogame___FINAL_PROJECT
             else if (screen == Screen.Tutorial)
             {
                 _spriteBatch.Draw(tutorialMapTexture, tutorialBackgroundRect, Color.White);
-                for (int i = 0; i < tutorialBarriers.Count; i++)
-                {
-                    _spriteBatch.Draw(rectangleTexture, tutorialBarriers[i], Color.White);
-                }
+               
                 player.Draw(_spriteBatch);
+                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.3f);
             }
             else if (screen == Screen.First)
             {
@@ -266,13 +316,11 @@ namespace Monogame___FINAL_PROJECT
 
                 for (int i = 0; i < healthRects.Count; i++)
                 {
-                    _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White);
+                    _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
                 }
-
-               
-
+                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.3f);
             }
-            else if(screen == Screen.Second) // have to adjust all player/enemy positions and the descent rect... should just make it one rect and change per level
+            else if(screen == Screen.Second) // have to adjust all player/enemy positions
             {
                 _spriteBatch.Draw(secondMapTexture, window, Color.White);
                 slime.Draw(_spriteBatch);
@@ -282,7 +330,12 @@ namespace Monogame___FINAL_PROJECT
                 orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
-                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White *0.3f);
+                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.3f);
+
+                for (int i = 0; i < healthRects.Count; i++)
+                {
+                    _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
+                }
 
             }
             _spriteBatch.End();

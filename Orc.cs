@@ -84,6 +84,11 @@ namespace Monogame___FINAL_PROJECT
             else
                 _currentTexture = _walkTexture;
 
+            if (_health <= 0)
+            {
+                _currentTexture = _deathTexture;
+            }
+
             if (_direction != Vector2.Zero)
             {
                 _direction.Normalize();

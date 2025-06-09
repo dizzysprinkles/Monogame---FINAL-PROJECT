@@ -15,6 +15,7 @@ namespace Monogame___FINAL_PROJECT
         private int _width, _height;
         private int _frame, _frames;
         private int _leftRow, _rightRow, _upRow, _downRow;
+        private float _opacity;
         private float _speed, _frameSpeed, _time, _swordRotation, _upSwordMax, _downSwordMax, _leftSwordMax, _rightSwordMax, _startingSwordRotation, _leftSwordAdd, _rightSwordAdd, _upSwordAdd, _downSwordAdd, _swordMaxRotation, _swordAddition;
         private Vector2 _playerLocation, _playerDirection, _swordLocation;
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
@@ -74,6 +75,7 @@ namespace Monogame___FINAL_PROJECT
             _playerDirection = Vector2.Zero;
             _swordLocation = new Vector2(196,275);
 
+            _opacity = 1f;
 
             _playerCenter = _playerCollisionRect.Center.ToVector2();
 
@@ -177,6 +179,8 @@ namespace Monogame___FINAL_PROJECT
                     UpdatePlayerRects();
                 }
             }
+
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
