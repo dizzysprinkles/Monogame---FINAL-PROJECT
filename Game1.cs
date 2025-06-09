@@ -31,7 +31,7 @@ namespace Monogame___FINAL_PROJECT
 
         //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls
 
-        //REQUIREMENT FOR PROCEEDING: Tutorial = 1 monster; Level 1 = 3 monsters; Level 2 = 6 monsters; Now will have to create multiple lists of enemiesssss
+    
 
         Screen screen;
         KeyboardState keyboardState;
