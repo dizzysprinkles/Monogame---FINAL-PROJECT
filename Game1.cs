@@ -24,7 +24,7 @@ namespace Monogame___FINAL_PROJECT
 
         //TODO: Have attack rects stick with the eenemy when the move/change locations
         //TODO: collision detection - player attacks, enemy attacks; lists of enemies per level; Text for tutorial to guide the player 
-        //TODO: Reset health after each level; will need to reset opacity; rects and textures should stay the same
+        //TODO: Reset opacity??
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen;
 
         //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name
