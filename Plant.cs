@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add fighting and dying animations, add player detection and then move towards player and then attack when intersects or something similar
+    //TODO: add dying animations,  attack when intersects or something similar, reconfig attack hitboxes
+    //DONE: hitboxes, player detection and movement
     public class Plant
     {
 

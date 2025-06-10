@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add fighting and dying animations, add player detection and then move towards player and then attack when intersects or something similar
+    //TODO: add dying animations, attack when intersects or something similar
+    //DONE: hitboxes, player detection and movement
     public class Orc
     {
         private int _rows, _columns, _directionRow;
