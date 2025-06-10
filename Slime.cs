@@ -11,6 +11,7 @@ namespace Monogame___FINAL_PROJECT
 {
     //TODO: add dying animations,  attack when intersects or something similar, Reconfig attack hitboxes
     //DONE: fight box, Player detection & movement
+    //CONSIDER: walking hitbox so it can actually walk through doors....
     public class Slime
     {
         private int _rows, _columns, _directionRow;

@@ -10,6 +10,7 @@ namespace Monogame___FINAL_PROJECT
 {
     //TODO: add dying animations, attack when intersects or something similar
     //DONE: hitboxes, player detection and movement
+    //CONSIDER: walking hitbox so it can actually walk through doors....
     public class Orc
     {
         private int _rows, _columns, _directionRow;
