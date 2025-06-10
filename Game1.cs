@@ -22,14 +22,12 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO: deal with health stuff; enemy movement
         //TODO: Have attack rects stick with the eenemy when the move/change locations
         //TODO: collision detection - player attacks, enemy attacks; lists of enemies per level; Text for tutorial to guide the player 
         //TODO: Reset health after each level; will need to reset opacity; rects and textures should stay the same
-        //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen; Whats the game name? I need a title
-        //ALMOST DONE: Player detection. Now just have to make the enemies move and add a slight delay between attacks so the player doesn't die straight away.
+        //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen;
 
-        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls
+        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name
 
     
 
@@ -228,6 +226,7 @@ namespace Monogame___FINAL_PROJECT
                         descentRect = new Rectangle(440, 160, 35, 35);
                         monstersKilled = 0;
                         Window.Title = "Dungeon Mayhem: Level One";
+                        player.Health = 10;
                         screen = Screen.First;
                     }
                 }
@@ -236,7 +235,7 @@ namespace Monogame___FINAL_PROJECT
             {
 
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
-                slime.Update(player);
+                slime.Update(player, firstLevelBarriers);
                 plant.Update(player, firstLevelBarriers);
                 orc.Update(player, firstLevelBarriers);
 
@@ -248,6 +247,7 @@ namespace Monogame___FINAL_PROJECT
                         monstersKilled = 0;
                         descentRect = new Rectangle(665, 35, 35, 35);
                         Window.Title = "Dungeon Mayhem: Level Two";
+                        player.Health = 10;
                         screen = Screen.Second;
                     }
                 }
@@ -261,7 +261,7 @@ namespace Monogame___FINAL_PROJECT
             else if (screen == Screen.Second)
             {
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, secondLevelBarriers);
-                slime.Update(player);
+                slime.Update(player, secondLevelBarriers);
                 plant.Update(player, secondLevelBarriers);
                 orc.Update(player, secondLevelBarriers);
 
