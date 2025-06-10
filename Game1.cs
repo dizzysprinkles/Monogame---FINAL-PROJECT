@@ -64,8 +64,8 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Win;
-            Window.Title = "Game Title Here: Main Menu";
+            screen = Screen.Title;
+            Window.Title = "Dungeon Mayhem: Main Menu";
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
             tutorialBarriers = new List<Rectangle>();
@@ -202,6 +202,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     if (tutorialButtonRect.Contains(mouseState.Position))
                     {
+                        Window.Title = "Dungeon Mayhem: Tutorial";
                         screen = Screen.Tutorial;
                     }
                     else if (gameButtonRect.Contains(mouseState.Position))
@@ -209,6 +210,7 @@ namespace Monogame___FINAL_PROJECT
                         monstersKilled = 0;
                         monsterCountMax = 3;
                         descentRect = new Rectangle(440, 160, 35, 35);
+                        Window.Title = "Dungeon Mayhem: Level One";
                         screen = Screen.First;
                     }
                 }
@@ -225,6 +227,7 @@ namespace Monogame___FINAL_PROJECT
                         monsterCountMax = 3;
                         descentRect = new Rectangle(440, 160, 35, 35);
                         monstersKilled = 0;
+                        Window.Title = "Dungeon Mayhem: Level One";
                         screen = Screen.First;
                     }
                 }
@@ -234,8 +237,8 @@ namespace Monogame___FINAL_PROJECT
 
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
                 slime.Update(player);
-                plant.Update(player);
-                orc.Update(player);
+                plant.Update(player, firstLevelBarriers);
+                orc.Update(player, firstLevelBarriers);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
@@ -244,27 +247,36 @@ namespace Monogame___FINAL_PROJECT
                         monsterCountMax = 6;
                         monstersKilled = 0;
                         descentRect = new Rectangle(665, 35, 35, 35);
+                        Window.Title = "Dungeon Mayhem: Level Two";
                         screen = Screen.Second;
                     }
                 }
                 if (player.Health <= 0)
                 {
+                    Window.Title = "Dungeon Mayhem: You Lose";
                     screen = Screen.Lose;
                 }
 
             }
             else if (screen == Screen.Second)
             {
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, secondLevelBarriers);
+                slime.Update(player);
+                plant.Update(player, secondLevelBarriers);
+                orc.Update(player, secondLevelBarriers);
+
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
                     {
+                        Window.Title = "Dungeon Mayhem: You Win";
                         screen = Screen.Win;
                     }
                 }
 
                 if (player.Health <= 0)
                 {
+                    Window.Title = "Dungeon Mayhem: You Lose";
                     screen = Screen.Lose;
                 }
 
@@ -300,7 +312,7 @@ namespace Monogame___FINAL_PROJECT
                 _spriteBatch.Draw(tutorialMapTexture, tutorialBackgroundRect, Color.White);
                
                 player.Draw(_spriteBatch);
-                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.3f);
+
             }
             else if (screen == Screen.First)
             {
@@ -318,7 +330,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
                 }
-                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.3f);
+
             }
             else if(screen == Screen.Second) // have to adjust all player/enemy positions
             {
@@ -327,10 +339,10 @@ namespace Monogame___FINAL_PROJECT
 
                 plant.Draw(_spriteBatch);
 
-                orc.Draw(_spriteBatch);
+                //orc.Draw(_spriteBatch, instructionFont);
 
                 player.Draw(_spriteBatch);
-                _spriteBatch.Draw(rectangleTexture, descentRect, Color.White * 0.3f);
+
 
                 for (int i = 0; i < healthRects.Count; i++)
                 {

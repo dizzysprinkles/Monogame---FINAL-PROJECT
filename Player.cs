@@ -120,10 +120,16 @@ namespace Monogame___FINAL_PROJECT
         public Rectangle Sword
         {
             get { return _swordCollisionRect; }
+
+        }
+
+        public Texture2D Skin
+        {
+            get { return _playerMainTexture; }
         }
 
         //Mouse state is called for update but isn't used.... 
-        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> firstLevelBarriers)
+        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers)
         {
             //Animation && Sword Rotation
             if (_time > _frameSpeed )
@@ -163,19 +169,18 @@ namespace Monogame___FINAL_PROJECT
             //Movement
             SetPlayerDirection(keyboardState);
             _playerLocation += _playerDirection * _speed;
-            _swordLocation += _playerDirection * _speed;
+            //_swordLocation += _playerDirection * _speed;
             UpdatePlayerRects();
             _playerCenter = _playerCollisionRect.Center.ToVector2();
 
 
             //Barrier Detection
-            foreach (Rectangle barrier in firstLevelBarriers)
+            foreach (Rectangle barrier in barriers)
             {
                 if (_playerCollisionRect.Intersects(barrier))
                 {
                     _playerLocation -= _playerDirection * _speed;
-                    _swordLocation.X = _playerLocation.X + 8;
-                    _swordLocation.Y = _playerLocation.Y + 25;
+                 
                     UpdatePlayerRects();
                 }
             }
@@ -277,6 +282,8 @@ namespace Monogame___FINAL_PROJECT
             _playerCollisionRect.Location = _playerLocation.ToPoint();
             _playerDrawRect.X = _playerCollisionRect.X - 12;
             _playerDrawRect.Y = _playerCollisionRect.Y - 10;
+            _swordLocation.X = _playerLocation.X + 8;
+            _swordLocation.Y = _playerLocation.Y + 25;
             _swordCollisionRect.Location = _swordLocation.ToPoint();
         }
     }

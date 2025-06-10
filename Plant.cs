@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
@@ -59,13 +60,13 @@ namespace Monogame___FINAL_PROJECT
             _attackAddition = -5;  
 
             _center = _collisionRect.Center.ToVector2();
-            _playerDistance = _center - player.Center;
+            _playerDistance = player.Center - _center;
 
             _detectionRadius = 115;
 
             _health = 10; //might need to adjust
 
-            //UpdateRects();
+            UpdateRects();
 
         }
 
@@ -75,28 +76,44 @@ namespace Monogame___FINAL_PROJECT
             set { _time = value; }
         }
 
-        public void Update(Player player)
+        public void Update(Player player, List<Rectangle>barriers)
         {
-            _playerDistance = _center - player.Center;
+            _center = _collisionRect.Center.ToVector2();
+            _playerDistance = player.Center - _center;
             if (_playerDistance.Length() <= _detectionRadius)
             {
                 _currentTexture = _attackTexture;
                 _direction = _playerDistance;
             }
             else
+            {
+                _direction = Vector2.Zero;
                 _currentTexture = _walkTexture;
+            }
 
             if (_direction != Vector2.Zero)
             {
                 _direction.Normalize();
-                if (_direction.X > 0) // Moving left
+                if (_direction.X < 0) // Moving left
                     _directionRow = _leftRow;
-                else if (_direction.X < 0) // Moving right
+                else if (_direction.X > 0) // Moving right
                     _directionRow = _rightRow;
-                else if (_direction.Y > 0) // Moving up
+                else if (_direction.Y < 0) // Moving up
                     _directionRow = _upRow;
                 else
                     _directionRow = _downRow; // Moving down
+            }
+            _location += _direction * _speed;
+            UpdateRects();
+
+            foreach (Rectangle barrier in barriers)
+            {
+                if (_collisionRect.Intersects(barrier))
+                {
+                    _location -= _direction * _speed;
+
+                    UpdateRects();
+                }
             }
 
 
@@ -165,7 +182,9 @@ namespace Monogame___FINAL_PROJECT
             _collisionRect.Location = _location.ToPoint();
             _drawRect.X = _collisionRect.X - 15;
             _drawRect.Y = _collisionRect.Y - 10;
-
+            //_attackCollisionRect.X = _collisionRect.X + 10;
+            //_attackCollisionRect.Y = _collisionRect.Y + 10;
+            //_startingAttackRect = _attackCollisionRect;
         }
     }
 }

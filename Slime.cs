@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
@@ -63,7 +64,7 @@ namespace Monogame___FINAL_PROJECT
 
             _center = _collisionRect.Center.ToVector2();
 
-            _playerDistance = _center - player.Center;
+            _playerDistance = player.Center - _center;
             _detectionRadius = 115;
 
             _health = 10; //might need to adjust
@@ -84,10 +85,11 @@ namespace Monogame___FINAL_PROJECT
 
         
 
-        public void Update(Player player)
+        public void Update(Player player, List<Rectangle> barriers)
         {
             // So far, the slime will switch textures and track the player when it is in the radius
-            _playerDistance = _center - player.Center;
+            _center = _collisionRect.Center.ToVector2();
+            _playerDistance = player.Center - _center;
             if (_playerDistance.Length() <= _detectionRadius)
             {
                 _currentTexture = _attackTexture;
@@ -95,24 +97,34 @@ namespace Monogame___FINAL_PROJECT
             }
             else
             {
-                _currentTexture = _walkTexture;
                 _direction = Vector2.Zero;
+                _currentTexture = _walkTexture;
             }
 
             if (_direction != Vector2.Zero)
             {
                 _direction.Normalize();
-                if (_direction.X > 0) // Moving left
+                if (_direction.X < 0) // Moving left
                     _directionRow = _leftRow;
-                else if (_direction.X < 0) // Moving right
+                else if (_direction.X > 0) // Moving right
                     _directionRow = _rightRow;
-                else if (_direction.Y > 0) // Moving up
+                else if (_direction.Y < 0) // Moving up
                     _directionRow = _upRow;
                 else
                     _directionRow = _downRow; // Moving down
             }
+            _location += _direction * _speed;
+            UpdateRects();
 
-            //_location += _direction * _speed;
+            foreach (Rectangle barrier in barriers)
+            {
+                if (_collisionRect.Intersects(barrier))
+                {
+                    _location -= _direction * _speed;
+
+                    UpdateRects();
+                }
+            }
 
             if (_frame == 0) // will have to slightly fix when moving startingAttackRect can't be stable, has to move with it
             {
