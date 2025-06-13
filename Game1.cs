@@ -49,10 +49,10 @@ namespace Monogame___FINAL_PROJECT
         MouseState mouseState;
 
         Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture;
-        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture;
+        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture, slimeIdleTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
-        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect, slimeAttackRect;
-        Rectangle plantAttackRect, orcAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect;
+        Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect;
+        Rectangle plantAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect, slimeWalkRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -99,9 +99,9 @@ namespace Monogame___FINAL_PROJECT
             playerDrawRect = new Rectangle(20,20,50,65);
             playerSwordRect = new Rectangle(196, 275, 10, 30);
 
-            slimeCollisionRect = new Rectangle(62, 60, 32, 30); 
+            slimeCollisionRect = new Rectangle(62, 260, 32, 30); 
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
-            slimeAttackRect = new Rectangle(70, 60, 23, 32); 
+            slimeWalkRect = new Rectangle(70, 260, 16, 30);
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
             plantCollisionRect = new Rectangle(115, 110, 40, 50);
@@ -109,7 +109,6 @@ namespace Monogame___FINAL_PROJECT
 
             orcCollisionRect = new Rectangle(220,300,45,45); 
             orcDrawRect = new Rectangle(212,288,65,80);
-            orcAttackRect = new Rectangle(212, 288, 65, 55);
 
             descentRect = new Rectangle(320, 207, 53, 60);
 
@@ -140,9 +139,9 @@ namespace Monogame___FINAL_PROJECT
 
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
-            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, slimeAttackRect, player);
+            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture);
             plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, plantAttackRect, player);
-            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, orcAttackRect, player);
+            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, player);
         }
 
         protected override void LoadContent()
@@ -165,6 +164,7 @@ namespace Monogame___FINAL_PROJECT
             slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
             slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalk"); 
             slimeDeathTexture = Content.Load<Texture2D>("Images/slimeDying");
+            slimeIdleTexture = Content.Load<Texture2D>("Images/slimeIdle");
 
             plantAttackTexture = Content.Load<Texture2D>("Images/plantAttack");
             plantDeathTexture = Content.Load<Texture2D>("Images/plantDying");
@@ -237,7 +237,7 @@ namespace Monogame___FINAL_PROJECT
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
                 slime.Update(player, firstLevelBarriers);
                 plant.Update(player, firstLevelBarriers);
-                orc.Update(player, firstLevelBarriers);
+                //orc.Update(player, firstLevelBarriers);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {

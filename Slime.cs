@@ -15,16 +15,16 @@ namespace Monogame___FINAL_PROJECT
     public class Slime
     {
         private int _rows, _columns, _directionRow;
-        private int _width, _height, _detectionRadius;
-        private int _frame, _frames, _walkFrames, _health;
-        private int _leftRow, _rightRow, _upRow, _downRow, _attackAddition;
-        private float _speed, _frameSpeed, _time, _walkSpeed;
+        private int _width, _height, _detectionRadius, _attackRadius;
+        private int _frame, _frames, _walkFrames, _health, _idleFrames;
+        private int _leftRow, _rightRow, _upRow, _downRow;
+        private float _speed, _frameSpeed, _time, _walkSpeed, _idleSpeed;
         private Vector2 _location, _direction, _playerDistance;
-        private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
-        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _startingAttackRect;
+        private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture, _idleTexture;
+        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
         private Vector2 _center;
 
-        public Slime(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect, Player player)
+        public Slime(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Rectangle walkRect, Texture2D idleTexture)
         {
             // Spritesheet Variables
             _columns = 11; 
@@ -33,14 +33,16 @@ namespace Monogame___FINAL_PROJECT
             _rightRow = 3;
             _upRow = 1;
             _downRow = 0;
-            _directionRow = _upRow;
+            _directionRow = _leftRow;
             _frameSpeed = 0.08f;
             _frames = 11;
             _frame = 0;
             _speed = 1.5f;
             _time = 0.0f;
             _walkFrames = 8;
+            _idleFrames = 6;
             _walkSpeed = 0.1f;
+            _idleSpeed = 0.135f;
 
 
 
@@ -49,24 +51,34 @@ namespace Monogame___FINAL_PROJECT
             _walkTexture = walkTexture; 
             _attackTexture = attackTexture; 
             _rectangleTexture = rectangleTexture;
+            _idleTexture = idleTexture;
             _currentTexture = _deathTexture;
 
             // Rectangles
-            _attackCollisionRect = attackRect;
-            _startingAttackRect = _attackCollisionRect;
+    
+
+            _leftAttackRect = new Rectangle(50, 265, 36, 30);
+            _rightAttackRect = new Rectangle(68, 265, 36, 30);
+            _upAttackRect = new Rectangle(55, 250, 48,46);
+            _downAttackRect = new Rectangle(55, 250, 48, 46);
+            _attackCollisionRect = _leftAttackRect;
+
+            _walkCollisionRect = walkRect;
+           
             
             _collisionRect = collisionRect;
             _drawRect = drawRect;
-            _location = new Vector2(62,60);
+            _location = new Vector2(62,260);
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
-            _attackAddition = -3;
+
 
             _center = _collisionRect.Center.ToVector2();
 
             _playerDistance = player.Center - _center;
             _detectionRadius = 115;
+            _attackRadius = 27;
 
             _health = 10; //might need to adjust
 
@@ -88,18 +100,22 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update(Player player, List<Rectangle> barriers)
         {
-            // So far, the slime will switch textures and track the player when it is in the radius
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = player.Center - _center;
-            if (_playerDistance.Length() <= _detectionRadius)
+            if (_playerDistance.Length() <= _detectionRadius && _playerDistance.Length() > _attackRadius)
+            {
+                _currentTexture = _walkTexture;
+                _direction = _playerDistance;
+            }
+            else if (_playerDistance.Length() <= _attackRadius)
             {
                 _currentTexture = _attackTexture;
-                _direction = _playerDistance;
+                _direction = Vector2.Zero;
             }
             else
             {
                 _direction = Vector2.Zero;
-                _currentTexture = _walkTexture;
+                _currentTexture = _idleTexture; //change to idle eventually...
             }
 
             if (_direction != Vector2.Zero)
@@ -119,7 +135,7 @@ namespace Monogame___FINAL_PROJECT
 
             foreach (Rectangle barrier in barriers)
             {
-                if (_collisionRect.Intersects(barrier))
+                if (_walkCollisionRect.Intersects(barrier))
                 {
                     _location -= _direction * _speed;
 
@@ -127,52 +143,45 @@ namespace Monogame___FINAL_PROJECT
                 }
             }
 
-            if (_frame == 0) // will have to slightly fix when moving startingAttackRect can't be stable, has to move with it
+            if (_directionRow == _downRow)
             {
-                if (_directionRow == _leftRow)
-                {
-                    _attackAddition = -3;
-                    _startingAttackRect.X = 70;
-
-                }
-                else if (_directionRow == _rightRow)
-                {
-                    _attackAddition = 3;
-                    _startingAttackRect.X = 60;
-                }
-                else if (_directionRow == _upRow || _directionRow == _downRow)
-                {
-                    _attackAddition = 0;
-                    _startingAttackRect.X = 70; 
-                }
-
+                _attackCollisionRect = _downAttackRect;
             }
- 
+            else if (_directionRow == _upRow)
+            {
+                _attackCollisionRect = _upAttackRect;
+            }
+            else if (_directionRow == _leftRow)
+            {
+                _attackCollisionRect = _leftAttackRect;
+            }
+            else
+            {
+                _attackCollisionRect = _rightAttackRect;
+            }
+
 
             if (_currentTexture == _walkTexture)
             {
                 _frames = _walkFrames;
                 _frameSpeed = _walkSpeed;
             }
+            else if (_currentTexture == _idleTexture)
+            {
+                _frames = _idleFrames;
+                _frameSpeed = _idleSpeed;
+            }
             else
             {
                 _frames = 11;
-                _speed = 0.08f;
+                _frameSpeed = 0.08f;
             }
                 
             if (_time > _frameSpeed)
             {
                 _time = 0f;
                 _frame += 1;
-                if (_frame < 8) // first 7 animations; last 4 are slime blowing up
-                {
-                    _attackCollisionRect.X += _attackAddition;  
-                }
-                else
-                {
-                    _attackCollisionRect.X = _startingAttackRect.X; 
-                }
-
+                
                 if (_frame >= _frames)
                 {
                     _frame = 0;
@@ -185,14 +194,30 @@ namespace Monogame___FINAL_PROJECT
         {
             spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            //spriteBatch.Draw(_testTexture, _attackCollisionRect, Color.Red * 0.3f);
+            spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
         }
 
         public void UpdateRects()
         {
+
             _collisionRect.Location = _location.ToPoint();
             _drawRect.X = _collisionRect.X - 22;
             _drawRect.Y = _collisionRect.Y - 20;
+
+            _walkCollisionRect.X = _collisionRect.X + 8;
+            _walkCollisionRect.Y = _collisionRect.Y;
+
+            _leftAttackRect.X = _collisionRect.X - 12;
+            _leftAttackRect.Y = _collisionRect.Y + 5;
+
+            _rightAttackRect.X = _collisionRect.X + 6;
+            _rightAttackRect.Y = _collisionRect.Y + 5;
+
+            _upAttackRect.X = _collisionRect.X - 7;
+            _upAttackRect.Y = _collisionRect.Y - 10;
+
+            _downAttackRect.X = _collisionRect.X - 7;
+            _downAttackRect.Y = _collisionRect.Y - 10;
 
         }
     }

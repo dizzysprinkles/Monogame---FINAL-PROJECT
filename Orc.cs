@@ -22,7 +22,7 @@ namespace Monogame___FINAL_PROJECT
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect;
 
-        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle attackRect, Player player)
+        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player)
         {
             // Spritesheet Variables
             _columns = 8;
@@ -51,7 +51,6 @@ namespace Monogame___FINAL_PROJECT
             // Rectangles
             _collisionRect = collisionRect;
             _drawRect = drawRect;
-            _attackCollisionRect = attackRect;
 
             _location = _drawRect.Location.ToVector2();
             _direction = Vector2.Zero;
