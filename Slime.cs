@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add dying animations,  attack when intersects or something similar, Reconfig attack hitboxes
-    //DONE: fight box, Player detection & movement
-    //CONSIDER: walking hitbox so it can actually walk through doors....
+    //TODO: add dying animations, attack cooldown, hit taken
+    //DONE: fight box, Player detection & movement, attack
+.
     public class Slime
     {
         private int _rows, _columns, _directionRow;
@@ -55,8 +55,6 @@ namespace Monogame___FINAL_PROJECT
             _currentTexture = _deathTexture;
 
             // Rectangles
-    
-
             _leftAttackRect = new Rectangle(50, 265, 36, 30);
             _rightAttackRect = new Rectangle(68, 265, 36, 30);
             _upAttackRect = new Rectangle(55, 250, 48,46);
