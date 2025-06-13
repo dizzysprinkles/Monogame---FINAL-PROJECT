@@ -11,7 +11,7 @@ namespace Monogame___FINAL_PROJECT
 {
     //TODO: add dying animations, attack cooldown, hit taken
     //DONE: fight box, Player detection & movement, attack
-.
+
     public class Slime
     {
         private int _rows, _columns, _directionRow;

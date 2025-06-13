@@ -50,9 +50,9 @@ namespace Monogame___FINAL_PROJECT
 
         Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture;
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture, slimeIdleTexture;
-        Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture;
+        Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture, plantIdleTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeCollisionRect, playerSwordRect, plantDrawRect, plantCollisionRect, orcDrawRect, orcCollisionRect;
-        Rectangle plantAttackRect, signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect, slimeWalkRect;
+        Rectangle signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect, slimeWalkRect, plantWalkRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -104,8 +104,8 @@ namespace Monogame___FINAL_PROJECT
             slimeWalkRect = new Rectangle(70, 260, 16, 30);
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
-            plantCollisionRect = new Rectangle(115, 110, 40, 50);
-            plantAttackRect = new Rectangle(125, 120, 30, 40);
+            plantCollisionRect = new Rectangle(115, 290, 40, 50);
+            plantWalkRect = new Rectangle(127, 290, 16, 50);
 
             orcCollisionRect = new Rectangle(220,300,45,45); 
             orcDrawRect = new Rectangle(212,288,65,80);
@@ -140,7 +140,7 @@ namespace Monogame___FINAL_PROJECT
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
             slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture);
-            plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, plantAttackRect, player);
+            plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture);
             orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, player);
         }
 
@@ -169,6 +169,7 @@ namespace Monogame___FINAL_PROJECT
             plantAttackTexture = Content.Load<Texture2D>("Images/plantAttack");
             plantDeathTexture = Content.Load<Texture2D>("Images/plantDying");
             plantWalkTexture = Content.Load<Texture2D>("Images/plantWalk");
+            plantIdleTexture = Content.Load<Texture2D>("Images/plantIdle");
 
             orcAttackTexture = Content.Load<Texture2D>("Images/orcAttacking");
             orcDeathTexture = Content.Load<Texture2D>("Images/orcDeath");
@@ -235,7 +236,7 @@ namespace Monogame___FINAL_PROJECT
             {
 
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
-                slime.Update(player, firstLevelBarriers);
+                //slime.Update(player, firstLevelBarriers);
                 plant.Update(player, firstLevelBarriers);
                 //orc.Update(player, firstLevelBarriers);
 
