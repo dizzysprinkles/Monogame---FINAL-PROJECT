@@ -237,8 +237,8 @@ namespace Monogame___FINAL_PROJECT
 
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
                 //slime.Update(player, firstLevelBarriers);
-                plant.Update(player, firstLevelBarriers);
-                //orc.Update(player, firstLevelBarriers);
+                //plant.Update(player, firstLevelBarriers);
+                orc.Update(player, firstLevelBarriers);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
