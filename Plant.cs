@@ -18,10 +18,11 @@ namespace Monogame___FINAL_PROJECT
         private int _width, _height, _health;
         private int _frame, _frames, _detectionRadius, _attackRadius;
         private int _leftRow, _rightRow, _upRow, _downRow, _walkFrames, _idleFrames;
-        private float _speed, _frameSpeed, _time, _walkSpeed, _idleSpeed;
+        private float _speed, _frameSpeed, _time, _walkSpeed, _idleSpeed, _attackCooldown, _timeSinceLastAttack;
         private Vector2 _location, _direction, _center, _playerDistance;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture, _idleTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
+        private bool _canDealDamage;
 
         public Plant(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Rectangle walkRect, Texture2D idleTexture)
         {
@@ -42,6 +43,10 @@ namespace Monogame___FINAL_PROJECT
             _walkSpeed = 0.1f;
             _idleFrames = 4;
             _idleSpeed = 0.15f;
+
+            _attackCooldown = 0.65f;
+            _timeSinceLastAttack = 0f;
+            _canDealDamage = true;
 
             // Textures
             _deathTexture = deathTexture; 
@@ -87,6 +92,12 @@ namespace Monogame___FINAL_PROJECT
             set { _time = value; }
         }
 
+        public float AttackTime
+        {
+            get { return _timeSinceLastAttack; }
+            set { _timeSinceLastAttack = value; }
+        }
+
         public void Update(Player player, List<Rectangle>barriers)
         {
             _center = _collisionRect.Center.ToVector2();
@@ -121,6 +132,11 @@ namespace Monogame___FINAL_PROJECT
             }
             _location += _direction * _speed;
             UpdateRects();
+
+            if (_timeSinceLastAttack >= _attackCooldown)
+            {
+                _canDealDamage = true;
+            }
 
             foreach (Rectangle barrier in barriers)
             {
@@ -166,20 +182,38 @@ namespace Monogame___FINAL_PROJECT
                 _frames = 7;
                 _frameSpeed = 0.09f;
             }
-                
 
 
-            if (_time > _frameSpeed)
+
+            if (_currentTexture != _attackTexture)
             {
-                _time = 0f;
-                _frame += 1;
-       
-                if (_frame >= _frames)
+                if (_time > _frameSpeed)
                 {
-                    _frame = 0;
-               
+                    _time = 0f;
+                    _frame += 1;
+                    if (_frame >= _frames)
+                        _frame = 0;
                 }
-                   
+            }
+            else
+            {
+                if (_time > _frameSpeed && _canDealDamage)
+                {
+                    _time = 0f;
+                    _frame += 1;
+                    if (_frame >= _frames)
+                    {
+                        _frame = 0;
+                        if (_attackCollisionRect.Intersects(player.Rectangle) && _canDealDamage)
+                        {
+                            //player loses health here
+                            _canDealDamage = false;
+                            _timeSinceLastAttack = 0f;
+                            _currentTexture = _idleTexture;
+                        }
+                    }
+
+                }
             }
         }
 

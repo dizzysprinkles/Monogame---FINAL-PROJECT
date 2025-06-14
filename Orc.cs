@@ -127,7 +127,7 @@ namespace Monogame___FINAL_PROJECT
             _location += _direction * _speed;
             UpdateRects();
 
-            if (_timeSinceLastAttack >= _attackCooldown) //basically, the orc just stands there... will have to fix
+            if (_timeSinceLastAttack >= _attackCooldown)
             {
                 _canDealDamage = true;
             }

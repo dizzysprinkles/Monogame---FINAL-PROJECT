@@ -195,8 +195,10 @@ namespace Monogame___FINAL_PROJECT
             player.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            plant.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             orc.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             orc.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
 
             if (screen == Screen.Title)
             {
@@ -240,8 +242,8 @@ namespace Monogame___FINAL_PROJECT
 
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
                 //slime.Update(player, firstLevelBarriers);
-                //plant.Update(player, firstLevelBarriers);
-                orc.Update(player, firstLevelBarriers);
+                plant.Update(player, firstLevelBarriers);
+                //orc.Update(player, firstLevelBarriers);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
