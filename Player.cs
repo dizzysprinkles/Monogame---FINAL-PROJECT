@@ -16,11 +16,13 @@ namespace Monogame___FINAL_PROJECT
         private int _frame, _frames;
         private int _leftRow, _rightRow, _upRow, _downRow;
         private float _speed, _frameSpeed, _time, _swordRotation, _upSwordMax, _downSwordMax, _leftSwordMax, _rightSwordMax, _startingSwordRotation, _leftSwordAdd, _rightSwordAdd, _upSwordAdd, _downSwordAdd, _swordMaxRotation, _swordAddition;
+        private float _attackCooldown, _timeSinceLastAttack;
         private Vector2 _playerLocation, _playerDirection, _swordLocation;
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
         private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
         private int _health;
         private Vector2 _playerCenter;
+        private bool _canDealDamage;
 
 
 
@@ -56,6 +58,10 @@ namespace Monogame___FINAL_PROJECT
             _swordRotation = _startingSwordRotation;
             _swordAddition = _downSwordAdd;
             _swordMaxRotation = _downSwordMax;
+
+            _canDealDamage = true;
+            _timeSinceLastAttack = 0.0f;
+            _attackCooldown = 0.25f;
 
             // Textures
             _playerAttackTexture = attackTexture;
@@ -93,7 +99,11 @@ namespace Monogame___FINAL_PROJECT
             return _playerCollisionRect.Intersects(player);
         }
 
-
+        public float AttackTime
+        {
+            get { return _timeSinceLastAttack; }
+            set { _timeSinceLastAttack = value; }
+        }
 
         public float Time
         {
@@ -127,16 +137,28 @@ namespace Monogame___FINAL_PROJECT
         public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, Orc orc, Plant plant, Slime slime)
         {
             //Animation && Sword Rotation
-            if (_time > _frameSpeed )
+
+            if (_playerMainTexture != _playerAttackTexture)
             {
-                _time = 0f;
-                _frame += 1;
-                if (_playerMainTexture == _playerAttackTexture)
+                _swordRotation = _startingSwordRotation;
+                if (_time > _frameSpeed)
                 {
+                    _time = 0f;
+                    _frame += 1;
+                    if (_frame >= _frames)
+                        _frame = 0;
+                }
+            }
+            else
+            {
+                if (_time > _frameSpeed && _canDealDamage)
+                {
+                    _time = 0f;
+                    _frame += 1;
                     _swordRotation += _swordAddition;
                     if (_startingSwordRotation != 5.5f)
-                    { 
-                        if (_swordRotation >= _swordMaxRotation) 
+                    {
+                        if (_swordRotation >= _swordMaxRotation)
                         {
                             _swordRotation = _startingSwordRotation;
                         }
@@ -149,42 +171,50 @@ namespace Monogame___FINAL_PROJECT
                             _swordRotation = _startingSwordRotation;
                         }
                     }
-                   
-                }
-                else
-                    _swordRotation = _startingSwordRotation;
+                    if (_frame >= _frames)
+                    {
+                        _frame = 0;
+                        if (_swordCollisionRect.Intersects(orc.Rectangle) && _canDealDamage)
+                        {
+                            orc.Health -= 1;
+                            _canDealDamage = false;
+                            _timeSinceLastAttack = 0f;
+                            _playerMainTexture = _playerIdleTexture;
+                        }
+                        if (_swordCollisionRect.Intersects(plant.Rectangle) && _canDealDamage)
+                        {
+                            plant.Health -= 1;
+                            _canDealDamage = false;
+                            _timeSinceLastAttack = 0f;
+                            _playerMainTexture = _playerIdleTexture;
+                        }
+                        if (_swordCollisionRect.Intersects(slime.Rectangle) && _canDealDamage)
+                        {
+                            slime.Health -= 1;
+                            _canDealDamage = false;
+                            _timeSinceLastAttack = 0f;
+                            _playerMainTexture = _playerIdleTexture;
+                        }
+                    }
 
-                if (_frame >= _frames)
-                {
-
-                    _frame = 0;
                 }
             }
-     
+            
+
             //Movement
             SetPlayerDirection(keyboardState);
             _playerLocation += _playerDirection * _speed;
             
             UpdatePlayerRects();
 
+            if (_timeSinceLastAttack >= _attackCooldown)
+            {
+                _canDealDamage = true;
+            }
+
 
             _playerCenter = _playerCollisionRect.Center.ToVector2();
             UpdateHearts(heartRects, heartOpacities);
-
-            if (_swordCollisionRect.Intersects(orc.Rectangle) && _playerMainTexture == _playerAttackTexture)
-            {
-                orc.Health -= 1;
-            }
-
-            if (_swordCollisionRect.Intersects(slime.Rectangle) && _playerMainTexture == _playerAttackTexture)
-            {
-                slime.Health -= 1;
-            }
-
-            if (_swordCollisionRect.Intersects(plant.Rectangle) && _playerMainTexture == _playerAttackTexture)
-            {
-                plant.Health -= 1;
-            }
 
 
             //Barrier Detection
@@ -266,6 +296,7 @@ namespace Monogame___FINAL_PROJECT
             if (keyboardState.IsKeyDown(Keys.Space))
             {
                 _playerMainTexture = _playerAttackTexture;
+
             }
 
             if (_playerMainTexture == _playerWalkTexture)

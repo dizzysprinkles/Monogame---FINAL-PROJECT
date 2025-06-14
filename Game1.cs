@@ -191,6 +191,7 @@ namespace Monogame___FINAL_PROJECT
             mouseState = Mouse.GetState();
 
             player.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            player.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             slime.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
