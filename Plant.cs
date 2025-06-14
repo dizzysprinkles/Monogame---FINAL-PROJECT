@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add dying animations, attack cooldown, hit taken  
+    //TODO: add dying animations, hit taken  
     //DONE: hitboxes, player detection and movement, attack
     public class Plant
     {
@@ -22,7 +22,7 @@ namespace Monogame___FINAL_PROJECT
         private Vector2 _location, _direction, _center, _playerDistance;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture, _idleTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
-        private bool _canDealDamage;
+        private bool _canDealDamage, _dead, _stopDrawing;
 
         public Plant(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Rectangle walkRect, Texture2D idleTexture)
         {
@@ -47,6 +47,8 @@ namespace Monogame___FINAL_PROJECT
             _attackCooldown = 1f;
             _timeSinceLastAttack = 0f;
             _canDealDamage = true;
+            _dead = false;
+            _stopDrawing = false;
 
             // Textures
             _deathTexture = deathTexture; 
@@ -104,130 +106,164 @@ namespace Monogame___FINAL_PROJECT
             set { _attackCooldown = value; }
         }
 
+        public Rectangle Rectangle
+        {
+            get { return _collisionRect; }
+        }
+
+        public int Health
+        {
+            get { return _health; }
+            set { _health = value; }
+        }
+
+
+
         public void Update(Player player, List<Rectangle>barriers)
         {
-            _center = _collisionRect.Center.ToVector2();
-            _playerDistance = player.Center - _center;
-            if (_playerDistance.Length() <= _detectionRadius && _playerDistance.Length() > _attackRadius)
+            if (_health <= 0)
             {
-                _currentTexture = _walkTexture;
-                _direction = _playerDistance;
-            }
-            else if (_playerDistance.Length() <= _attackRadius)
-            {
-                _currentTexture = _attackTexture;
-                _direction = Vector2.Zero;
-            }
-            else
-            {
-                _direction = Vector2.Zero;
-                _currentTexture = _idleTexture;
-            }
-
-            if (_direction != Vector2.Zero)
-            {
-                _direction.Normalize();
-                if (_direction.X < 0) // Moving left
-                    _directionRow = _leftRow;
-                else if (_direction.X > 0) // Moving right
-                    _directionRow = _rightRow;
-                else if (_direction.Y < 0) // Moving up
-                    _directionRow = _upRow;
-                else
-                    _directionRow = _downRow; // Moving down
-            }
-            _location += _direction * _speed;
-            UpdateRects();
-
-            if (_timeSinceLastAttack >= _attackCooldown)
-            {
-                _canDealDamage = true;
-            }
-
-            foreach (Rectangle barrier in barriers)
-            {
-                if (_walkCollisionRect.Intersects(barrier))
-                {
-                    _location -= _direction * _speed;
-
-                    UpdateRects();
-                }
-            }
-
-            if (_directionRow == _downRow)
-            {
-                _attackCollisionRect = _downAttackRect;
-            }
-            else if (_directionRow == _upRow)
-            {
-                _attackCollisionRect = _upAttackRect;
-            }
-            else if (_directionRow == _leftRow)
-            {
-                _attackCollisionRect = _leftAttackRect;
-            }
-            else
-            {
-                _attackCollisionRect = _rightAttackRect;
-            }
-
-
-
-            if (_currentTexture == _walkTexture)
-            {
-                _frames = _walkFrames;
-                _frameSpeed = _walkSpeed;
-            }
-            else if (_currentTexture == _idleTexture)
-            {
-                _frames = _idleFrames;
-                _frameSpeed = _idleSpeed;
-            }
-            else
-            {
-                _frames = 7;
-                _frameSpeed = 0.09f;
-            }
-
-
-
-            if (_currentTexture != _attackTexture)
-            {
+                _currentTexture = _deathTexture;
+                _dead = true;
                 if (_time > _frameSpeed)
                 {
                     _time = 0f;
                     _frame += 1;
                     if (_frame >= _frames)
-                        _frame = 0;
+                        _stopDrawing = true;
                 }
             }
-            else
-            {
-                if (_time > _frameSpeed && _canDealDamage)
-                {
-                    _time = 0f;
-                    _frame += 1;
-                    if (_frame >= _frames)
-                    {
-                        _frame = 0;
-                        if (_attackCollisionRect.Intersects(player.Rectangle) && _canDealDamage)
-                        {
-                            player.Health -= 1;
-                            _canDealDamage = false;
-                            _timeSinceLastAttack = 0f;
-                            _currentTexture = _idleTexture;
-                        }
-                    }
 
+            while (!_dead)
+            {
+                _center = _collisionRect.Center.ToVector2();
+                _playerDistance = player.Center - _center;
+                if (_playerDistance.Length() <= _detectionRadius && _playerDistance.Length() > _attackRadius)
+                {
+                    _currentTexture = _walkTexture;
+                    _direction = _playerDistance;
+                }
+                else if (_playerDistance.Length() <= _attackRadius)
+                {
+                    _currentTexture = _attackTexture;
+                    _direction = Vector2.Zero;
+                }
+                else
+                {
+                    _direction = Vector2.Zero;
+                    _currentTexture = _idleTexture;
+                }
+
+                //if (_direction != Vector2.Zero)
+                //{
+                //    _direction.Normalize();
+                //    if (_direction.X < 0) // Moving left
+                //        _directionRow = _leftRow;
+                //    else if (_direction.X > 0) // Moving right
+                //        _directionRow = _rightRow;
+                //    else if (_direction.Y < 0) // Moving up
+                //        _directionRow = _upRow;
+                //    else
+                //        _directionRow = _downRow; // Moving down
+                //}
+                //_location += _direction * _speed;
+                UpdateRects();
+
+                if (_timeSinceLastAttack >= _attackCooldown)
+                {
+                    _canDealDamage = true;
+                }
+
+                foreach (Rectangle barrier in barriers)
+                {
+                    if (_walkCollisionRect.Intersects(barrier))
+                    {
+                        _location -= _direction * _speed;
+
+                        UpdateRects();
+                    }
+                }
+
+                if (_directionRow == _downRow)
+                {
+                    _attackCollisionRect = _downAttackRect;
+                }
+                else if (_directionRow == _upRow)
+                {
+                    _attackCollisionRect = _upAttackRect;
+                }
+                else if (_directionRow == _leftRow)
+                {
+                    _attackCollisionRect = _leftAttackRect;
+                }
+                else
+                {
+                    _attackCollisionRect = _rightAttackRect;
+                }
+
+
+
+                if (_currentTexture == _walkTexture)
+                {
+                    _frames = _walkFrames;
+                    _frameSpeed = _walkSpeed;
+                }
+                else if (_currentTexture == _idleTexture)
+                {
+                    _frames = _idleFrames;
+                    _frameSpeed = _idleSpeed;
+                }
+                else
+                {
+                    _frames = 7;
+                    _frameSpeed = 0.09f;
+                }
+
+
+
+                if (_currentTexture != _attackTexture)
+                {
+                    if (_time > _frameSpeed)
+                    {
+                        _time = 0f;
+                        _frame += 1;
+                        if (_frame >= _frames)
+                            _frame = 0;
+                    }
+                }
+                else
+                {
+                    if (_time > _frameSpeed && _canDealDamage)
+                    {
+                        _time = 0f;
+                        _frame += 1;
+                        if (_frame >= _frames)
+                        {
+                            _frame = 0;
+                            if (_attackCollisionRect.Intersects(player.Rectangle) && _canDealDamage)
+                            {
+                                player.Health -= 1;
+                                _canDealDamage = false;
+                                _timeSinceLastAttack = 0f;
+                                _currentTexture = _idleTexture;
+                            }
+                        }
+
+                    }
                 }
             }
+
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
-            spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+            while(!_stopDrawing)
+            {
+                spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
+                spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
+                //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+            }
 
         }
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add dying animations, attack cooldown, hit taken
+    //TODO: add dying animations, hit taken
     //DONE: fight box, Player detection & movement, attack
 
     public class Slime
@@ -104,6 +104,17 @@ namespace Monogame___FINAL_PROJECT
         {
             get { return _timeSinceLastAttack; }
             set { _timeSinceLastAttack = value; }
+        }
+
+        public Rectangle Rectangle
+        {
+            get { return _collisionRect; }
+        }
+
+        public int Health
+        {
+            get { return _health; }
+            set { _health = value; }
         }
 
 

@@ -21,8 +21,6 @@ namespace Monogame___FINAL_PROJECT
         private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
         private int _health;
         private Vector2 _playerCenter;
-        // half the opacity of the heart per hit taken instead of drawing like 10 hearts
-        // cooldown for enemy damage
 
 
 
@@ -126,7 +124,7 @@ namespace Monogame___FINAL_PROJECT
         }
 
         //Mouse state is called for update but isn't used.... 
-        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities)
+        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, Orc orc, Plant plant, Slime slime)
         {
             //Animation && Sword Rotation
             if (_time > _frameSpeed )
@@ -168,8 +166,25 @@ namespace Monogame___FINAL_PROJECT
             _playerLocation += _playerDirection * _speed;
             
             UpdatePlayerRects();
+
+
             _playerCenter = _playerCollisionRect.Center.ToVector2();
             UpdateHearts(heartRects, heartOpacities);
+
+            if (_swordCollisionRect.Intersects(orc.Rectangle) && _playerMainTexture == _playerAttackTexture)
+            {
+                orc.Health -= 1;
+            }
+
+            if (_swordCollisionRect.Intersects(slime.Rectangle) && _playerMainTexture == _playerAttackTexture)
+            {
+                slime.Health -= 1;
+            }
+
+            if (_swordCollisionRect.Intersects(plant.Rectangle) && _playerMainTexture == _playerAttackTexture)
+            {
+                plant.Health -= 1;
+            }
 
 
             //Barrier Detection

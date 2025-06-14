@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add dying animations, attack cooldown, hit taken
+    //TODO: add dying animations, hit taken
     //DONE: hitboxes, player detection and movement, attack
     public class Orc
     {
@@ -96,6 +96,17 @@ namespace Monogame___FINAL_PROJECT
         {
             get { return _attackCooldown; }
             set { _attackCooldown = value; }
+        }
+
+        public Rectangle Rectangle
+        {
+            get { return _collisionRect; }
+        }
+
+        public int Health
+        {
+            get { return _health; }
+            set { _health = value; }
         }
 
         public void Update(Player player, List<Rectangle> barriers)

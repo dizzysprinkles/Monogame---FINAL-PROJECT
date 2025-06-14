@@ -223,7 +223,7 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.Tutorial)
             {
-                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity);
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, orc, plant, slime);
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
@@ -242,10 +242,10 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.First)
             {
-                slime.Update(player, firstLevelBarriers);
-                //plant.Update(player, firstLevelBarriers);
+                //slime.Update(player, firstLevelBarriers);
+                plant.Update(player, firstLevelBarriers);
                 //orc.Update(player, firstLevelBarriers);
-                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity);
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, orc, plant, slime);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
@@ -274,7 +274,7 @@ namespace Monogame___FINAL_PROJECT
                 slime.Update(player, secondLevelBarriers);
                 plant.Update(player, secondLevelBarriers);
                 orc.Update(player, secondLevelBarriers);
-                player.Update(keyboardState, mouseState, healthTextures, healthRects, secondLevelBarriers, healthOpacity);
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, secondLevelBarriers, healthOpacity, orc, plant, slime);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
