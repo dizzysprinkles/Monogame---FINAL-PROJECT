@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add dying animations, hit taken
-    //DONE: fight box, Player detection & movement, attack
 
     public class Slime
     {

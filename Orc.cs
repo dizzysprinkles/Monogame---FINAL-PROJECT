@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add dying animations, hit taken
-    //DONE: hitboxes, player detection and movement, attack
     public class Orc
     {
         private int _rows, _columns, _directionRow;

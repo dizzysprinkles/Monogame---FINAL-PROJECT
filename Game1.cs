@@ -22,8 +22,7 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO: collision detection - player attacks; lists of enemies per level; Text for tutorial to guide the player 
-        //TODO: 
+        //TODO:  lists of enemies per level; Text for tutorial to guide the player 
 
         //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name, enemy cooldown, health opacity
 
