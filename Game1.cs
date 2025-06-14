@@ -22,12 +22,11 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO: Have attack rects stick with the eenemy when the move/change locations
         //TODO: collision detection - player attacks, enemy attacks; lists of enemies per level; Text for tutorial to guide the player 
         //TODO: Reset opacity??
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen;
 
-        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name
+        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name, enemy cooldown,
 
     
 
@@ -194,6 +193,7 @@ namespace Monogame___FINAL_PROJECT
 
             player.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            slime.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             plant.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             orc.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -215,15 +215,16 @@ namespace Monogame___FINAL_PROJECT
                         monsterCountMax = 3;
                         descentRect = new Rectangle(440, 160, 35, 35);
                         Window.Title = "Dungeon Mayhem: Level One";
+                        orc.AttackCooldown = 0.65f;
+                        slime.AttackCooldown = orc.AttackCooldown;
+                        plant.AttackCooldown = orc.AttackCooldown;
                         screen = Screen.First;
                     }
                 }
             }
-            else if (screen == Screen.Tutorial) // no way to lose in tutorial; would be in bad taste
+            else if (screen == Screen.Tutorial)
             {
-
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
-                //Need ending condition to move on to first official level
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
@@ -233,6 +234,9 @@ namespace Monogame___FINAL_PROJECT
                         monstersKilled = 0;
                         Window.Title = "Dungeon Mayhem: Level One";
                         player.Health = 10;
+                        orc.AttackCooldown = 0.65f;
+                        slime.AttackCooldown = orc.AttackCooldown;
+                        plant.AttackCooldown = orc.AttackCooldown;
                         screen = Screen.First;
                     }
                 }
@@ -241,8 +245,8 @@ namespace Monogame___FINAL_PROJECT
             {
 
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
-                //slime.Update(player, firstLevelBarriers);
-                plant.Update(player, firstLevelBarriers);
+                slime.Update(player, firstLevelBarriers);
+                //plant.Update(player, firstLevelBarriers);
                 //orc.Update(player, firstLevelBarriers);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
@@ -254,6 +258,9 @@ namespace Monogame___FINAL_PROJECT
                         descentRect = new Rectangle(665, 35, 35, 35);
                         Window.Title = "Dungeon Mayhem: Level Two";
                         player.Health = 10;
+                        orc.AttackCooldown = 0.45f;
+                        slime.AttackCooldown = orc.AttackCooldown;
+                        plant.AttackCooldown = orc.AttackCooldown;
                         screen = Screen.Second;
                     }
                 }
@@ -338,14 +345,14 @@ namespace Monogame___FINAL_PROJECT
                 }
 
             }
-            else if(screen == Screen.Second) // have to adjust all player/enemy positions
+            else if(screen == Screen.Second) 
             {
                 _spriteBatch.Draw(secondMapTexture, window, Color.White);
                 slime.Draw(_spriteBatch);
 
                 plant.Draw(_spriteBatch);
 
-                //orc.Draw(_spriteBatch, instructionFont);
+                orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
 

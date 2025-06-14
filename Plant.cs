@@ -44,7 +44,7 @@ namespace Monogame___FINAL_PROJECT
             _idleFrames = 4;
             _idleSpeed = 0.15f;
 
-            _attackCooldown = 0.65f;
+            _attackCooldown = 1f;
             _timeSinceLastAttack = 0f;
             _canDealDamage = true;
 
@@ -96,6 +96,12 @@ namespace Monogame___FINAL_PROJECT
         {
             get { return _timeSinceLastAttack; }
             set { _timeSinceLastAttack = value; }
+        }
+
+        public float AttackCooldown
+        {
+            get { return _attackCooldown; }
+            set { _attackCooldown = value; }
         }
 
         public void Update(Player player, List<Rectangle>barriers)
