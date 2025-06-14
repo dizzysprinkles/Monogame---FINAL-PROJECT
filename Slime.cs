@@ -23,7 +23,7 @@ namespace Monogame___FINAL_PROJECT
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture, _idleTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
         private Vector2 _center;
-        private bool _canDealDamage;
+        private bool _canDealDamage, _drawing;
 
         public Slime(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Rectangle walkRect, Texture2D idleTexture)
         {
@@ -48,6 +48,7 @@ namespace Monogame___FINAL_PROJECT
             _attackCooldown = 1f;
             _timeSinceLastAttack = 0f;
             _canDealDamage = true;
+            _drawing = true;
 
 
             // Textures
@@ -120,19 +121,31 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update(Player player, List<Rectangle> barriers)
         {
+            if (_health <= 0)
+            {
+                _currentTexture = _deathTexture;
+                _direction = Vector2.Zero;
+                if (_time > _frameSpeed)
+                {
+                    _time = 0f;
+                    _frame += 1;
+                    if (_frame >= _frames)
+                        _drawing = false;
+                }
+            }
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = player.Center - _center;
-            if (_playerDistance.Length() <= _detectionRadius && _playerDistance.Length() > _attackRadius)
+            if (_playerDistance.Length() <= _detectionRadius && _playerDistance.Length() > _attackRadius && _currentTexture != _deathTexture)
             {
                 _currentTexture = _walkTexture;
                 _direction = _playerDistance;
             }
-            else if (_playerDistance.Length() <= _attackRadius)
+            else if (_playerDistance.Length() <= _attackRadius && _currentTexture != _deathTexture)
             {
                 _currentTexture = _attackTexture;
                 _direction = Vector2.Zero;
             }
-            else
+            else if(_currentTexture != _deathTexture)
             {
                 _direction = Vector2.Zero;
                 _currentTexture = _idleTexture; //change to idle eventually...
@@ -203,7 +216,7 @@ namespace Monogame___FINAL_PROJECT
             }
 
 
-            if (_currentTexture != _attackTexture)
+            if (_currentTexture != _attackTexture && _currentTexture != _deathTexture)
             {
                 if (_time > _frameSpeed)
                 {
@@ -213,7 +226,7 @@ namespace Monogame___FINAL_PROJECT
                         _frame = 0;
                 }
             }
-            else
+            else if(_currentTexture == _attackTexture)
             {
                 if (_time > _frameSpeed && _canDealDamage)
                 {
@@ -238,9 +251,13 @@ namespace Monogame___FINAL_PROJECT
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
-            spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+            if (_drawing)
+            {
+                spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
+                spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
+                spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+            }
+
         }
 
         public void UpdateRects()
