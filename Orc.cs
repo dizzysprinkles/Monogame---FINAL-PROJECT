@@ -204,7 +204,7 @@ namespace Monogame___FINAL_PROJECT
                         _frame = 0;
                         if (_attackCollisionRect.Intersects(player.Rectangle) && _canDealDamage)
                         {
-                            //player loses health here
+                            player.Health -= 1;
                             _canDealDamage = false;
                             _timeSinceLastAttack = 0f;
                             _currentTexture = _idleTexture;

@@ -15,7 +15,6 @@ namespace Monogame___FINAL_PROJECT
         private int _width, _height;
         private int _frame, _frames;
         private int _leftRow, _rightRow, _upRow, _downRow;
-        private float _opacity;
         private float _speed, _frameSpeed, _time, _swordRotation, _upSwordMax, _downSwordMax, _leftSwordMax, _rightSwordMax, _startingSwordRotation, _leftSwordAdd, _rightSwordAdd, _upSwordAdd, _downSwordAdd, _swordMaxRotation, _swordAddition;
         private Vector2 _playerLocation, _playerDirection, _swordLocation;
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
@@ -75,8 +74,6 @@ namespace Monogame___FINAL_PROJECT
             _playerDirection = Vector2.Zero;
             _swordLocation = new Vector2(196,275);
 
-            _opacity = 1f;
-
             _playerCenter = _playerCollisionRect.Center.ToVector2();
 
 
@@ -129,7 +126,7 @@ namespace Monogame___FINAL_PROJECT
         }
 
         //Mouse state is called for update but isn't used.... 
-        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers)
+        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities)
         {
             //Animation && Sword Rotation
             if (_time > _frameSpeed )
@@ -169,9 +166,10 @@ namespace Monogame___FINAL_PROJECT
             //Movement
             SetPlayerDirection(keyboardState);
             _playerLocation += _playerDirection * _speed;
-            //_swordLocation += _playerDirection * _speed;
+            
             UpdatePlayerRects();
             _playerCenter = _playerCollisionRect.Center.ToVector2();
+            UpdateHearts(heartRects, heartOpacities);
 
 
             //Barrier Detection
@@ -192,7 +190,7 @@ namespace Monogame___FINAL_PROJECT
         {
             spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            //spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.3f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
+            spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.0f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
 
         public void SetPlayerDirection(KeyboardState keyboardState)
@@ -200,7 +198,7 @@ namespace Monogame___FINAL_PROJECT
       
             _playerDirection = Vector2.Zero;
 
-            if (keyboardState.IsKeyDown(Keys.A))
+            if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
             { 
                 _playerDirection.X += -1;
                 _startingSwordRotation = 1.4f;
@@ -210,7 +208,7 @@ namespace Monogame___FINAL_PROJECT
                 _swordCollisionRect.Height = 20;
             }
 
-            if (keyboardState.IsKeyDown(Keys.D))
+            if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
             {
                 _playerDirection.X += 1;
                 _startingSwordRotation = 5.5f;
@@ -220,7 +218,7 @@ namespace Monogame___FINAL_PROJECT
                 _swordCollisionRect.Height = 30;
             }
                 
-            if (keyboardState.IsKeyDown(Keys.W))
+            if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
             {
                 _playerDirection.Y += -1;
                 _startingSwordRotation = 1.7f;
@@ -230,7 +228,7 @@ namespace Monogame___FINAL_PROJECT
                 _swordCollisionRect.Height = 30;
             }
                 
-            if (keyboardState.IsKeyDown(Keys.S))
+            if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
             {
                 _playerDirection.Y += 1;
                 _startingSwordRotation = -0.9f;
@@ -285,6 +283,21 @@ namespace Monogame___FINAL_PROJECT
             _swordLocation.X = _playerLocation.X + 8;
             _swordLocation.Y = _playerLocation.Y + 25;
             _swordCollisionRect.Location = _swordLocation.ToPoint();
+        }
+
+        public void UpdateHearts( List<Rectangle> heartRects, List<float> heartOpacities)
+        {
+            for (int i = 0; i < heartRects.Count; i++)
+            {
+                int heartValue = _health - (i * 2);
+
+                if (heartValue >= 2)
+                    heartOpacities[i] = 1f;
+                else if (heartValue == 1)
+                    heartOpacities[i] = 0.5f;
+                else
+                    heartOpacities[i] = 0.0f;
+            }
         }
     }
 }

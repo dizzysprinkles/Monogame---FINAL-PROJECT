@@ -23,10 +23,9 @@ namespace Monogame___FINAL_PROJECT
         private SpriteBatch _spriteBatch;
 
         //TODO: collision detection - player attacks, enemy attacks; lists of enemies per level; Text for tutorial to guide the player 
-        //TODO: Reset opacity??
         //TODO: if statement - if done death spritesheet, stop drawing the enemy to the screen;
 
-        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name, enemy cooldown,
+        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name, enemy cooldown, health opacity
 
     
 
@@ -224,7 +223,7 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.Tutorial)
             {
-                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity);
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
@@ -243,11 +242,10 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.First)
             {
-
-                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers);
                 slime.Update(player, firstLevelBarriers);
                 //plant.Update(player, firstLevelBarriers);
                 //orc.Update(player, firstLevelBarriers);
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
@@ -273,10 +271,10 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.Second)
             {
-                player.Update(keyboardState, mouseState, healthTextures, healthRects, secondLevelBarriers);
                 slime.Update(player, secondLevelBarriers);
                 plant.Update(player, secondLevelBarriers);
                 orc.Update(player, secondLevelBarriers);
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, secondLevelBarriers, healthOpacity);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
