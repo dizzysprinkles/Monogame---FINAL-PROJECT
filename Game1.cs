@@ -196,6 +196,7 @@ namespace Monogame___FINAL_PROJECT
             slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             orc.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            orc.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (screen == Screen.Title)
             {

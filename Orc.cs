@@ -16,10 +16,11 @@ namespace Monogame___FINAL_PROJECT
         private int _width, _height, _health;
         private int _frame, _frames, _walkFrames, _detectionRadius, _attackRadius, _idleFrames;
         private int _leftRow, _rightRow, _upRow, _downRow;
-        private float _speed, _frameSpeed, _time;
+        private float _speed, _frameSpeed, _time, _attackCooldown, _timeSinceLastAttack;
         private Vector2 _location, _direction, _center, _playerDistance;
         private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture, _idleTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
+        private bool _canDealDamage;
 
         public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Texture2D idleTexture, Rectangle walkRect)
         {
@@ -38,6 +39,10 @@ namespace Monogame___FINAL_PROJECT
             _time = 0.0f;
             _walkFrames = 6;
             _idleFrames = 4;
+
+            _attackCooldown = 0.65f;
+            _timeSinceLastAttack = 0f;
+            _canDealDamage = true;
 
 
 
@@ -81,6 +86,12 @@ namespace Monogame___FINAL_PROJECT
             set { _time = value; }
         }
 
+        public float AttackTime
+        {
+            get { return _timeSinceLastAttack; }
+            set { _timeSinceLastAttack = value; }
+        }
+
         public void Update(Player player, List<Rectangle> barriers)
         {
             _center = _collisionRect.Center.ToVector2();
@@ -90,7 +101,7 @@ namespace Monogame___FINAL_PROJECT
                 _currentTexture = _walkTexture;
                 _direction = _playerDistance;
             }
-            else if (_playerDistance.Length() <= _attackRadius)
+            else if (_playerDistance.Length() <= _attackRadius && _canDealDamage)
             {
                 _currentTexture = _attackTexture;
                 _direction = Vector2.Zero;
@@ -115,6 +126,13 @@ namespace Monogame___FINAL_PROJECT
             }
             _location += _direction * _speed;
             UpdateRects();
+
+            if (_timeSinceLastAttack >= _attackCooldown) //basically, the orc just stands there... will have to fix
+            {
+                _canDealDamage = true;
+            }
+
+           
 
             foreach (Rectangle barrier in barriers)
             {
@@ -159,13 +177,35 @@ namespace Monogame___FINAL_PROJECT
                 _frames = 8;
 
 
-
-            if (_time > _frameSpeed)
+            if (_currentTexture != _attackTexture)
             {
-                _time = 0f;
-                _frame += 1;
-                if (_frame >= _frames)
-                    _frame = 0;
+                if (_time > _frameSpeed)
+                {
+                    _time = 0f;
+                    _frame += 1;
+                    if (_frame >= _frames)
+                        _frame = 0;
+                }
+            }
+            else
+            {
+                if (_time > _frameSpeed && _canDealDamage)
+                {
+                    _time = 0f;
+                    _frame += 1;
+                    if (_frame >= _frames)
+                    {
+                        _frame = 0;
+                        if (_attackCollisionRect.Intersects(player.Rectangle) && _canDealDamage)
+                        {
+                            //player loses health here
+                            _canDealDamage = false;
+                            _timeSinceLastAttack = 0f;
+                            _currentTexture = _idleTexture;
+                        }
+                    }
+                        
+                }
             }
         }
 
