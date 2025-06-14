@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace Monogame___FINAL_PROJECT
 {
-    //TODO: add dying animations, attack when intersects or something similar
-    //DONE: hitboxes, player detection and movement
-    //CONSIDER: walking hitbox so it can actually walk through doors....
+    //TODO: add dying animations, attack cooldown, hit taken
+    //DONE: hitboxes, player detection and movement, attack
     public class Orc
     {
         private int _rows, _columns, _directionRow;
         private int _width, _height, _health;
-        private int _frame, _frames, _walkFrames, _detectionRadius;
+        private int _frame, _frames, _walkFrames, _detectionRadius, _attackRadius, _idleFrames;
         private int _leftRow, _rightRow, _upRow, _downRow;
         private float _speed, _frameSpeed, _time;
         private Vector2 _location, _direction, _center, _playerDistance;
-        private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture;
-        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect;
+        private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture, _idleTexture;
+        private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
 
-        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player)
+        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Texture2D idleTexture, Rectangle walkRect)
         {
             // Spritesheet Variables
             _columns = 8;
@@ -31,13 +30,14 @@ namespace Monogame___FINAL_PROJECT
             _rightRow = 3;
             _upRow = 1;
             _downRow = 0;
-            _directionRow = _downRow;
+            _directionRow = _upRow;
             _frameSpeed = 0.08f;
             _frames = 8;
             _frame = 0;
-            _speed = 0.75f;
+            _speed = 1.5f;
             _time = 0.0f;
             _walkFrames = 6;
+            _idleFrames = 4;
 
 
 
@@ -46,25 +46,28 @@ namespace Monogame___FINAL_PROJECT
             _walkTexture = walkTexture; 
             _attackTexture = attackTexture; 
             _rectangleTexture = rectangleTexture;
+            _idleTexture = idleTexture;
             _currentTexture = _attackTexture;
 
             // Rectangles
             _collisionRect = collisionRect;
             _drawRect = drawRect;
 
-            _location = _drawRect.Location.ToVector2();
+            _location = new Vector2(220, 300);
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
-            _downAttackRect = new Rectangle(212, 305, 55, 40); //ADJUST LEFT AND RIGHT RECTS!!
-            _leftAttackRect = new Rectangle(193, 283, 65, 65);
-            _upAttackRect = new Rectangle(207,283,60,40);
-            _rightAttackRect = new Rectangle(212,288,65,65);
-            _attackCollisionRect = _downAttackRect;
+            _downAttackRect = new Rectangle(212, 320, 65, 40); 
+            _leftAttackRect = new Rectangle(200, 300, 60, 53);
+            _upAttackRect = new Rectangle(214,283,60,40);
+            _rightAttackRect = new Rectangle(220,300,65,53);
+            _attackCollisionRect = _upAttackRect;
+            _walkCollisionRect = walkRect;
 
             
 
-            _detectionRadius = 115; 
+            _detectionRadius = 115;
+            _attackRadius = 40;
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = player.Center - _center;
             _health = 10; // leave for now... Might need to increase 
@@ -80,26 +83,22 @@ namespace Monogame___FINAL_PROJECT
 
         public void Update(Player player, List<Rectangle> barriers)
         {
-
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = player.Center - _center;
-            if (_playerDistance.Length() <= _detectionRadius)
+            if (_playerDistance.Length() <= _detectionRadius && _playerDistance.Length() > _attackRadius)
+            {
+                _currentTexture = _walkTexture;
+                _direction = _playerDistance;
+            }
+            else if (_playerDistance.Length() <= _attackRadius)
             {
                 _currentTexture = _attackTexture;
-                _direction = _playerDistance;
-
-              
+                _direction = Vector2.Zero;
             }
             else
             {
                 _direction = Vector2.Zero;
-                _currentTexture = _walkTexture;
-
-            }
-
-            if (_health <= 0)
-            {
-                _currentTexture = _deathTexture;
+                _currentTexture = _idleTexture;
             }
 
             if (_direction != Vector2.Zero)
@@ -119,7 +118,7 @@ namespace Monogame___FINAL_PROJECT
 
             foreach (Rectangle barrier in barriers)
             {
-                if (_collisionRect.Intersects(barrier))
+                if (_walkCollisionRect.Intersects(barrier))
                 {
                     _location -= _direction * _speed;
 
@@ -152,6 +151,10 @@ namespace Monogame___FINAL_PROJECT
             {
                 _frames = _walkFrames;
             }
+            else if (_currentTexture == _idleTexture)
+            {
+                _frames = _idleFrames;
+            }
             else
                 _frames = 8;
 
@@ -182,16 +185,16 @@ namespace Monogame___FINAL_PROJECT
             _drawRect.Y = _collisionRect.Y - 12;
 
             _downAttackRect.X = _collisionRect.X - 8;
-            _downAttackRect.Y = _collisionRect.Y + 5;
+            _downAttackRect.Y = _collisionRect.Y + 20;
 
-            _leftAttackRect.X = _collisionRect.X - 27;
-            _leftAttackRect.Y = _collisionRect.Y - 17;
+            _leftAttackRect.X = _collisionRect.X - 20;
+            _leftAttackRect.Y = _collisionRect.Y;
 
-            _rightAttackRect.X = _collisionRect.X - 8;
-            _rightAttackRect.Y = _collisionRect.Y - 12;
+            _rightAttackRect.X = _collisionRect.X;
+            _rightAttackRect.Y = _collisionRect.Y;
 
-            _upAttackRect.X = _collisionRect.X - 13;
-            _upAttackRect.Y = _collisionRect.Y - 27;
+            _upAttackRect.X = _collisionRect.X - 6;
+            _upAttackRect.Y = _collisionRect.Y - 17;
 
         }
     }
