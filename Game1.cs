@@ -40,7 +40,7 @@ namespace Monogame___FINAL_PROJECT
         List<Orc> orcs;
         List<Plant> plants;
 
-        SpriteFont titleFont, instructionFont;
+        SpriteFont titleFont, instructionFont, counterFont;
 
         Rectangle window;
 
@@ -209,6 +209,7 @@ namespace Monogame___FINAL_PROJECT
 
             titleBackgroundTexture = Content.Load<Texture2D>("Images/titleBackground");
             titleFont = Content.Load<SpriteFont>("Fonts/TitleFont");
+            counterFont = Content.Load<SpriteFont>("Fonts/CounterFont");
 
             tutorialMapTexture = Content.Load<Texture2D>("Images/Map Tutorial");
             firstMapTexture = Content.Load<Texture2D>("Images/firstMap");
@@ -365,6 +366,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
                 }
+                _spriteBatch.DrawString(counterFont, $"{monstersKilled} / {monsterCountMax} Killed!", new Vector2(650, 5), Color.HotPink);
 
             }
             else if (screen == Screen.First)
@@ -383,6 +385,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
                 }
+                _spriteBatch.DrawString(counterFont, $"{monstersKilled} / {monsterCountMax} Killed!", new Vector2(650, 5), Color.HotPink);
 
             }
             else if(screen == Screen.Second) 
@@ -402,6 +405,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
                 }
+                _spriteBatch.DrawString(counterFont, $"{monstersKilled} / {monsterCountMax} Killed!", new Vector2(650, 5), Color.HotPink);
 
             }
             _spriteBatch.End();
