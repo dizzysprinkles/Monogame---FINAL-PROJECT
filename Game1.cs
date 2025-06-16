@@ -22,9 +22,7 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO:  lists of enemies per level; Text for tutorial to guide the player 
-
-        //DONE: player hitboxes, enemy spritesheets, enemy hitboxes, title screen, levle 1 walls, enemy movement and detection, title name, enemy cooldown, health opacity
+        //TODO:  lists of enemies per level; Additional Code (i.e music, end screens, instructions, sound effects
 
         Screen screen;
         KeyboardState keyboardState;
@@ -72,7 +70,7 @@ namespace Monogame___FINAL_PROJECT
             tutorialBarriers = new List<Rectangle>();
             healthOpacity = new List<float>();
             firstLevelBarriers = new List<Rectangle>();
-            secondLevelBarriers= new List<Rectangle>(); // Still need to add a bunch of rectangles
+            secondLevelBarriers= new List<Rectangle>(); 
 
             tutorialBarriers.Add(new Rectangle(35, 35, 45, 500));
             tutorialBarriers.Add(new Rectangle(35, 35, 725, 30));
