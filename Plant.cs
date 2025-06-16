@@ -58,7 +58,7 @@ namespace Monogame___FINAL_PROJECT
             // Rectangles
             _collisionRect = collisionRect;
             _drawRect = drawRect;
-            _location = new Vector2(115, 290);
+            _location = _collisionRect.Location.ToVector2();
             _direction = Vector2.Zero;
             _width = _attackTexture.Width / _columns;
             _height = _attackTexture.Height / _rows;
