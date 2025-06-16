@@ -43,7 +43,7 @@ namespace Monogame___FINAL_PROJECT
             _walkSpeed = 0.1f;
             _idleSpeed = 0.135f;
 
-            _attackCooldown = 1f;
+            _attackCooldown = 1.5f;
             _timeSinceLastAttack = 0f;
             _canDealDamage = true;
             _drawing = true;
@@ -55,7 +55,7 @@ namespace Monogame___FINAL_PROJECT
             _attackTexture = attackTexture; 
             _rectangleTexture = rectangleTexture;
             _idleTexture = idleTexture;
-            _currentTexture = _deathTexture;
+            _currentTexture = _idleTexture;
 
             // Rectangles
             _leftAttackRect = new Rectangle(50, 265, 36, 30);
@@ -251,9 +251,9 @@ namespace Monogame___FINAL_PROJECT
         {
             if (_drawing)
             {
-                spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
+                //spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
                 spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-                spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
+                //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
             }
 
         }

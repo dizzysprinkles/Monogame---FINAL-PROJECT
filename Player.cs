@@ -233,7 +233,7 @@ namespace Monogame___FINAL_PROJECT
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
+            //spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
             spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.0f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
