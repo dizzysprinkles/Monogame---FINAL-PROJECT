@@ -238,12 +238,17 @@ namespace Monogame___FINAL_PROJECT
 
             player.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             player.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            slime.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            plant.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            orc.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            orc.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            for (int i = 0; i < slimes.Count; i++)
+            {
+                slimes[i].Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            //slime.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //slime.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //plant.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //plant.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //orc.Time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //orc.AttackTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 
             if (screen == Screen.Title)
@@ -278,32 +283,46 @@ namespace Monogame___FINAL_PROJECT
             {
        
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, tutorialBarriers, healthOpacity, orc, plant, slime);
-                slime.Update(player, tutorialBarriers);
-
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                for (int i = 0; i < slimes.Count; i++)
                 {
-                    if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
-                    {
-                        monsterCountMax = 3;
-                        descentRect = new Rectangle(440, 160, 35, 35);
-                        monstersKilled = 0;
-                        Window.Title = "Dungeon Mayhem: Level One";
-                        MediaPlayer.Stop();
-                        MediaPlayer.Play(firstLevelSong);
-                        MediaPlayer.Volume = 0.3f;
-                        player.Health = 10;
-                        orc.AttackCooldown = 0.65f;
-                        slime.AttackCooldown = orc.AttackCooldown;
-                        plant.AttackCooldown = orc.AttackCooldown;
-                        screen = Screen.First;
-                    }
+                    slimes[i].Update(player, tutorialBarriers);
                 }
+
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
+                        {
+                            monsterCountMax = 3;
+                            descentRect = new Rectangle(440, 160, 35, 35);
+                            monstersKilled = 0;
+                            Window.Title = "Dungeon Mayhem: Level One";
+                            MediaPlayer.Stop();
+                            MediaPlayer.Play(firstLevelSong);
+                            MediaPlayer.Volume = 0.3f;
+                            player.Health = 10;
+                            //Clear lists here
+
+
+                            //orc.AttackCooldown = 0.65f;
+                            for (int i = 0; i < slimes.Count; i++)
+                            {
+                                slimes[i].AttackCooldown = 0.65f;
+                            }
+                            //slime.AttackCooldown = orc.AttackCooldown;
+                            //plant.AttackCooldown = orc.AttackCooldown;
+                            screen = Screen.First;
+                        }
+                    }
             }
             else if (screen == Screen.First)
             {
-                slime.Update(player, firstLevelBarriers);
-                plant.Update(player, firstLevelBarriers);
-                orc.Update(player, firstLevelBarriers);
+                //slime.Update(player, firstLevelBarriers);
+                //plant.Update(player, firstLevelBarriers);
+                //orc.Update(player, firstLevelBarriers);
+                for (int i = 0; i < slimes.Count; i++)
+                {
+                    slimes[i].Update(player, firstLevelBarriers);
+                }
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, orc, plant, slime);
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
@@ -318,6 +337,7 @@ namespace Monogame___FINAL_PROJECT
                         MediaPlayer.Play(secondLevelSong);
                         MediaPlayer.Volume = 0.3f;
                         player.Health = 10;
+                        //Clear lists here
                         orc.AttackCooldown = 0.45f;
                         slime.AttackCooldown = orc.AttackCooldown;
                         plant.AttackCooldown = orc.AttackCooldown;
@@ -395,7 +415,11 @@ namespace Monogame___FINAL_PROJECT
   
 
                 player.Draw(_spriteBatch);
-                slime.Draw(_spriteBatch);
+                //slime.Draw(_spriteBatch);
+                for (int i = 0; i < slimes.Count; i++)
+                {
+                    slimes[i].Draw(_spriteBatch);
+                }
                 for (int i = 0; i < healthRects.Count; i++)
                 {
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
@@ -406,11 +430,14 @@ namespace Monogame___FINAL_PROJECT
             else if (screen == Screen.First)
             {
                 _spriteBatch.Draw(firstMapTexture, window, Color.White);
-                slime.Draw(_spriteBatch);
+                for (int i = 0; i < slimes.Count; i++)
+                {
+                    slimes[i].Draw(_spriteBatch);
+                }
 
-                plant.Draw(_spriteBatch);
+                //plant.Draw(_spriteBatch);
 
-                orc.Draw(_spriteBatch);
+                //orc.Draw(_spriteBatch);
 
                 player.Draw(_spriteBatch);
                
