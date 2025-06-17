@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -22,7 +24,8 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO:  lists of enemies per level; Additional Code (i.e music, end screens, instructions, sound effects
+        //TODO:  lists of enemies per level; Additional Code (i.e end screens, instructions, sound effects)
+        //TODO: Add monsters killed to total so player can actually move on
 
         Screen screen;
         KeyboardState keyboardState;
@@ -39,6 +42,7 @@ namespace Monogame___FINAL_PROJECT
         List<Plant> plants;
 
         SpriteFont titleFont, instructionFont, counterFont;
+        Song titleSong, tutorialSong, firstLevelSong, secondLevelSong, deadSong, surviveSong;
 
         Rectangle window;
 
@@ -168,9 +172,9 @@ namespace Monogame___FINAL_PROJECT
 
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
-            slime = new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeTutorialCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture);
-            plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture);
-            orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect);
+            slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeTutorialCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+            //plant = new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture);
+            //orc = new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect);
         }
 
         protected override void LoadContent()
@@ -214,6 +218,17 @@ namespace Monogame___FINAL_PROJECT
             secondMapTexture = Content.Load<Texture2D>("Images/secondMap");
 
             signTexture = Content.Load<Texture2D>("Images/signTitle");
+
+            titleSong = Content.Load<Song>("SoundFX/title");
+            tutorialSong = Content.Load<Song>("SoundFX/tutorial");
+            firstLevelSong = Content.Load<Song>("SoundFX/level1");
+            secondLevelSong = Content.Load<Song>("SoundFX/level2");
+            surviveSong = Content.Load<Song>("SoundFX/win");
+            deadSong = Content.Load<Song>("SoundFX/lose");
+
+            MediaPlayer.Volume = 0.8f;
+            MediaPlayer.Play(titleSong);
+            MediaPlayer.IsRepeating = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -238,6 +253,9 @@ namespace Monogame___FINAL_PROJECT
                     if (tutorialButtonRect.Contains(mouseState.Position))
                     {
                         Window.Title = "Dungeon Mayhem: Tutorial";
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(tutorialSong);
+                        MediaPlayer.Volume = 0.7f;
                         screen = Screen.Tutorial;
                     }
                     else if (gameButtonRect.Contains(mouseState.Position))
@@ -246,6 +264,9 @@ namespace Monogame___FINAL_PROJECT
                         monsterCountMax = 3;
                         descentRect = new Rectangle(440, 160, 35, 35);
                         Window.Title = "Dungeon Mayhem: Level One";
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(firstLevelSong);
+                        MediaPlayer.Volume = 0.3f;
                         orc.AttackCooldown = 0.65f;
                         slime.AttackCooldown = orc.AttackCooldown;
                         plant.AttackCooldown = orc.AttackCooldown;
@@ -267,6 +288,9 @@ namespace Monogame___FINAL_PROJECT
                         descentRect = new Rectangle(440, 160, 35, 35);
                         monstersKilled = 0;
                         Window.Title = "Dungeon Mayhem: Level One";
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(firstLevelSong);
+                        MediaPlayer.Volume = 0.3f;
                         player.Health = 10;
                         orc.AttackCooldown = 0.65f;
                         slime.AttackCooldown = orc.AttackCooldown;
@@ -290,6 +314,9 @@ namespace Monogame___FINAL_PROJECT
                         monstersKilled = 0;
                         descentRect = new Rectangle(665, 35, 35, 35);
                         Window.Title = "Dungeon Mayhem: Level Two";
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(secondLevelSong);
+                        MediaPlayer.Volume = 0.3f;
                         player.Health = 10;
                         orc.AttackCooldown = 0.45f;
                         slime.AttackCooldown = orc.AttackCooldown;
@@ -300,6 +327,9 @@ namespace Monogame___FINAL_PROJECT
                 if (player.Health <= 0)
                 {
                     Window.Title = "Dungeon Mayhem: You Lose";
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(deadSong);
+                    MediaPlayer.Volume = 0.7f;
                     screen = Screen.Lose;
                 }
 
@@ -316,6 +346,9 @@ namespace Monogame___FINAL_PROJECT
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
                     {
                         Window.Title = "Dungeon Mayhem: You Win";
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(surviveSong);
+                        MediaPlayer.Volume = 0.7f;
                         screen = Screen.Win;
                     }
                 }
@@ -323,6 +356,9 @@ namespace Monogame___FINAL_PROJECT
                 if (player.Health <= 0)
                 {
                     Window.Title = "Dungeon Mayhem: You Lose";
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(deadSong);
+                    MediaPlayer.Volume = 0.7f;
                     screen = Screen.Lose;
                 }
 
@@ -348,7 +384,7 @@ namespace Monogame___FINAL_PROJECT
             {
                 _spriteBatch.Draw(titleBackgroundTexture, window, Color.White);
                 _spriteBatch.Draw(signTexture, signRect, Color.White);
-                _spriteBatch.DrawString(titleFont, "TITLE HERE", new Vector2(10,0), Color.White);
+                _spriteBatch.DrawString(titleFont, "Dungeon Mayhem", new Vector2(10,0), Color.White);
                 _spriteBatch.DrawString(instructionFont, "Tutorial", new Vector2(100, 330), Color.White);
                 _spriteBatch.DrawString(instructionFont, "Main Game", new Vector2(100, 285), Color.White);
 

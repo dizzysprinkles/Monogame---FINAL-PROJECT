@@ -331,3 +331,39 @@
 /processorParam:TextureFormat=Color
 /build:Images/titleBackground.jpg
 
+#begin SoundFX/level1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:SoundFX/level1.mp3
+
+#begin SoundFX/level2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:SoundFX/level2.mp3
+
+#begin SoundFX/lose.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:SoundFX/lose.mp3
+
+#begin SoundFX/title.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:SoundFX/title.mp3
+
+#begin SoundFX/tutorial.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:SoundFX/tutorial.mp3
+
+#begin SoundFX/win.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:SoundFX/win.mp3
+
