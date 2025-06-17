@@ -107,11 +107,12 @@ namespace Monogame___FINAL_PROJECT
             set { _health = value; }
         }
 
-        public void Update(Player player, List<Rectangle> barriers)
+        public void Update(Player player, List<Rectangle> barriers, int killed)
         {
             if (_health <= 0)
             {
                 _currentTexture = _deathTexture;
+                killed += 1;
                 _direction = Vector2.Zero;
                 if (_time > _frameSpeed)
                 {

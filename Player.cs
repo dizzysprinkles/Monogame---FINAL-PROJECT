@@ -134,7 +134,7 @@ namespace Monogame___FINAL_PROJECT
         }
 
         //Mouse state is called for update but isn't used.... 
-        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, Orc orc, Plant plant, Slime slime)
+        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, List<Slime> slimes, List<Orc>orcs, List<Plant> plants)
         {
             //Animation && Sword Rotation
 
@@ -174,27 +174,37 @@ namespace Monogame___FINAL_PROJECT
                     if (_frame >= _frames)
                     {
                         _frame = 0;
-                        if (_swordCollisionRect.Intersects(orc.Rectangle) && _canDealDamage)
+                        for (int i = 0; i < slimes.Count; i++)
                         {
-                            orc.Health -= 1;
-                            _canDealDamage = false;
-                            _timeSinceLastAttack = 0f;
-                            _playerMainTexture = _playerIdleTexture;
+                            if (_swordCollisionRect.Intersects(slimes[i].Rectangle) && _canDealDamage)
+                            {
+                                slimes[i].Health -= 1;
+                                _canDealDamage = false;
+                                _timeSinceLastAttack = 0f;
+                                _playerMainTexture = _playerIdleTexture;
+                            }
                         }
-                        if (_swordCollisionRect.Intersects(plant.Rectangle) && _canDealDamage)
+                        for (int i = 0; i < orcs.Count; i++)
                         {
-                            plant.Health -= 1;
-                            _canDealDamage = false;
-                            _timeSinceLastAttack = 0f;
-                            _playerMainTexture = _playerIdleTexture;
+                            if (_swordCollisionRect.Intersects(orcs[i].Rectangle) && _canDealDamage)
+                            {
+                                orcs[i].Health -= 1;
+                                _canDealDamage = false;
+                                _timeSinceLastAttack = 0f;
+                                _playerMainTexture = _playerIdleTexture;
+                            }
                         }
-                        if (_swordCollisionRect.Intersects(slime.Rectangle) && _canDealDamage)
+                        for (int i = 0; i < plants.Count; i++)
                         {
-                            slime.Health -= 1;
-                            _canDealDamage = false;
-                            _timeSinceLastAttack = 0f;
-                            _playerMainTexture = _playerIdleTexture;
+                            if (_swordCollisionRect.Intersects(plants[i].Rectangle) && _canDealDamage)
+                            {
+                                plants[i].Health -= 1;
+                                _canDealDamage = false;
+                                _timeSinceLastAttack = 0f;
+                                _playerMainTexture = _playerIdleTexture;
+                            }
                         }
+
                     }
 
                 }

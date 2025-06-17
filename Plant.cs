@@ -116,12 +116,13 @@ namespace Monogame___FINAL_PROJECT
 
 
 
-        public void Update(Player player, List<Rectangle>barriers)
+        public void Update(Player player, List<Rectangle>barriers, int killed)
         {
             if (_health <= 0)
             {
                 _currentTexture = _deathTexture;
                 _direction = Vector2.Zero;
+                killed += 1;
                 if (_time > _frameSpeed)
                 {
                     _time = 0f;
@@ -148,19 +149,19 @@ namespace Monogame___FINAL_PROJECT
                 _currentTexture = _idleTexture;
             }
 
-            //if (_direction != Vector2.Zero)
-            //{
-            //    _direction.Normalize();
-            //    if (_direction.X < 0) // Moving left
-            //        _directionRow = _leftRow;
-            //    else if (_direction.X > 0) // Moving right
-            //        _directionRow = _rightRow;
-            //    else if (_direction.Y < 0) // Moving up
-            //        _directionRow = _upRow;
-            //    else
-            //        _directionRow = _downRow; // Moving down
-            //}
-            //_location += _direction * _speed;
+            if (_direction != Vector2.Zero)
+            {
+                _direction.Normalize();
+                if (_direction.X < 0) // Moving left
+                    _directionRow = _leftRow;
+                else if (_direction.X > 0) // Moving right
+                    _directionRow = _rightRow;
+                else if (_direction.Y < 0) // Moving up
+                    _directionRow = _upRow;
+                else
+                    _directionRow = _downRow; // Moving down
+            }
+            _location += _direction * _speed;
             UpdateRects();
 
             if (_timeSinceLastAttack >= _attackCooldown)
