@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text.Encodings.Web;
@@ -25,13 +26,12 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //TODO:  lists of enemies per level; Additional Code (i.e end screens, instructions, sound effects)
-        //TODO: Add monsters killed to total so player can actually move on
+        //TODO:  End screen buttons, health potion, instruction/dialogue in levels?, SOUND EFFECTSSSS
 
         Screen screen;
-        KeyboardState keyboardState, prevKeyboardState;
+        KeyboardState keyboardState;
         Player player;
-        int monsterCountMax, monstersKilled;
+        int monsterCountMax, monstersKilled, clickCounter;
         List<Rectangle> healthRects, tutorialBarriers, firstLevelBarriers, secondLevelBarriers;
         List<Texture2D> healthTextures;
         List<float> healthOpacity;
@@ -161,6 +161,8 @@ namespace Monogame___FINAL_PROJECT
 
             signRect = new Rectangle(70,205,200,175);
 
+            clickCounter = 0;
+
             monsterCountMax = 1;
             monstersKilled = 0;
 
@@ -246,7 +248,6 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Update(GameTime gameTime)
         {
-            prevKeyboardState = keyboardState;
             prevMouseState = mouseState;
             keyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState();
@@ -309,10 +310,20 @@ namespace Monogame___FINAL_PROJECT
             {
                 EnemiesUpdate(orcs, slimes, plants, tutorialBarriers, player);
 
-                player.Update(keyboardState, prevKeyboardState, healthTextures, healthRects, tutorialBarriers, healthOpacity, slimes, orcs, plants);
+                player.Update(keyboardState, healthTextures, healthRects, tutorialBarriers, healthOpacity, slimes, orcs, plants);
 
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
+                    clickCounter++;
+
+                    if (clickCounter == 1)
+                    {
+                        instructionText = "You can you WASD or the ARROW KEYS to move around. \n\nTo fight, press the SPACEBAR to swing your sword! \n\nTry to kill the slime over there!";
+                    }
+                    else if (clickCounter >= 2 && monstersKilled == 1)
+                    {
+                        instructionText = "Great job! You can now descend to Level 1! \n\nStand on the stairs and LEFT-CLICK to descend.";
+                    }
 
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
                     {
@@ -345,7 +356,7 @@ namespace Monogame___FINAL_PROJECT
             {
                 EnemiesUpdate(orcs, slimes, plants, firstLevelBarriers, player);
 
-                player.Update(keyboardState, prevKeyboardState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, slimes, orcs, plants);
+                player.Update(keyboardState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, slimes, orcs, plants);
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
@@ -392,7 +403,7 @@ namespace Monogame___FINAL_PROJECT
             else if (screen == Screen.Second)
             {
                 EnemiesUpdate(orcs, slimes, plants, secondLevelBarriers, player);
-                player.Update(keyboardState, prevKeyboardState, healthTextures, healthRects, secondLevelBarriers, healthOpacity, slimes, orcs, plants);
+                player.Update(keyboardState, healthTextures, healthRects, secondLevelBarriers, healthOpacity, slimes, orcs, plants);
                 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
@@ -552,19 +563,6 @@ namespace Monogame___FINAL_PROJECT
             for (int i = 0; i < slimes.Count; i++)
             {
                 slimes[i].Update(player, barriers);
-            }
-            for (int i = 0; i < orcs.Count; i++)
-            {
-                orcs[i].Update(player, barriers);
-            }
-            for (int i = 0; i < plants.Count; i++)
-            {
-                plants[i].Update(player, barriers);
-            }
-
-
-            for (int i = 0; i < slimes.Count; i++)
-            {
                 if (!slimes[i].Drawing)
                 {
                     slimes.RemoveAt(i);
@@ -572,11 +570,13 @@ namespace Monogame___FINAL_PROJECT
                     monstersKilled += 1;
                 }
             }
+
             for (int i = 0; i < orcs.Count; i++)
             {
-                if (!orcs[i].Drawing) 
+                orcs[i].Update(player, barriers);
+                if (!orcs[i].Drawing)
                 {
-                    slimes.RemoveAt(i);
+                    orcs.RemoveAt(i);
                     i--;
                     monstersKilled += 1;
                 }
@@ -584,13 +584,16 @@ namespace Monogame___FINAL_PROJECT
 
             for (int i = 0; i < plants.Count; i++)
             {
-                if (!plants[i].Drawing) 
+                plants[i].Update(player, barriers);
+                if (!plants[i].Drawing)
                 {
                     plants.RemoveAt(i);
                     i--;
                     monstersKilled += 1;
                 }
             }
+
+
         }
     }
 }

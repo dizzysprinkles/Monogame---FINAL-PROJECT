@@ -259,6 +259,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/rectangle.png
 
+#begin Images/red_heart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/red_heart.png
+
 #begin Images/secondMap.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -274,6 +274,9 @@ namespace Monogame___FINAL_PROJECT
             _upAttackRect.X = _collisionRect.X - 6;
             _upAttackRect.Y = _collisionRect.Y - 17;
 
+            _walkCollisionRect.X = _collisionRect.X +6;
+            _walkCollisionRect.Y = _collisionRect.Y;
+
         }
     }
 }
