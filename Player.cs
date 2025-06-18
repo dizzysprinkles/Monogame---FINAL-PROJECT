@@ -129,10 +129,8 @@ namespace Monogame___FINAL_PROJECT
             get { return _playerCenter; }
         }
 
-       
 
-        //Mouse state is called for update but isn't used.... 
-        public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, List<Slime> slimes, List<Orc>orcs, List<Plant> plants)
+        public void Update(KeyboardState keyboardState, KeyboardState prevKeyboardState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, List<Slime> slimes, List<Orc>orcs, List<Plant> plants)
         {
             //Animation && Sword Rotation
 
@@ -210,7 +208,7 @@ namespace Monogame___FINAL_PROJECT
             
 
             //Movement
-            SetPlayerDirection(keyboardState);
+            SetPlayerDirection(keyboardState, prevKeyboardState);
             _playerLocation += _playerDirection * _speed;
             
             UpdatePlayerRects();
@@ -246,7 +244,7 @@ namespace Monogame___FINAL_PROJECT
             spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.0f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
 
-        public void SetPlayerDirection(KeyboardState keyboardState)
+        public void SetPlayerDirection(KeyboardState keyboardState, KeyboardState prevKeyboardState)
         {
       
             _playerDirection = Vector2.Zero;
@@ -301,7 +299,7 @@ namespace Monogame___FINAL_PROJECT
                 _playerMainTexture = _playerWalkTexture;
             }
 
-            if (keyboardState.IsKeyDown(Keys.Space))
+            if (keyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
             {
                 _playerMainTexture = _playerAttackTexture;
 

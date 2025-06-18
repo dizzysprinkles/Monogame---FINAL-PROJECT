@@ -116,16 +116,16 @@ namespace Monogame___FINAL_PROJECT
 
         public bool Drawing
         {
+
             get { return _drawing; }
         }
 
-        public void Update(Player player, List<Rectangle>barriers, int killed)
+        public void Update(Player player, List<Rectangle>barriers)
         {
             if (_health <= 0)
             {
                 _currentTexture = _deathTexture;
                 _direction = Vector2.Zero;
-                killed += 1;
                 if (_time > _frameSpeed)
                 {
                     _time = 0f;

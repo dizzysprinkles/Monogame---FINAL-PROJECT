@@ -65,8 +65,7 @@ namespace Monogame___FINAL_PROJECT
             _attackCollisionRect = _leftAttackRect;
 
             _walkCollisionRect = walkRect;
-           
-            
+
             _collisionRect = collisionRect;
             _drawRect = drawRect;
             _location = _collisionRect.Location.ToVector2();
@@ -116,19 +115,20 @@ namespace Monogame___FINAL_PROJECT
             set { _health = value; }
         }
 
+
         public bool Drawing
         {
+
             get { return _drawing; }
         }
 
 
-        public void Update(Player player, List<Rectangle> barriers, int killed)
+        public void Update(Player player, List<Rectangle> barriers)
         {
             if (_health <= 0)
             {
                 _currentTexture = _deathTexture;
                 _direction = Vector2.Zero;
-                killed += 1;
                 if (_time > _frameSpeed)
                 {
                     _time = 0f;
