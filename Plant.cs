@@ -114,7 +114,10 @@ namespace Monogame___FINAL_PROJECT
             set { _health = value; }
         }
 
-
+        public bool Drawing
+        {
+            get { return _drawing; }
+        }
 
         public void Update(Player player, List<Rectangle>barriers, int killed)
         {
@@ -237,7 +240,7 @@ namespace Monogame___FINAL_PROJECT
                         _frame = 0;
                         if (_attackCollisionRect.Intersects(player.Rectangle) && _canDealDamage)
                         {
-                            //player.Health -= 1;
+                            player.Health -= 1;
                             _canDealDamage = false;
                             _timeSinceLastAttack = 0f;
                             _currentTexture = _idleTexture;

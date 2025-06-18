@@ -106,6 +106,10 @@ namespace Monogame___FINAL_PROJECT
             get { return _health; }
             set { _health = value; }
         }
+        public bool Drawing
+        {
+            get { return _drawing; }
+        }
 
         public void Update(Player player, List<Rectangle> barriers, int killed)
         {

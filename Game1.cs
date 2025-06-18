@@ -50,7 +50,7 @@ namespace Monogame___FINAL_PROJECT
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture, plantIdleTexture, orcIdleTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeTutorialCollisionRect, playerSwordRect, plantDrawRect, plantFirstCollisionRect, orcDrawRect, orcFirstCollisionRect;
         Rectangle signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect, slimeWalkRect, plantWalkRect, orcWalkRect;
-        Rectangle orcSecondCollisionRect, plantSecondCollisionRect, slimeFirstCollisionRect, slimeSecondCollisionRect;
+        Rectangle orcSecondCollisionRect, plantSecondCollisionRect, slimeFirstCollisionRect, slimeSecondCollisionRect, orcThirdCollisionRect, plantThirdCollisionRect, slimeThirdCollisionRect;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -60,7 +60,7 @@ namespace Monogame___FINAL_PROJECT
 
         protected override void Initialize()
         {
-            screen = Screen.Second;
+            screen = Screen.Title;
             Window.Title = "Dungeon Mayhem: Main Menu";
 
             orcs = new List<Orc>();
@@ -131,17 +131,20 @@ namespace Monogame___FINAL_PROJECT
 
             slimeTutorialCollisionRect = new Rectangle(262, 260, 32, 30);
             slimeFirstCollisionRect = new Rectangle(600, 450, 32, 30);
-            slimeSecondCollisionRect = new Rectangle(300, 550, 32, 30);
+            slimeSecondCollisionRect = new Rectangle(300, 450, 32, 30);
+            slimeThirdCollisionRect = new Rectangle(100, 100, 32, 30);
             slimeDrawRect = new Rectangle(40, 40, 75, 75);
             slimeWalkRect = new Rectangle(70, 260, 16, 30);
 
             plantDrawRect = new Rectangle(100, 100, 75, 75);
             plantFirstCollisionRect = new Rectangle(215, 490, 40, 50);
             plantSecondCollisionRect = new Rectangle(600, 100, 40, 50);
+            plantThirdCollisionRect = new Rectangle(350, 310, 40, 50);
             plantWalkRect = new Rectangle(127, 290, 16, 50);
 
             orcFirstCollisionRect = new Rectangle(350,100,45,45);
-            orcSecondCollisionRect = new Rectangle(115, 290, 45,45);
+            orcSecondCollisionRect = new Rectangle(115, 360, 45,45);
+            orcThirdCollisionRect = new Rectangle(675, 310, 45, 45);
             orcDrawRect = new Rectangle(212,288,65,80);
             orcWalkRect = new Rectangle(226, 300,17, 45 );
 
@@ -344,9 +347,17 @@ namespace Monogame___FINAL_PROJECT
                 }
                 player.Update(keyboardState, mouseState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, slimes, orcs, plants);
 
+                for (int i = 0; i < slimes.Count; i++)
+                {
+                    if (!slimes[i].Drawing || !orcs[i].Drawing || !plants[i].Drawing) // infinite loop...
+                    {
+                        monstersKilled += 1;
+                    }
+                }
+
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
+                    if (player.Intersects(descentRect) /*&& monstersKilled == monsterCountMax*/)
                     {
                         monsterCountMax = 6;
                         monstersKilled = 0;
@@ -356,9 +367,28 @@ namespace Monogame___FINAL_PROJECT
                         MediaPlayer.Play(secondLevelSong);
                         MediaPlayer.Volume = 0.3f;
                         player.Health = 10;
+                        //healthOpacity.Clear();
+
                         //Clear lists here
-                      //cooldowns 0.45f
+                        slimes.Clear();
+                        orcs.Clear();
+                        plants.Clear();
+                       
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeSecondCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcSecondCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantSecondCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeThirdCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcThirdCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantThirdCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        for (int i = 0; i < slimes.Count; i++)
+                        {
+                            slimes[i].AttackCooldown = 0.45f;
+                            orcs[i].AttackCooldown = 0.45f;
+                            plants[i].AttackCooldown = 0.45f;
+                        }
                         screen = Screen.Second;
+                        player.Rectangle = new Rectangle(400, 100, 25, 45);
+                        player.Location = new Vector2(400, 100);
                     }
                 }
                 if (player.Health <= 0)
@@ -373,8 +403,9 @@ namespace Monogame___FINAL_PROJECT
             }
             else if (screen == Screen.Second)
             {
-               
 
+                player.Update(keyboardState, mouseState, healthTextures, healthRects, secondLevelBarriers, healthOpacity, slimes, orcs, plants);
+                
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)

@@ -74,7 +74,7 @@ namespace Monogame___FINAL_PROJECT
             _playerCollisionRect = collisionRect;
             _playerDrawRect = drawRect;
             _swordCollisionRect = swordRect;
-            _playerLocation = new Vector2(188, 250);
+            _playerLocation = _playerCollisionRect.Location.ToVector2();
             _playerDirection = Vector2.Zero;
             _swordLocation = new Vector2(196,275);
 
@@ -92,6 +92,13 @@ namespace Monogame___FINAL_PROJECT
         public Rectangle Rectangle
         {
             get { return _playerCollisionRect; }
+            set { _playerCollisionRect = value; }
+        }
+
+        public Vector2 Location
+        {
+            get { return _playerLocation;}
+            set { _playerLocation = value; }    
         }
 
         public bool Intersects(Rectangle player) //intersects a rectangle
@@ -122,16 +129,7 @@ namespace Monogame___FINAL_PROJECT
             get { return _playerCenter; }
         }
 
-        public Rectangle Sword
-        {
-            get { return _swordCollisionRect; }
-
-        }
-
-        public Texture2D Skin
-        {
-            get { return _playerMainTexture; }
-        }
+       
 
         //Mouse state is called for update but isn't used.... 
         public void Update(KeyboardState keyboardState, MouseState mouseState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, List<Slime> slimes, List<Orc>orcs, List<Plant> plants)
