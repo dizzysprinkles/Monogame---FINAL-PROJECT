@@ -61,7 +61,7 @@ namespace Monogame___FINAL_PROJECT
 
             _canDealDamage = true;
             _timeSinceLastAttack = 0.0f;
-            _attackCooldown = 0.25f;
+            _attackCooldown = 0.15f;
 
             // Textures
             _playerAttackTexture = attackTexture;
@@ -86,7 +86,7 @@ namespace Monogame___FINAL_PROJECT
             UpdatePlayerRects();
 
             //Other stuff
-            _health = 10; // 5 hearts drawn to screen, lose half a heart per hit, need to figure that out...
+            _health = 10; 
         }
 
         public Rectangle Rectangle
