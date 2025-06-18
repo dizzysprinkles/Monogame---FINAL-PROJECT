@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using System.Text.Encodings.Web;
 
 namespace Monogame___FINAL_PROJECT
 {
@@ -38,18 +39,20 @@ namespace Monogame___FINAL_PROJECT
         List<Orc> orcs;
         List<Plant> plants;
 
+        string instructionText;
+
         SpriteFont titleFont, instructionFont, counterFont;
         Song titleSong, tutorialSong, firstLevelSong, secondLevelSong, deadSong, surviveSong;
 
         Rectangle window;
 
-        MouseState mouseState;
+        MouseState mouseState, prevMouseState;
 
-        Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture;
+        Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture, winBackgroundTexture, loseBackgroundTexture, instructionBoxTexture;
         Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture, slimeIdleTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture, plantIdleTexture, orcIdleTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeTutorialCollisionRect, playerSwordRect, plantDrawRect, plantFirstCollisionRect, orcDrawRect, orcFirstCollisionRect;
-        Rectangle signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect, slimeWalkRect, plantWalkRect, orcWalkRect;
+        Rectangle signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect, slimeWalkRect, plantWalkRect, orcWalkRect, instructionBoxRect;
         Rectangle orcSecondCollisionRect, plantSecondCollisionRect, slimeFirstCollisionRect, slimeSecondCollisionRect, orcThirdCollisionRect, plantThirdCollisionRect, slimeThirdCollisionRect;
         public Game1()
         {
@@ -62,6 +65,8 @@ namespace Monogame___FINAL_PROJECT
         {
             screen = Screen.Title;
             Window.Title = "Dungeon Mayhem: Main Menu";
+
+            instructionText = "Welcome to the Dungeon! \n\nYour goal is to kill every monster on each floor and \n\ndescend until you reach the bottom!";
 
             orcs = new List<Orc>();
             slimes = new List<Slime>();
@@ -129,7 +134,7 @@ namespace Monogame___FINAL_PROJECT
             playerDrawRect = new Rectangle(20,20,50,65);
             playerSwordRect = new Rectangle(196, 275, 10, 30);
 
-            slimeTutorialCollisionRect = new Rectangle(262, 260, 32, 30);
+            slimeTutorialCollisionRect = new Rectangle(562, 260, 32, 30);
             slimeFirstCollisionRect = new Rectangle(600, 450, 32, 30);
             slimeSecondCollisionRect = new Rectangle(300, 450, 32, 30);
             slimeThirdCollisionRect = new Rectangle(100, 100, 32, 30);
@@ -149,6 +154,8 @@ namespace Monogame___FINAL_PROJECT
             orcWalkRect = new Rectangle(226, 300,17, 45 );
 
             descentRect = new Rectangle(320, 207, 53, 60);
+
+            instructionBoxRect = new Rectangle(0, 450, 800, 150);
 
             window = new Rectangle(0, 0, 800, 600);
 
@@ -219,8 +226,11 @@ namespace Monogame___FINAL_PROJECT
             tutorialMapTexture = Content.Load<Texture2D>("Images/Map Tutorial");
             firstMapTexture = Content.Load<Texture2D>("Images/firstMap");
             secondMapTexture = Content.Load<Texture2D>("Images/secondMap");
+            winBackgroundTexture = Content.Load<Texture2D>("Images/winBackground");
+            loseBackgroundTexture = Content.Load<Texture2D>("Images/loseBackground");
 
             signTexture = Content.Load<Texture2D>("Images/signTitle");
+            instructionBoxTexture = Content.Load<Texture2D>("Images/instructionBox");
 
             titleSong = Content.Load<Song>("SoundFX/title");
             tutorialSong = Content.Load<Song>("SoundFX/tutorial");
@@ -237,6 +247,7 @@ namespace Monogame___FINAL_PROJECT
         protected override void Update(GameTime gameTime)
         {
             prevKeyboardState = keyboardState;
+            prevMouseState = mouseState;
             keyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState();
 
@@ -300,8 +311,9 @@ namespace Monogame___FINAL_PROJECT
 
                 player.Update(keyboardState, prevKeyboardState, healthTextures, healthRects, tutorialBarriers, healthOpacity, slimes, orcs, plants);
 
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
+
                     if (player.Intersects(descentRect) && monstersKilled == monsterCountMax)
                     {
                         monsterCountMax = 3;
@@ -404,9 +416,13 @@ namespace Monogame___FINAL_PROJECT
                 }
 
             }
-            else
+            else if (screen == Screen.Win)
             { 
             
+            }
+            else 
+            {
+
             }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -446,6 +462,13 @@ namespace Monogame___FINAL_PROJECT
                     _spriteBatch.Draw(healthTextures[i], healthRects[i], Color.White * healthOpacity[i]);
                 }
                 _spriteBatch.DrawString(counterFont, $"{monstersKilled} / {monsterCountMax} Killed!", new Vector2(650, 5), Color.HotPink);
+                _spriteBatch.Draw(instructionBoxTexture, instructionBoxRect, Color.White);
+                _spriteBatch.DrawString(instructionFont, instructionText, new Vector2(20, 470), Color.White);
+                _spriteBatch.DrawString(counterFont, "Click to continue", new Vector2(580, 570), Color.YellowGreen);
+
+                //Text 1 - Welcome to the dungeon! *insert story if possible?* Your goal is to killed every monster on each floor, descending until you reach the bottom!
+                // Text 2 - You can you WASD or the ARROW KEYS to move around. To fight, press the SPACEBAR to swing your sword! Try to kill the slime over there!
+                // Text 3 - Great job! You can now descend to Level 1! Stand on the stairs and LEFT-CLICK to descend.
 
             }
             else if (screen == Screen.First)
@@ -504,8 +527,23 @@ namespace Monogame___FINAL_PROJECT
                 _spriteBatch.DrawString(counterFont, $"{monstersKilled} / {monsterCountMax} Killed!", new Vector2(650, 5), Color.HotPink);
 
             }
-            _spriteBatch.End();
+            else if (screen == Screen.Win)
+            {
+                _spriteBatch.Draw(winBackgroundTexture, window, Color.White);
+                // should have buttons to restart/go back to main menu and then reset everything
+                _spriteBatch.DrawString(titleFont, "You survived \nthe Dungeon!", new Vector2(175, 210), Color.White);
+               
+            }
+            else 
+            {
+                _spriteBatch.Draw(loseBackgroundTexture, window, Color.White);
+                _spriteBatch.DrawString(titleFont, "You lost to \nthe Dungeon...", new Vector2(175, 210), Color.White);
 
+            }
+
+
+
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
 

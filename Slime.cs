@@ -97,7 +97,6 @@ namespace Monogame___FINAL_PROJECT
             set { _attackCooldown = value; }
         }
 
-
         public float AttackTime
         {
             get { return _timeSinceLastAttack; }
@@ -115,13 +114,10 @@ namespace Monogame___FINAL_PROJECT
             set { _health = value; }
         }
 
-
         public bool Drawing
         {
-
             get { return _drawing; }
         }
-
 
         public void Update(Player player, List<Rectangle> barriers)
         {
