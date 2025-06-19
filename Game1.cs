@@ -263,8 +263,6 @@ namespace Monogame___FINAL_PROJECT
             orcWalkInstance = orcWalkSound.CreateInstance();
             orcWalkInstance.IsLooped = false;
 
-            +
-
             MediaPlayer.Volume = 0.8f;
             MediaPlayer.Play(titleSong);
             MediaPlayer.IsRepeating = true;
