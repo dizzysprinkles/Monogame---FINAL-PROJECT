@@ -25,8 +25,9 @@ namespace Monogame___FINAL_PROJECT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        //TODO: Overhaul sword collision box and just switch it to bix hitbox for easier detection
 
-        //TODO:  End screen buttons, health potion, instruction/dialogue in levels?, SOUND EFFECTSSSS
+        //TODO: End screen buttons, health potion, instruction/dialogue in levels?, SOUND EFFECTSSSS
 
         Screen screen;
         KeyboardState keyboardState;
