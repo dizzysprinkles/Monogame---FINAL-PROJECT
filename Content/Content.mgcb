@@ -385,6 +385,102 @@
 /processorParam:Quality=Best
 /build:SoundFX/lose.mp3
 
+#begin SoundFX/orcAttack.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/orcAttack.ogg
+
+#begin SoundFX/orcDeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/orcDeath.wav
+
+#begin SoundFX/orcHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/orcHurt.wav
+
+#begin SoundFX/orcWalk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/orcWalk.wav
+
+#begin SoundFX/plantBite.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/plantBite.mp3
+
+#begin SoundFX/plantDeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/plantDeath.wav
+
+#begin SoundFX/plantHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/plantHurt.wav
+
+#begin SoundFX/plantWalk.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/plantWalk.mp3
+
+#begin SoundFX/playerAttack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/playerAttack.wav
+
+#begin SoundFX/playerDead.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/playerDead.wav
+
+#begin SoundFX/playerHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/playerHurt.wav
+
+#begin SoundFX/playerWalk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/playerWalk.wav
+
+#begin SoundFX/slimeAttack.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/slimeAttack.mp3
+
+#begin SoundFX/slimeDeath.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/slimeDeath.wav
+
+#begin SoundFX/slimeHurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/slimeHurt.wav
+
+#begin SoundFX/slimeWalking.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/slimeWalking.wav
+
 #begin SoundFX/title.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

@@ -46,6 +46,8 @@ namespace Monogame___FINAL_PROJECT
 
         SpriteFont titleFont, instructionFont, counterFont;
         Song titleSong, tutorialSong, firstLevelSong, secondLevelSong, deadSong, surviveSong;
+        SoundEffect orcAttackSound, orcDeathSound, orcHurtSound, orcWalkSound;
+        SoundEffectInstance orcAttackInstance, orcDeathInstance, orcHurtInstance, orcWalkInstance;
 
         Rectangle window;
 
@@ -243,6 +245,25 @@ namespace Monogame___FINAL_PROJECT
             secondLevelSong = Content.Load<Song>("SoundFX/level2");
             surviveSong = Content.Load<Song>("SoundFX/win");
             deadSong = Content.Load<Song>("SoundFX/lose");
+
+            // Sound Effects && Instances
+            orcAttackSound = Content.Load<SoundEffect>("SoundFX/orcAttack");
+            orcAttackInstance = orcAttackSound.CreateInstance();
+            orcAttackInstance.IsLooped = false;
+
+            orcDeathSound = Content.Load<SoundEffect>("SoundFX/orcDeath");
+            orcDeathInstance = orcDeathSound.CreateInstance();
+            orcDeathInstance.IsLooped = false;
+
+            orcHurtSound = Content.Load<SoundEffect>("SoundFX/orcHurt");
+            orcHurtInstance = orcHurtSound.CreateInstance();
+            orcHurtInstance.IsLooped = false;
+
+            orcWalkSound = Content.Load<SoundEffect>("SoundFX/orcWalk");
+            orcWalkInstance = orcWalkSound.CreateInstance();
+            orcWalkInstance.IsLooped = false;
+
+            +
 
             MediaPlayer.Volume = 0.8f;
             MediaPlayer.Play(titleSong);
