@@ -26,6 +26,8 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         //TODO: Overhaul sword collision box and just switch it to bix hitbox for easier detection
+        //TODO: Dialogue box in level one with a short message... 
+        //TODO: 
 
         //TODO: End screen buttons, health potion, instruction/dialogue in levels?, SOUND EFFECTSSSS
 
@@ -304,6 +306,7 @@ namespace Monogame___FINAL_PROJECT
                             plants[i].AttackCooldown = 0.65f;
                         }
                         screen = Screen.First;
+
                     }
                 }
             }
@@ -348,7 +351,10 @@ namespace Monogame___FINAL_PROJECT
                             orcs[i].AttackCooldown = 0.65f;
                             plants[i].AttackCooldown = 0.65f;
                         }
-         
+
+                        player.Rectangle = new Rectangle(400, 100, 25, 45);
+                        player.Location = new Vector2(400, 100);
+
                         screen = Screen.First;
                     }
                 }
