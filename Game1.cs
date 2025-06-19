@@ -136,7 +136,7 @@ namespace Monogame___FINAL_PROJECT
             //Rectangles - Collisions
             playerCollisionRect = new Rectangle(200,260,25,45); 
             playerDrawRect = new Rectangle(20,20,50,65);
-            playerSwordRect = new Rectangle(196, 275, 10, 30);
+            playerSwordRect = new Rectangle(196, 275, 10, 45);
 
             slimeTutorialCollisionRect = new Rectangle(562, 260, 32, 30);
             slimeFirstCollisionRect = new Rectangle(600, 450, 32, 30);
@@ -433,6 +433,7 @@ namespace Monogame___FINAL_PROJECT
                         }
 
                         screen = Screen.First;
+                        clickCounter = 0;
                     }
                 }
             }
@@ -600,7 +601,7 @@ namespace Monogame___FINAL_PROJECT
                 }
                 _spriteBatch.DrawString(counterFont, $"{monstersKilled} / {monsterCountMax} Killed!", new Vector2(650, 5), Color.HotPink);
 
-                if (clickCounter <=3 )
+                if (clickCounter <=0 )
                 {
                     _spriteBatch.Draw(instructionBoxTexture, instructionBoxRect, Color.White);
                     _spriteBatch.DrawString(instructionFont, instructionText, new Vector2(20, 475), Color.White);
