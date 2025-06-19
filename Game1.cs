@@ -174,8 +174,6 @@ namespace Monogame___FINAL_PROJECT
             monsterCountMax = 1;
             monstersKilled = 0;
 
-            
-
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.ApplyChanges();
