@@ -172,6 +172,7 @@ namespace Monogame___FINAL_PROJECT
                         _frame = 0;
                         for (int i = 0; i < slimes.Count; i++)
                         {
+                            // Slime 
                             if (_swordCollisionRect.Intersects(slimes[i].Rectangle) && _canDealDamage)
                             {
                                 slimes[i].Health -= 1;
@@ -181,7 +182,7 @@ namespace Monogame___FINAL_PROJECT
                             }
                         }
                         for (int i = 0; i < orcs.Count; i++)
-                        {
+                        {   // Orc
                             if (_swordCollisionRect.Intersects(orcs[i].Rectangle) && _canDealDamage)
                             {
                                 orcs[i].Health -= 1;
@@ -191,7 +192,7 @@ namespace Monogame___FINAL_PROJECT
                             }
                         }
                         for (int i = 0; i < plants.Count; i++)
-                        {
+                        {   // Plant
                             if (_swordCollisionRect.Intersects(plants[i].Rectangle) && _canDealDamage)
                             {
                                 plants[i].Health -= 1;
@@ -239,14 +240,12 @@ namespace Monogame___FINAL_PROJECT
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(_rectangleTexture, _playerCollisionRect, Color.Black * 0.3f);
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
             spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.0f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
         }
 
         public void SetPlayerDirection(KeyboardState keyboardState)
         {
-      
             _playerDirection = Vector2.Zero;
 
             if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))

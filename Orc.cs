@@ -55,11 +55,6 @@ namespace Monogame___FINAL_PROJECT
             // Rectangles
             _collisionRect = collisionRect;
             _drawRect = drawRect;
-
-            _location = _collisionRect.Location.ToVector2();
-            _direction = Vector2.Zero;
-            _width = _attackTexture.Width / _columns;
-            _height = _attackTexture.Height / _rows;
             _downAttackRect = new Rectangle(212, 320, 65, 40); 
             _leftAttackRect = new Rectangle(200, 300, 60, 53);
             _upAttackRect = new Rectangle(214,283,60,40);
@@ -67,8 +62,11 @@ namespace Monogame___FINAL_PROJECT
             _attackCollisionRect = _upAttackRect;
             _walkCollisionRect = walkRect;
 
-            
 
+            _location = _collisionRect.Location.ToVector2();
+            _direction = Vector2.Zero;
+            _width = _attackTexture.Width / _columns;
+            _height = _attackTexture.Height / _rows;
             _detectionRadius = 115;
             _attackRadius = 40;
             _center = _collisionRect.Center.ToVector2();
