@@ -79,7 +79,7 @@ namespace Monogame___FINAL_PROJECT
             _detectionRadius = 115;
             _attackRadius = 30;
 
-            _health = 10; //might need to adjust
+            _health = 5; 
 
             UpdateRects();
 

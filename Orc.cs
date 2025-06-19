@@ -73,7 +73,7 @@ namespace Monogame___FINAL_PROJECT
             _attackRadius = 40;
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = player.Center - _center;
-            _health = 10; // leave for now... Might need to increase 
+            _health = 5; 
 
             UpdateRects();
 
