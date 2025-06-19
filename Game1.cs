@@ -29,6 +29,8 @@ namespace Monogame___FINAL_PROJECT
         //TODO: Dialogue box in level one with a short message... 
         //TODO: 
 
+        //DEMO, how works, learned, difficulty, more time = what do?
+
         //TODO: End screen buttons, health potion, instruction/dialogue in levels?, SOUND EFFECTSSSS
 
         Screen screen;
@@ -46,8 +48,8 @@ namespace Monogame___FINAL_PROJECT
 
         SpriteFont titleFont, instructionFont, counterFont;
         Song titleSong, tutorialSong, firstLevelSong, secondLevelSong, deadSong, surviveSong;
-        SoundEffect orcAttackSound, orcDeathSound, orcHurtSound, orcWalkSound;
-        SoundEffectInstance orcAttackInstance, orcDeathInstance, orcHurtInstance, orcWalkInstance;
+        SoundEffect orcAttackSound, orcDeathSound, orcHurtSound, orcWalkSound, plantAttackSound, plantDeathSound, plantHurtSound, plantWalkSound, playerAttackSound, playerDeathSound, playerHurtSound, playerWalkSound, slimeAttackSound, slimeDeathSound, slimeHurtSound, slimeWalkSound;
+        SoundEffectInstance orcAttackInstance, orcDeathInstance, orcHurtInstance, orcWalkInstance, plantAttackInstance, plantDeathInstance, plantHurtInstance, plantWalkInstance, playerAttackInstance, playerDeathInstance, playerHurtInstance, playerWalkInstance, slimeAttackInstance, slimeDeathInstance, slimeHurtInstance, slimeWalkInstance;
 
         Rectangle window;
 
@@ -262,6 +264,56 @@ namespace Monogame___FINAL_PROJECT
             orcWalkSound = Content.Load<SoundEffect>("SoundFX/orcWalk");
             orcWalkInstance = orcWalkSound.CreateInstance();
             orcWalkInstance.IsLooped = false;
+
+            plantAttackSound = Content.Load<SoundEffect>("SoundFX/plantBite");
+            plantAttackInstance = plantAttackSound.CreateInstance();
+            plantAttackInstance.IsLooped = false;
+
+            plantDeathSound = Content.Load<SoundEffect>("SoundFX/plantDeath");
+            plantDeathInstance = plantDeathSound.CreateInstance();
+            plantDeathInstance.IsLooped = false;
+
+            plantHurtSound = Content.Load<SoundEffect>("SoundFX/plantHurt");
+            plantHurtInstance = plantHurtSound.CreateInstance();
+            plantHurtInstance.IsLooped=false;
+
+            plantWalkSound = Content.Load<SoundEffect>("SoundFX/plantWalk");
+            plantWalkInstance = plantWalkSound.CreateInstance();
+            plantWalkInstance.IsLooped = false;
+
+            playerAttackSound = Content.Load<SoundEffect>("SoundFX/playerAttack");
+            playerAttackInstance = playerAttackSound.CreateInstance();
+            playerAttackInstance.IsLooped = false;
+
+            playerDeathSound = Content.Load<SoundEffect>("SoundFX/playerDead");
+            playerDeathInstance = playerDeathSound.CreateInstance();
+            playerDeathInstance.IsLooped = false;
+
+            playerHurtSound = Content.Load<SoundEffect>("SoundFX/playerHurt");
+            playerHurtInstance= playerHurtSound.CreateInstance();
+            playerHurtInstance.IsLooped = false;
+
+            playerWalkSound = Content.Load<SoundEffect>("SoundFX/playerWalk");
+            playerWalkInstance = playerWalkSound.CreateInstance();
+            playerWalkInstance.IsLooped = false;
+
+            slimeAttackSound = Content.Load<SoundEffect>("SoundFX/slimeAttack");
+            slimeAttackInstance = slimeAttackSound.CreateInstance();
+            slimeAttackInstance.IsLooped = false;
+
+            slimeDeathSound = Content.Load<SoundEffect>("SoundFX/slimeDeath");
+            slimeDeathInstance = slimeDeathSound.CreateInstance();
+            slimeDeathInstance.IsLooped = false;
+
+            slimeHurtSound = Content.Load<SoundEffect>("SoundFX/slimeHurt");
+            slimeHurtInstance = slimeHurtSound.CreateInstance();
+            slimeHurtInstance.IsLooped=false;
+
+            slimeWalkSound = Content.Load<SoundEffect>("SoundFX/slimeWalking");
+            slimeWalkInstance = slimeWalkSound.CreateInstance();
+            slimeWalkInstance.IsLooped=false;
+
+
 
             MediaPlayer.Volume = 0.8f;
             MediaPlayer.Play(titleSong);
