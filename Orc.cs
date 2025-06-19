@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,11 @@ namespace Monogame___FINAL_PROJECT
         private int _leftRow, _rightRow, _upRow, _downRow;
         private float _speed, _frameSpeed, _time, _attackCooldown, _timeSinceLastAttack;
         private Vector2 _location, _direction, _center, _playerDistance;
-        private Texture2D _deathTexture, _walkTexture, _attackTexture, _rectangleTexture, _currentTexture, _idleTexture;
+        private Texture2D _deathTexture, _walkTexture, _attackTexture, _currentTexture, _idleTexture;
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
         private bool _canDealDamage, _drawing;
 
-        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Texture2D rectangleTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Texture2D idleTexture, Rectangle walkRect)
+        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Texture2D idleTexture, Rectangle walkRect)
         {
             // Spritesheet Variables
             _columns = 8;
@@ -48,7 +49,6 @@ namespace Monogame___FINAL_PROJECT
             _deathTexture = deathTexture; 
             _walkTexture = walkTexture; 
             _attackTexture = attackTexture; 
-            _rectangleTexture = rectangleTexture;
             _idleTexture = idleTexture;
             _currentTexture = _attackTexture;
 
@@ -114,11 +114,12 @@ namespace Monogame___FINAL_PROJECT
         }
 
 
-        public void Update(Player player, List<Rectangle> barriers)
+        public void Update(Player player, List<Rectangle> barriers, SoundEffectInstance walkInstance, SoundEffectInstance deathInstance, SoundEffectInstance attackInstance)
         {
             if (_health <= 0)
             {
                 _currentTexture = _deathTexture;
+                deathInstance.Play();
                 _direction = Vector2.Zero;
                 if (_time > _frameSpeed)
                 {
@@ -133,11 +134,13 @@ namespace Monogame___FINAL_PROJECT
             if (_playerDistance.Length() <= _detectionRadius && _playerDistance.Length() > _attackRadius && _currentTexture != _deathTexture)
             {
                 _currentTexture = _walkTexture;
+                walkInstance.Play();
                 _direction = _playerDistance;
             }
             else if (_playerDistance.Length() <= _attackRadius && _canDealDamage && _currentTexture != _deathTexture)
             {
                 _currentTexture = _attackTexture;
+                attackInstance.Play();
                 _direction = Vector2.Zero;
             }
             else if(_currentTexture != _deathTexture)
@@ -166,8 +169,6 @@ namespace Monogame___FINAL_PROJECT
                 _canDealDamage = true;
             }
 
-           
-
             foreach (Rectangle barrier in barriers)
             {
                 if (_walkCollisionRect.Intersects(barrier))
@@ -195,9 +196,6 @@ namespace Monogame___FINAL_PROJECT
             { 
                 _attackCollisionRect= _rightAttackRect;
             }
-
-
-
 
             if (_currentTexture == _walkTexture)
             {
@@ -248,9 +246,7 @@ namespace Monogame___FINAL_PROJECT
         {
             if (_drawing)
             {
-                //spriteBatch.Draw(_rectangleTexture, _collisionRect, Color.Black * 0.3f);
                 spriteBatch.Draw(_currentTexture, _drawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-                //spriteBatch.Draw(_rectangleTexture, _attackCollisionRect, Color.Red * 0.3f);
             }
           
         }

@@ -193,7 +193,7 @@ namespace Monogame___FINAL_PROJECT
 
             base.Initialize();
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
-            slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeTutorialCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+            slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeTutorialCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
         }
 
         protected override void LoadContent()
@@ -367,9 +367,9 @@ namespace Monogame___FINAL_PROJECT
                         MediaPlayer.Play(firstLevelSong);
                         MediaPlayer.Volume = 0.3f;
                         slimes.Clear();
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
                         for (int i = 0; i < slimes.Count; i++)
                         {
                             slimes[i].AttackCooldown = 0.65f;
@@ -412,9 +412,9 @@ namespace Monogame___FINAL_PROJECT
                         MediaPlayer.Volume = 0.3f;
                         player.Health = 10;
                         slimes.Clear();
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
 
                         for (int i = 0; i < slimes.Count; i++)
                         {
@@ -451,12 +451,12 @@ namespace Monogame___FINAL_PROJECT
                         orcs.Clear();
                         plants.Clear();
                        
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeSecondCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcSecondCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantSecondCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, rectangleTexture, slimeThirdCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, rectangleTexture, orcThirdCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, rectangleTexture, plantThirdCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeSecondCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcSecondCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantSecondCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeThirdCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcThirdCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantThirdCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
                         for (int i = 0; i < slimes.Count; i++)
                         {
                             slimes[i].AttackCooldown = 0.45f;
@@ -640,7 +640,7 @@ namespace Monogame___FINAL_PROJECT
         {
             for (int i = 0; i < slimes.Count; i++)
             {
-                slimes[i].Update(player, barriers);
+                slimes[i].Update(player, barriers, slimeWalkInstance, slimeDeathInstance, slimeAttackInstance);
                 if (!slimes[i].Drawing)
                 {
                     slimes.RemoveAt(i);
@@ -651,7 +651,7 @@ namespace Monogame___FINAL_PROJECT
 
             for (int i = 0; i < orcs.Count; i++)
             {
-                orcs[i].Update(player, barriers);
+                orcs[i].Update(player, barriers, orcWalkInstance, orcDeathInstance, orcAttackInstance); //??
                 if (!orcs[i].Drawing)
                 {
                     orcs.RemoveAt(i);
@@ -662,7 +662,7 @@ namespace Monogame___FINAL_PROJECT
 
             for (int i = 0; i < plants.Count; i++)
             {
-                plants[i].Update(player, barriers);
+                plants[i].Update(player, barriers, plantWalkInstance, plantDeathInstance, plantAttackInstance);
                 if (!plants[i].Drawing)
                 {
                     plants.RemoveAt(i);
