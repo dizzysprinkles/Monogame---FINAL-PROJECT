@@ -117,10 +117,11 @@ namespace Monogame___FINAL_PROJECT
             get { return _drawing; }
         }
 
-        public void Update(Player player, List<Rectangle>barriers, SoundEffectInstance walkInstance, SoundEffectInstance deathInstance, SoundEffectInstance attackInstance)
+        public void Update(Player player, List<Rectangle>barriers, SoundEffectInstance walkInstance, SoundEffectInstance deathInstance, SoundEffectInstance attackInstance, SoundEffectInstance playerHurt)
         {
             if (_health <= 0)
             {
+                walkInstance.Stop();
                 _currentTexture = _deathTexture;
                 _direction = Vector2.Zero;
                 deathInstance.Play();
@@ -150,6 +151,7 @@ namespace Monogame___FINAL_PROJECT
             {
                 _direction = Vector2.Zero;
                 _currentTexture = _idleTexture;
+                walkInstance.Stop();
             }
 
             if (_direction != Vector2.Zero)
@@ -236,16 +238,14 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _time = 0f;
                     _frame += 1;
-                    if (_frame == 4)
-                    {
-                        attackInstance.Play();
-                    }
+                    attackInstance.Play();
                     if (_frame >= _frames)
                     {
                         _frame = 0;
                         if (_attackCollisionRect.Intersects(player.Rectangle) && _canDealDamage)
                         {
                             player.Health -= 1;
+                            playerHurt.Play();
                             _canDealDamage = false;
                             _timeSinceLastAttack = 0f;
                             _currentTexture = _idleTexture;

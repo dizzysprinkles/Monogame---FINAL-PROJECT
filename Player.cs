@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -15,11 +16,11 @@ namespace Monogame___FINAL_PROJECT
         private int _width, _height;
         private int _frame, _frames;
         private int _leftRow, _rightRow, _upRow, _downRow;
-        private float _speed, _frameSpeed, _time, _swordRotation, _upSwordMax, _downSwordMax, _leftSwordMax, _rightSwordMax, _startingSwordRotation, _leftSwordAdd, _rightSwordAdd, _upSwordAdd, _downSwordAdd, _swordMaxRotation, _swordAddition;
+        private float _speed, _frameSpeed, _time;
         private float _attackCooldown, _timeSinceLastAttack;
-        private Vector2 _playerLocation, _playerDirection, _swordLocation;
+        private Vector2 _playerLocation, _playerDirection;
         private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
-        private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect;
+        private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect, _upAttackRect, _downAttackRect, _leftAttackRect, _rightAttackRect;
         private int _health;
         private Vector2 _playerCenter;
         private bool _canDealDamage;
@@ -42,23 +43,6 @@ namespace Monogame___FINAL_PROJECT
             _speed = 2f;
             _time = 0.0f;
 
-            _downSwordMax = 0.5f;
-            _downSwordAdd = 0.45f;
-
-            _upSwordMax = 4.8f;
-            _upSwordAdd =0.75f;
-
-            _leftSwordAdd = 0.3f;
-            _leftSwordMax = 2.4f;
-
-            _rightSwordAdd = -0.3f;
-            _rightSwordMax = 4.5f;
-
-            _startingSwordRotation = -0.9f;
-            _swordRotation = _startingSwordRotation;
-            _swordAddition = _downSwordAdd;
-            _swordMaxRotation = _downSwordMax;
-
             _canDealDamage = true;
             _timeSinceLastAttack = 0.0f;
             _attackCooldown = 0.15f;
@@ -76,7 +60,14 @@ namespace Monogame___FINAL_PROJECT
             _swordCollisionRect = swordRect;
             _playerLocation = _playerCollisionRect.Location.ToVector2();
             _playerDirection = Vector2.Zero;
-            _swordLocation = new Vector2(196,275);
+
+            //playerCollisionRect = new Rectangle(200,260,25,45); 
+            _downAttackRect = new Rectangle(190, 280, 55, 40);
+            _leftAttackRect = new Rectangle(185, 260, 30, 45);
+            _upAttackRect = new Rectangle(190, 260, 55, 40);
+            _rightAttackRect = new Rectangle(210, 260, 30, 45);
+            _swordCollisionRect = _downAttackRect;
+
 
             _playerCenter = _playerCollisionRect.Center.ToVector2();
 
@@ -130,13 +121,12 @@ namespace Monogame___FINAL_PROJECT
         }
 
 
-        public void Update(KeyboardState keyboardState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, List<Slime> slimes, List<Orc>orcs, List<Plant> plants)
+        public void Update(KeyboardState keyboardState, List<Texture2D> healthTextures, List<Rectangle> heartRects, List<Rectangle> barriers, List<float>heartOpacities, List<Slime> slimes, List<Orc>orcs, List<Plant> plants, SoundEffectInstance slimeHurt, SoundEffectInstance orcHurt, SoundEffectInstance plantHurt, SoundEffectInstance playerAttack, SoundEffectInstance playerWalk)
         {
             //Animation && Sword Rotation
 
             if (_playerMainTexture != _playerAttackTexture)
             {
-                _swordRotation = _startingSwordRotation;
                 if (_time > _frameSpeed)
                 {
                     _time = 0f;
@@ -151,22 +141,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _time = 0f;
                     _frame += 1;
-                    _swordRotation += _swordAddition;
-                    if (_startingSwordRotation != 5.5f)
-                    {
-                        if (_swordRotation >= _swordMaxRotation)
-                        {
-                            _swordRotation = _startingSwordRotation;
-                        }
-
-                    }
-                    else
-                    {
-                        if (_swordRotation <= _swordMaxRotation)
-                        {
-                            _swordRotation = _startingSwordRotation;
-                        }
-                    }
+                    playerAttack.Play();
                     if (_frame >= _frames)
                     {
                         _frame = 0;
@@ -176,6 +151,7 @@ namespace Monogame___FINAL_PROJECT
                             if (_swordCollisionRect.Intersects(slimes[i].Rectangle) && _canDealDamage)
                             {
                                 slimes[i].Health -= 1;
+                                slimeHurt.Play();
                                 _canDealDamage = false;
                                 _timeSinceLastAttack = 0f;
                                 _playerMainTexture = _playerIdleTexture;
@@ -186,6 +162,7 @@ namespace Monogame___FINAL_PROJECT
                             if (_swordCollisionRect.Intersects(orcs[i].Rectangle) && _canDealDamage)
                             {
                                 orcs[i].Health -= 1;
+                                orcHurt.Play();
                                 _canDealDamage = false;
                                 _timeSinceLastAttack = 0f;
                                 _playerMainTexture = _playerIdleTexture;
@@ -196,6 +173,7 @@ namespace Monogame___FINAL_PROJECT
                             if (_swordCollisionRect.Intersects(plants[i].Rectangle) && _canDealDamage)
                             {
                                 plants[i].Health -= 1;
+                                plantHurt.Play();
                                 _canDealDamage = false;
                                 _timeSinceLastAttack = 0f;
                                 _playerMainTexture = _playerIdleTexture;
@@ -209,7 +187,7 @@ namespace Monogame___FINAL_PROJECT
             
 
             //Movement
-            SetPlayerDirection(keyboardState);
+            SetPlayerDirection(keyboardState, playerWalk);
             _playerLocation += _playerDirection * _speed;
             
             UpdatePlayerRects();
@@ -241,56 +219,37 @@ namespace Monogame___FINAL_PROJECT
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_playerMainTexture, _playerDrawRect, new Rectangle(_frame * _width, _directionRow * _height, _width, _height), Color.White);
-            spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,null, Color.Red * 0.0f, _swordRotation, new Vector2(_playerCollisionRect.Width/2, _playerCollisionRect.Height/2), SpriteEffects.None, 0f);
+            spriteBatch.Draw(_rectangleTexture, _swordCollisionRect,Color.Red * 0.4f);
         }
 
-        public void SetPlayerDirection(KeyboardState keyboardState)
+        public void SetPlayerDirection(KeyboardState keyboardState, SoundEffectInstance playerWalk)
         {
             _playerDirection = Vector2.Zero;
 
             if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
             { 
                 _playerDirection.X += -1;
-                _startingSwordRotation = 1.4f;
-                _swordRotation = _startingSwordRotation;
-                _swordMaxRotation = _leftSwordMax;
-                _swordAddition = _leftSwordAdd;
-                _swordCollisionRect.Height = 20;
             }
 
             if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
             {
                 _playerDirection.X += 1;
-                _startingSwordRotation = 5.5f;
-                _swordRotation = _startingSwordRotation;
-                _swordMaxRotation = _rightSwordMax;
-                _swordAddition = _rightSwordAdd;
-                _swordCollisionRect.Height = 30;
             }
                 
             if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
             {
                 _playerDirection.Y += -1;
-                _startingSwordRotation = 1.7f;
-                _swordRotation = _startingSwordRotation;
-                _swordMaxRotation = _upSwordMax;
-                _swordAddition = _upSwordAdd;
-                _swordCollisionRect.Height = 30;
             }
                 
             if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
             {
                 _playerDirection.Y += 1;
-                _startingSwordRotation = -0.9f;
-                _swordRotation = _startingSwordRotation;
-                _swordMaxRotation = _downSwordMax;
-                _swordAddition = _downSwordAdd;
-                _swordCollisionRect.Height = 30;
             }
 
 
             if (_playerDirection == Vector2.Zero)
             {
+                playerWalk.Stop();
                _playerMainTexture = _playerIdleTexture;
             }
             else
@@ -306,20 +265,34 @@ namespace Monogame___FINAL_PROJECT
 
             if (_playerMainTexture == _playerWalkTexture)
             {
+                playerWalk.Play();
                 if (_playerDirection != Vector2.Zero)
                 {
                     _playerDirection.Normalize();
                     if (_playerDirection.X < 0) // Moving left
+                    {
+                        _swordCollisionRect = _leftAttackRect;
                         _directionRow = _leftRow;
+                    }
                     else if (_playerDirection.X > 0) // Moving right
+                    {
+                        _swordCollisionRect = _rightAttackRect;
                         _directionRow = _rightRow;
+                    }
                     else if (_playerDirection.Y < 0) // Moving up
+                    {
+                        _swordCollisionRect = _upAttackRect;
                         _directionRow = _upRow;
+                    }
                     else
+                    {
+                        _swordCollisionRect = _downAttackRect;
                         _directionRow = _downRow; // Moving down
+                    }
                 }
                 else
                 {
+                    playerWalk.Stop();
                     _frame = 0;
                 }
 
@@ -331,9 +304,19 @@ namespace Monogame___FINAL_PROJECT
             _playerCollisionRect.Location = _playerLocation.ToPoint();
             _playerDrawRect.X = _playerCollisionRect.X - 12;
             _playerDrawRect.Y = _playerCollisionRect.Y - 10;
-            _swordLocation.X = _playerLocation.X + 8;
-            _swordLocation.Y = _playerLocation.Y + 25;
-            _swordCollisionRect.Location = _swordLocation.ToPoint();
+
+            _leftAttackRect.X = _playerCollisionRect.X - 15;
+            _leftAttackRect.Y = _playerCollisionRect.Y;
+
+            _rightAttackRect.X = _playerCollisionRect.X + 10;
+            _rightAttackRect.Y = _playerCollisionRect.Y;
+
+            _downAttackRect.X = _playerCollisionRect.X - 10;
+            _downAttackRect.Y = _playerCollisionRect.Y + 20;
+
+            _upAttackRect.X = _playerCollisionRect.X - 10;
+            _upAttackRect.Y = _playerCollisionRect.Y;
+
         }
 
         public void UpdateHearts( List<Rectangle> heartRects, List<float> heartOpacities)

@@ -252,7 +252,7 @@ namespace Monogame___FINAL_PROJECT
             deadSong = Content.Load<Song>("SoundFX/lose");
 
             // Sound Effects && Instances
-            orcAttackSound = Content.Load<SoundEffect>("SoundFX/orcAttack");
+            orcAttackSound = Content.Load<SoundEffect>("SoundFX/orcSlash");
             orcAttackInstance = orcAttackSound.CreateInstance();
             orcAttackInstance.IsLooped = false;
 
@@ -268,7 +268,7 @@ namespace Monogame___FINAL_PROJECT
             orcWalkInstance = orcWalkSound.CreateInstance();
             orcWalkInstance.IsLooped = false;
 
-            plantAttackSound = Content.Load<SoundEffect>("SoundFX/plantBite");
+            plantAttackSound = Content.Load<SoundEffect>("SoundFX/plantAttack");
             plantAttackInstance = plantAttackSound.CreateInstance();
             plantAttackInstance.IsLooped = false;
 
@@ -391,7 +391,7 @@ namespace Monogame___FINAL_PROJECT
             {
                 EnemiesUpdate(orcs, slimes, plants, tutorialBarriers, player);
 
-                player.Update(keyboardState, healthTextures, healthRects, tutorialBarriers, healthOpacity, slimes, orcs, plants);
+                player.Update(keyboardState, healthTextures, healthRects, tutorialBarriers, healthOpacity, slimes, orcs, plants, slimeHurtInstance, orcHurtInstance, plantHurtInstance, playerAttackInstance, playerWalkInstance);
 
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
@@ -433,6 +433,15 @@ namespace Monogame___FINAL_PROJECT
                         screen = Screen.First;
                         clickCounter = 0;
                     }
+                    if (player.Health <= 0)
+                    {
+                        Window.Title = "Dungeon Mayhem: You Lose";
+                        playerDeathInstance.Play();
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(deadSong);
+                        MediaPlayer.Volume = 0.7f;
+                        screen = Screen.Lose;
+                    }
                 }
             }
             //Level 1
@@ -440,7 +449,7 @@ namespace Monogame___FINAL_PROJECT
             {
                 EnemiesUpdate(orcs, slimes, plants, firstLevelBarriers, player);
 
-                player.Update(keyboardState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, slimes, orcs, plants);
+                player.Update(keyboardState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, slimes, orcs, plants, slimeHurtInstance, orcHurtInstance, plantHurtInstance, playerAttackInstance, playerWalkInstance);
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
                     clickCounter++;
@@ -480,6 +489,7 @@ namespace Monogame___FINAL_PROJECT
                 if (player.Health <= 0)
                 {
                     Window.Title = "Dungeon Mayhem: You Lose";
+                    playerDeathInstance.Play();
                     MediaPlayer.Stop();
                     MediaPlayer.Play(deadSong);
                     MediaPlayer.Volume = 0.7f;
@@ -491,7 +501,7 @@ namespace Monogame___FINAL_PROJECT
             else if (screen == Screen.Second)
             {
                 EnemiesUpdate(orcs, slimes, plants, secondLevelBarriers, player);
-                player.Update(keyboardState, healthTextures, healthRects, secondLevelBarriers, healthOpacity, slimes, orcs, plants);
+                player.Update(keyboardState, healthTextures, healthRects, secondLevelBarriers, healthOpacity, slimes, orcs, plants, slimeHurtInstance, orcHurtInstance, plantHurtInstance, playerAttackInstance, playerWalkInstance);
                 
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
@@ -510,6 +520,7 @@ namespace Monogame___FINAL_PROJECT
                 if (player.Health <= 0)
                 {
                     Window.Title = "Dungeon Mayhem: You Lose";
+                    playerDeathInstance.Play();
                     MediaPlayer.Stop();
                     MediaPlayer.Play(deadSong);
                     MediaPlayer.Volume = 0.7f;
@@ -660,7 +671,7 @@ namespace Monogame___FINAL_PROJECT
         {
             for (int i = 0; i < slimes.Count; i++)
             {
-                slimes[i].Update(player, barriers, slimeWalkInstance, slimeDeathInstance, slimeAttackInstance);
+                slimes[i].Update(player, barriers, slimeWalkInstance, slimeDeathInstance, slimeAttackInstance, playerHurtInstance);
                 if (!slimes[i].Drawing)
                 {
                     slimes.RemoveAt(i);
@@ -671,7 +682,7 @@ namespace Monogame___FINAL_PROJECT
 
             for (int i = 0; i < orcs.Count; i++)
             {
-                orcs[i].Update(player, barriers, orcWalkInstance, orcDeathInstance, orcAttackInstance); //??
+                orcs[i].Update(player, barriers, orcWalkInstance, orcDeathInstance, orcAttackInstance, playerHurtInstance);
                 if (!orcs[i].Drawing)
                 {
                     orcs.RemoveAt(i);
@@ -682,7 +693,7 @@ namespace Monogame___FINAL_PROJECT
 
             for (int i = 0; i < plants.Count; i++)
             {
-                plants[i].Update(player, barriers, plantWalkInstance, plantDeathInstance, plantAttackInstance);
+                plants[i].Update(player, barriers, plantWalkInstance, plantDeathInstance, plantAttackInstance, playerHurtInstance);
                 if (!plants[i].Drawing)
                 {
                     plants.RemoveAt(i);

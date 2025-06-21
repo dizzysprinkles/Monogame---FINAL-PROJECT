@@ -385,12 +385,6 @@
 /processorParam:Quality=Best
 /build:SoundFX/lose.mp3
 
-#begin SoundFX/orcAttack.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SoundFX/orcAttack.ogg
-
 #begin SoundFX/orcDeath.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -403,17 +397,23 @@
 /processorParam:Quality=Best
 /build:SoundFX/orcHurt.wav
 
+#begin SoundFX/orcSlash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/orcSlash.wav
+
 #begin SoundFX/orcWalk.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundFX/orcWalk.wav
 
-#begin SoundFX/plantBite.mp3
+#begin SoundFX/plantAttack.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:SoundFX/plantBite.mp3
+/build:SoundFX/plantAttack.mp3
 
 #begin SoundFX/plantDeath.wav
 /importer:WavImporter
