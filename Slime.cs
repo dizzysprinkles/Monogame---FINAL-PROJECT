@@ -144,7 +144,7 @@ namespace Monogame___FINAL_PROJECT
             else if (_playerDistance.Length() <= _attackRadius && _currentTexture != _deathTexture)
             {
                 _currentTexture = _attackTexture;
-                attackInstance.Play();
+               
                 _direction = Vector2.Zero;
             }
             else if(_currentTexture != _deathTexture)
@@ -224,6 +224,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _time = 0f;
                     _frame += 1;
+                    
                     if (_frame >= _frames)
                         _frame = 0;
                 }
@@ -234,6 +235,10 @@ namespace Monogame___FINAL_PROJECT
                 {
                     _time = 0f;
                     _frame += 1;
+                    if (_frame == 4)
+                    {
+                        attackInstance.Play();
+                    }
                     if (_frame >= _frames)
                     {
                         _frame = 0;
