@@ -27,6 +27,7 @@ namespace Monogame___FINAL_PROJECT
         private SpriteBatch _spriteBatch;
 
         //DEMO, how works, learned, difficulty, more time = what do?
+        // ADD HEALTH POTION
 
         Screen screen;
         KeyboardState keyboardState;
