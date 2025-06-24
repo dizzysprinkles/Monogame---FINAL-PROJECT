@@ -21,7 +21,7 @@ namespace Monogame___FINAL_PROJECT
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
         private bool _canDealDamage, _drawing;
 
-        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Texture2D idleTexture, Rectangle walkRect)
+        public Orc(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Player player, Texture2D idleTexture, Rectangle walkRect, int health)
         {
             // Spritesheet Variables
             _columns = 8;
@@ -71,7 +71,7 @@ namespace Monogame___FINAL_PROJECT
             _attackRadius = 40;
             _center = _collisionRect.Center.ToVector2();
             _playerDistance = player.Center - _center;
-            _health = 5; 
+            _health = health;
 
             UpdateRects();
 

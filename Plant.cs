@@ -23,7 +23,7 @@ namespace Monogame___FINAL_PROJECT
         private Rectangle _collisionRect, _drawRect, _attackCollisionRect, _leftAttackRect, _rightAttackRect, _upAttackRect, _downAttackRect, _walkCollisionRect;
         private bool _canDealDamage, _drawing;
 
-        public Plant(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture,  Rectangle collisionRect, Rectangle drawRect, Player player, Rectangle walkRect, Texture2D idleTexture)
+        public Plant(Texture2D deathTexture, Texture2D walkTexture, Texture2D attackTexture,  Rectangle collisionRect, Rectangle drawRect, Player player, Rectangle walkRect, Texture2D idleTexture, int health)
         {
             // Spritesheet Variables
             _columns = 7;
@@ -76,7 +76,7 @@ namespace Monogame___FINAL_PROJECT
             _detectionRadius = 115;
             _attackRadius = 30;
 
-            _health = 5; 
+            _health = health;
 
             UpdateRects();
 

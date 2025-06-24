@@ -202,7 +202,7 @@ namespace Monogame___FINAL_PROJECT
 
             // Classes
             player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, playerSwordRect);
-            slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeTutorialCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
+            slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeTutorialCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture, 4));
         }
 
         protected override void LoadContent()
@@ -386,9 +386,9 @@ namespace Monogame___FINAL_PROJECT
                         MediaPlayer.Play(firstLevelSong);
                         MediaPlayer.Volume = 0.3f;
                         slimes.Clear();
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture, 5));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect, 5));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture, 5));
 
                         PotionUpdate(orcs, slimes, plants, firstLevelBarriers, potionRects);
                         for (int i = 0; i < slimes.Count; i++)
@@ -435,9 +435,9 @@ namespace Monogame___FINAL_PROJECT
                         player.Health = 10;
                         instructionText = "Here is Level One! You are now on your own. Good Luck!";
                         slimes.Clear();
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture, 5));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect, 5));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture, 5));
 
                         PotionUpdate(orcs, slimes, plants, firstLevelBarriers, potionRects);
 
@@ -474,6 +474,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     if (player.Intersects(potionRects[i]))
                     {
+                        healingInstance.Play();
                         if (player.Health >= 5)
                         {
                             player.Health = 10;
@@ -506,12 +507,12 @@ namespace Monogame___FINAL_PROJECT
                         orcs.Clear();
                         plants.Clear();
                        
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeSecondCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcSecondCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantSecondCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
-                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeThirdCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
-                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcThirdCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
-                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantThirdCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeSecondCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture, 7));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcSecondCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect, 7));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantSecondCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture, 7));
+                        slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeThirdCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture,7));
+                        orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcThirdCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect, 7));
+                        plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantThirdCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture, 7));
 
                         potionRects.Clear();
 
@@ -558,6 +559,7 @@ namespace Monogame___FINAL_PROJECT
                 {
                     if (player.Intersects(potionRects[i]))
                     {
+                        healingInstance.Play();
                         if (player.Health >= 5)
                         {
                             player.Health = 10;
