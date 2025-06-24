@@ -91,18 +91,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/firstMap.png
 
-#begin Images/halfHeart.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/halfHeart.png
-
 #begin Images/heart.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -247,7 +235,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/plantWalk.png
 
-#begin Images/rectangle.png
+#begin Images/potion.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -257,19 +245,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/rectangle.png
-
-#begin Images/red_heart.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/red_heart.png
+/build:Images/potion.png
 
 #begin Images/secondMap.png
 /importer:TextureImporter
@@ -366,6 +342,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/winBackground.jpg
+
+#begin SoundFX/healing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundFX/healing.wav
 
 #begin SoundFX/level1.mp3
 /importer:Mp3Importer

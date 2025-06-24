@@ -19,7 +19,7 @@ namespace Monogame___FINAL_PROJECT
         private float _speed, _frameSpeed, _time;
         private float _attackCooldown, _timeSinceLastAttack;
         private Vector2 _playerLocation, _playerDirection;
-        private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _rectangleTexture, _playerMainTexture;
+        private Texture2D _playerIdleTexture, _playerWalkTexture, _playerAttackTexture, _playerMainTexture;
         private Rectangle _playerCollisionRect, _playerDrawRect, _swordCollisionRect, _upAttackRect, _downAttackRect, _leftAttackRect, _rightAttackRect;
         private int _health;
         private Vector2 _playerCenter;
@@ -27,7 +27,7 @@ namespace Monogame___FINAL_PROJECT
 
 
 
-        public Player(Texture2D idleTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Texture2D rectangleTexture, Rectangle swordRect)
+        public Player(Texture2D idleTexture, Texture2D walkTexture, Texture2D attackTexture, Rectangle collisionRect, Rectangle drawRect, Rectangle swordRect)
         {
             //Spritesheet variable
             _columns = 4;
@@ -51,7 +51,6 @@ namespace Monogame___FINAL_PROJECT
             _playerAttackTexture = attackTexture;
             _playerWalkTexture = walkTexture;
             _playerIdleTexture = idleTexture;
-            _rectangleTexture = rectangleTexture;
             _playerMainTexture = _playerWalkTexture;
 
             // Rectangles && Vectors

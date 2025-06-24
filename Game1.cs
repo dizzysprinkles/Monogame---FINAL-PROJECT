@@ -26,33 +26,32 @@ namespace Monogame___FINAL_PROJECT
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        //DEMO, how works, learned, difficulty, more time = what do?
-        // ADD HEALTH POTION
-
         Screen screen;
         KeyboardState keyboardState;
         Player player;
         int monsterCountMax, monstersKilled, clickCounter;
-        List<Rectangle> healthRects, tutorialBarriers, firstLevelBarriers, secondLevelBarriers;
+        List<Rectangle> healthRects, tutorialBarriers, firstLevelBarriers, secondLevelBarriers, potionRects;
         List<Texture2D> healthTextures;
         List<float> healthOpacity;
         List<Slime> slimes;
         List<Orc> orcs;
         List<Plant> plants;
 
+        Random generator;
+
         string instructionText;
 
         SpriteFont titleFont, instructionFont, counterFont;
         Song titleSong, tutorialSong, firstLevelSong, secondLevelSong, deadSong, surviveSong;
-        SoundEffect orcAttackSound, orcDeathSound, orcHurtSound, orcWalkSound, plantAttackSound, plantDeathSound, plantHurtSound, plantWalkSound, playerAttackSound, playerDeathSound, playerHurtSound, playerWalkSound, slimeAttackSound, slimeDeathSound, slimeHurtSound, slimeWalkSound;
-        SoundEffectInstance orcAttackInstance, orcDeathInstance, orcHurtInstance, orcWalkInstance, plantAttackInstance, plantDeathInstance, plantHurtInstance, plantWalkInstance, playerAttackInstance, playerDeathInstance, playerHurtInstance, playerWalkInstance, slimeAttackInstance, slimeDeathInstance, slimeHurtInstance, slimeWalkInstance;
+        SoundEffect orcAttackSound, orcDeathSound, orcHurtSound, orcWalkSound, plantAttackSound, plantDeathSound, plantHurtSound, plantWalkSound, playerAttackSound, playerDeathSound, playerHurtSound, playerWalkSound, slimeAttackSound, slimeDeathSound, slimeHurtSound, slimeWalkSound, healingSound;
+        SoundEffectInstance orcAttackInstance, orcDeathInstance, orcHurtInstance, orcWalkInstance, plantAttackInstance, plantDeathInstance, plantHurtInstance, plantWalkInstance, playerAttackInstance, playerDeathInstance, playerHurtInstance, playerWalkInstance, slimeAttackInstance, slimeDeathInstance, slimeHurtInstance, slimeWalkInstance, healingInstance;
 
         Rectangle window;
 
         MouseState mouseState, prevMouseState;
 
-        Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture, winBackgroundTexture, loseBackgroundTexture, instructionBoxTexture;
-        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, rectangleTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture, slimeIdleTexture;
+        Texture2D tutorialMapTexture, firstMapTexture, secondMapTexture, winBackgroundTexture, loseBackgroundTexture, instructionBoxTexture, potionTexture;
+        Texture2D playerIdleTexture, playerWalkTexture, playerAttackTexture, slimeAttackTexture, slimeWalkTexture, slimeDeathTexture, signTexture, slimeIdleTexture;
         Texture2D plantWalkTexture, plantAttackTexture, plantDeathTexture, orcAttackTexture, orcWalkTexture, orcDeathTexture, titleBackgroundTexture, plantIdleTexture, orcIdleTexture;
         Rectangle playerDrawRect, playerCollisionRect, slimeDrawRect, slimeTutorialCollisionRect, playerSwordRect, plantDrawRect, plantFirstCollisionRect, orcDrawRect, orcFirstCollisionRect;
         Rectangle signRect, gameButtonRect, tutorialButtonRect, tutorialBackgroundRect, descentRect, slimeWalkRect, plantWalkRect, orcWalkRect, instructionBoxRect;
@@ -69,6 +68,8 @@ namespace Monogame___FINAL_PROJECT
             screen = Screen.Title;
             Window.Title = "Dungeon Mayhem: Main Menu";
 
+            generator = new Random();
+
             instructionText = "Welcome to the Dungeon! \n\nYour goal is to kill every monster on each floor and \n\ndescend until you reach the bottom!";
 
             //Lists
@@ -77,6 +78,7 @@ namespace Monogame___FINAL_PROJECT
             plants = new List<Plant>();
             healthRects = new List<Rectangle>();
             healthTextures = new List<Texture2D>();
+            potionRects = new List<Rectangle>();
             tutorialBarriers = new List<Rectangle>();
             healthOpacity = new List<float>();
             firstLevelBarriers = new List<Rectangle>();
@@ -190,10 +192,16 @@ namespace Monogame___FINAL_PROJECT
                 healthOpacity.Add(1f);
             }
 
+            potionRects.Add(new Rectangle(generator.Next(100, 701), generator.Next(100, 501), 15, 20));
+            potionRects.Add(new Rectangle(generator.Next(100, 701), generator.Next(100, 501), 15, 20));
+
+            
+           
+
             base.Initialize();
 
             // Classes
-            player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, rectangleTexture, playerSwordRect);
+            player = new Player(playerIdleTexture, playerWalkTexture, playerAttackTexture, playerCollisionRect, playerDrawRect, playerSwordRect);
             slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeTutorialCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
         }
 
@@ -215,8 +223,6 @@ namespace Monogame___FINAL_PROJECT
             playerIdleTexture = Content.Load<Texture2D>("Images/characterIdle");
             playerAttackTexture = Content.Load<Texture2D>("Images/characterAttack");
             playerWalkTexture = Content.Load<Texture2D>("Images/characterWalk");
-
-            rectangleTexture = Content.Load<Texture2D>("Images/rectangle");
 
             slimeAttackTexture = Content.Load<Texture2D>("Images/slimeAttacking");
             slimeWalkTexture = Content.Load<Texture2D>("Images/slimeWalk"); 
@@ -243,6 +249,7 @@ namespace Monogame___FINAL_PROJECT
 
             signTexture = Content.Load<Texture2D>("Images/signTitle");
             instructionBoxTexture = Content.Load<Texture2D>("Images/instructionBox");
+            potionTexture = Content.Load<Texture2D>("Images/potion");
 
             //Songs
             titleSong = Content.Load<Song>("SoundFX/title");
@@ -253,6 +260,12 @@ namespace Monogame___FINAL_PROJECT
             deadSong = Content.Load<Song>("SoundFX/lose");
 
             // Sound Effects && Instances
+
+            healingSound = Content.Load<SoundEffect>("SoundFX/healing");
+            healingInstance = healingSound.CreateInstance();
+            healingInstance.IsLooped = false;
+
+
             orcAttackSound = Content.Load<SoundEffect>("SoundFX/orcSlash");
             orcAttackInstance = orcAttackSound.CreateInstance();
             orcAttackInstance.IsLooped = false;
@@ -376,6 +389,8 @@ namespace Monogame___FINAL_PROJECT
                         slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeFirstCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
                         orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
                         plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+
+                        PotionUpdate(orcs, slimes, plants, firstLevelBarriers, potionRects);
                         for (int i = 0; i < slimes.Count; i++)
                         {
                             slimes[i].AttackCooldown = 0.65f;
@@ -424,6 +439,8 @@ namespace Monogame___FINAL_PROJECT
                         orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcFirstCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
                         plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantFirstCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
 
+                        PotionUpdate(orcs, slimes, plants, firstLevelBarriers, potionRects);
+
                         for (int i = 0; i < slimes.Count; i++)
                         {
                             slimes[i].AttackCooldown = 0.65f;
@@ -451,6 +468,26 @@ namespace Monogame___FINAL_PROJECT
                 EnemiesUpdate(orcs, slimes, plants, firstLevelBarriers, player);
 
                 player.Update(keyboardState, healthTextures, healthRects, firstLevelBarriers, healthOpacity, slimes, orcs, plants, slimeHurtInstance, orcHurtInstance, plantHurtInstance, playerAttackInstance, playerWalkInstance);
+
+
+                for (int i = 0; i < potionRects.Count; i++)
+                {
+                    if (player.Intersects(potionRects[i]))
+                    {
+                        if (player.Health >= 5)
+                        {
+                            player.Health = 10;
+                        }
+                        else
+                        {
+                            player.Health += 5;
+                        }
+
+                        potionRects.RemoveAt(i);
+                        i--;
+                    }
+                }
+
                 if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
                     clickCounter++;
@@ -475,6 +512,18 @@ namespace Monogame___FINAL_PROJECT
                         slimes.Add(new Slime(slimeDeathTexture, slimeWalkTexture, slimeAttackTexture, slimeThirdCollisionRect, slimeDrawRect, player, slimeWalkRect, slimeIdleTexture));
                         orcs.Add(new Orc(orcDeathTexture, orcWalkTexture, orcAttackTexture, orcThirdCollisionRect, orcDrawRect, player, orcIdleTexture, orcWalkRect));
                         plants.Add(new Plant(plantDeathTexture, plantWalkTexture, plantAttackTexture, plantThirdCollisionRect, plantDrawRect, player, plantWalkRect, plantIdleTexture));
+
+                        potionRects.Clear();
+
+                        for (int i = 0; i <= 5; i++)
+                        {
+                            potionRects.Add(new Rectangle(generator.Next(100, 701), generator.Next(100, 501), 15, 20));
+                        }
+
+
+                        PotionUpdate(orcs, slimes, plants, secondLevelBarriers, potionRects);
+
+
                         for (int i = 0; i < slimes.Count; i++)
                         {
                             slimes[i].AttackCooldown = 0.45f;
@@ -503,7 +552,26 @@ namespace Monogame___FINAL_PROJECT
             {
                 EnemiesUpdate(orcs, slimes, plants, secondLevelBarriers, player);
                 player.Update(keyboardState, healthTextures, healthRects, secondLevelBarriers, healthOpacity, slimes, orcs, plants, slimeHurtInstance, orcHurtInstance, plantHurtInstance, playerAttackInstance, playerWalkInstance);
-                
+
+
+                for (int i = 0; i < potionRects.Count; i++)
+                {
+                    if (player.Intersects(potionRects[i]))
+                    {
+                        if (player.Health >= 5)
+                        {
+                            player.Health = 10;
+                        }
+                        else
+                        {
+                            player.Health += 5;
+                        }
+
+                        potionRects.RemoveAt(i);
+                        i--;
+                    }
+                }
+
                 if (mouseState.LeftButton == ButtonState.Pressed)
                 {
                     //Win
@@ -602,7 +670,32 @@ namespace Monogame___FINAL_PROJECT
                     plants[i].Draw(_spriteBatch);
                 }
 
+                for (int i = 0; i < potionRects.Count; i++)
+                {
+                    _spriteBatch.Draw(potionTexture, potionRects[i], Color.White);
+                }
+
                 player.Draw(_spriteBatch);
+
+                for (int i = 0; i < potionRects.Count; i++)
+                {
+                    if (player.Intersects(potionRects[i]))
+                    {
+                        healingInstance.Play();
+                        if (player.Health >= 5)
+                        {
+                            player.Health = 10;
+                        }
+                        else
+                        {
+                            player.Health += 5;
+                        }
+
+                        potionRects.RemoveAt(i);
+                        i--;
+                    }
+                }
+
                
 
                 for (int i = 0; i < healthRects.Count; i++)
@@ -640,7 +733,13 @@ namespace Monogame___FINAL_PROJECT
                     plants[i].Draw(_spriteBatch);
                 }
 
+                for (int i = 0; i < potionRects.Count; i++)
+                {
+                    _spriteBatch.Draw(potionTexture, potionRects[i], Color.White);
+                }
+
                 player.Draw(_spriteBatch);
+
 
                 for (int i = 0; i < healthRects.Count; i++)
                 {
@@ -701,6 +800,42 @@ namespace Monogame___FINAL_PROJECT
                     i--;
                     monstersKilled += 1;
                 }
+            }
+        }
+
+        public void PotionUpdate(List<Orc> orcs, List<Slime> slimes, List<Plant> plants, List<Rectangle> barriers, List<Rectangle> potionRects)
+        {
+            for (int i = 0; i < potionRects.Count; i++)
+            {
+                bool intersects;
+
+                do
+                {
+                    potionRects[i] = new Rectangle(generator.Next(100, 701), generator.Next(100, 501), 15, 20);
+                    intersects = false;
+
+                    foreach (Rectangle barrier in barriers)
+                    {
+                        if (potionRects[i].Intersects(barrier))
+                        {
+                            intersects = true;
+                            break;
+                        }
+                    }
+
+                    if (!intersects)
+                    {
+                        for (int k = 0; k < slimes.Count; k++)
+                        {
+                            if (potionRects[i].Intersects(slimes[k].Rectangle) || potionRects[i].Intersects(orcs[k].Rectangle) || potionRects[i].Intersects(plants[k].Rectangle))
+                            {
+                                intersects = true;
+                                break;
+                            }
+                        }
+                    }
+
+                } while (intersects);
             }
         }
     }
